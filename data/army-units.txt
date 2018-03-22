@@ -1,0 +1,4 @@
+3;
+1;Soldier;/graphics/icons/units/soldier.png;100;10;
+2;Artillery;/graphics/icons/units/Artillery.png;2000;200;
+3;Killer Robots;/graphics/icons/units/army robo.png;20000;2000;

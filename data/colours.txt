@@ -1,0 +1,9 @@
+8;
+1;Crimson;220;20;60;
+2;Orchid;218;112;214;
+3;Slate Blue;106;90;205;
+4;Deep Sky Blue;0;191;255;
+5;Spring Green;0;238;118;
+6;Khaki;240;230;140;
+7;Golden Rod;255;193;37;
+8;Firebrick;178;34;34;

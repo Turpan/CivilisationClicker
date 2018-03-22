@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edict-list>
+	<edict ID = "e_outreach">
+		<name>Government Outreach</name>
+		<price>100</price>
+		<happiness>10</happiness>
+	</edict>
+</edict-list>

@@ -1,0 +1,7 @@
+4;
+1;1280;720;
+2;1600;900;
+3;1440;1080;
+4;1920;1080;
+
+feel free to put any resolution you want in here, but i cannot guarantee it will work or look any good

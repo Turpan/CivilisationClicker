@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<building-list>
+	<buildings catagory = "industry">
+		<building ID = "b_farm3">
+			<name>SUPERDUPERFARMEXTREME</name>
+			<cost>501</cost>
+			<per-second>5000000</per-second>
+			<unrest>1</unrest>
+			<unlocked>true</unlocked>
+			<image>\graphics\icons\industry\barn.png</image>
+			<bar>\graphics\building-bars\farm-bar.png</bar>
+			<icon>\graphics\building-bars\farm-icon.png</icon>
+		</building>
+	</buildings>
+</building-list>

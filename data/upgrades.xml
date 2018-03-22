@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<upgrade-list>
+	<upgrades catagory="industry">
+		<research ID="r_farm0">
+			<building>b_farm</building>
+			<name>Agricultural Revolution</name>
+			<cost>1</cost>
+			<effect>enable</effect>
+			<purchased>true</purchased>
+			<weight>100</weight>
+		</research>
+		<research ID="r_farm1">
+			<building>b_farm</building>
+			<name>Steel Plow</name>
+			<cost>2000</cost>
+			<effect>boost</effect>
+			<value>100</value>
+			<required>r_farm0</required>
+			<weight>10</weight>
+		</research>
+		<research ID="r_farm2">
+			<building>b_farm</building>
+			<name>Tractors</name>
+			<cost>4000</cost>
+			<effect>boost</effect>
+			<value>100</value>
+			<required>r_farm1</required>
+			<weight>10</weight>
+		</research>
+		<research ID="r_mine0">
+			<building>b_mine</building>
+			<name>Slaves</name>
+			<cost>1000</cost>
+			<effect>enable</effect>
+			<required>r_farm0</required>
+			<weight>100</weight>
+		</research>
+		<research ID="r_forge0">
+			<building>b_forge</building>
+			<name>Casting</name>
+			<cost>10000</cost>
+			<effect>enable</effect>
+			<required>r_mine0</required>
+			<weight>100</weight>
+		</research>
+	</upgrades>
+</upgrade-list>

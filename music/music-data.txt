@@ -1,0 +1,16 @@
+15;
+1;music/Animaniac.wav;
+2;music/aura.wav;
+3;music/build_up.wav;
+4;music/Cuba_v1.wav;
+5;music/ding_ding.wav;
+6;music/elation.wav;
+7;music/harmonics.wav;
+8;music/military-ambientmusic.wav;
+9;music/Peru.wav;
+10;music/Pirate.wav;
+11;music/run_away.wav;
+12;music/science-ambientmusic.wav;
+13;music/sparky.wav;
+14;music/viking.wav;
+15;music/work_v4.wav;

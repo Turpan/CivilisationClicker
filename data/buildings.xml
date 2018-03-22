@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<building-list>
+	<buildings catagory = "industry">
+		<building ID = "b_farm">
+			<name>Farm</name>
+			<cost>100</cost>
+			<per-second>2</per-second>
+			<unrest>1</unrest>
+			<unlocked>true</unlocked>
+			<image>graphics/icons/industry/barn.png</image>
+			<bar>graphics/building-bars/farm-bar.png</bar>
+			<icon>graphics/building-bars/farm-icon.png</icon>
+		</building>
+		<building ID = "b_mine">
+			<name>Mine</name>
+			<cost>500</cost>
+			<per-second>10</per-second>
+			<unrest>2</unrest>
+			<image>graphics/icons/industry/mine.png</image>
+			<bar>graphics/building-bars/mine-bar.png</bar>
+			<icon>graphics/building-bars/mine-icon.png</icon>
+		</building>
+		<building ID = "b_forge">
+			<name>Forge</name>
+			<cost>2000</cost>
+			<per-second>40</per-second>
+			<unrest>3</unrest>
+			<image>graphics/icons/industry/Anvil.png</image>
+		</building>
+		<building ID = "b_workshop">
+			<name>Workshop</name>
+			<cost>10000</cost>
+			<per-second>200</per-second>
+			<unrest>4</unrest>
+			<image>graphics/icons/industry/workshop.png</image>
+		</building>
+		<building ID = "b_factory">
+			<name>Factory</name>
+			<cost>20000</cost>
+			<per-second>400</per-second>
+			<unrest>5</unrest>
+			<image>graphics/icons/industry/factory.png</image>
+		</building>
+	</buildings>
+	<buildings catagory = "science">
+		<building ID = "b_school">
+			<name>School</name>
+			<cost>100</cost>
+			<per-second>2</per-second>
+			<unrest>1</unrest>
+			<image>graphics/icons/science/Public School.png</image>
+		</building>
+		<building ID = "b_university">
+			<name>University</name>
+			<cost>500</cost>
+			<per-second>10</per-second>
+			<unrest>2</unrest>
+			<image>graphics/icons/science/university.png</image>
+		</building>
+		<building ID = "b_laboratory">
+			<name>Laboratory</name>
+			<cost>2000</cost>
+			<per-second>40</per-second>
+			<unrest>3</unrest>
+			<image>graphics/icons/science/laboratory.png</image>
+		</building>
+		<building ID = "b_observatory">
+			<name>Observatory</name>
+			<cost>10000</cost>
+			<per-second>200</per-second>
+			<unrest>4</unrest>
+			<image>graphics/icons/science/observatory.png</image>
+		</building>
+		<building ID = "b_microscope">
+			<name>Microscope</name>
+			<cost>20000</cost>
+			<per-second>400</per-second>
+			<unrest>5</unrest>
+			<image>graphics/icons/science/microscope.png</image>
+		</building>
+	</buildings>
+	<buildings catagory = "military">
+		<building ID = "b_armory">
+			<name>Armory</name>
+			<cost>100</cost>
+			<per-second>2</per-second>
+			<unrest>1</unrest>
+			<image>graphics/icons/military/Armory.png</image>
+		</building>
+		<building ID = "b_shooting">
+			<name>Shooting Range</name>
+			<cost>500</cost>
+			<per-second>10</per-second>
+			<unrest>2</unrest>
+			<image>graphics/icons/military/Shooting Range.png</image>
+		</building>
+		<building ID = "b_wargames">
+			<name>War Games</name>
+			<cost>2000</cost>
+			<per-second>40</per-second>
+			<unrest>3</unrest>
+			<image>graphics/icons/military/war games.png</image>
+		</building>
+		<building ID = "b_academy">
+			<name>Officer Academy</name>
+			<cost>10000</cost>
+			<per-second>200</per-second>
+			<unrest>4</unrest>
+			<image>graphics/icons/military/officer academy.png</image>
+		</building>
+		<building ID = "b_harbour">
+			<name>Harbour</name>
+			<cost>20000</cost>
+			<per-second>400</per-second>
+			<unrest>5</unrest>
+			<image>graphics/icons/military/harbour.png</image>
+		</building>
+	</buildings>
+	<buildings catagory = "welfare">
+		<building ID = "b_chapel">
+			<name>Chapel</name>
+			<cost>100</cost>
+			<per-second>2</per-second>
+			<unrest>1</unrest>
+			<image>graphics/icons/welfare/chapel.png</image>
+		</building>
+		<building ID = "b_townhall">
+			<name>Town Hall</name>
+			<cost>500</cost>
+			<per-second>10</per-second>
+			<unrest>2</unrest>
+			<image>graphics/icons/welfare/government building.png</image>
+		</building>
+		<building ID = "b_police">
+			<name>Police Force</name>
+			<cost>2000</cost>
+			<per-second>40</per-second>
+			<unrest>3</unrest>
+			<image>graphics/icons/welfare/Police.png</image>
+		</building>
+		<building ID = "b_healthcare">
+			<name>Public Healthcare</name>
+			<cost>10000</cost>
+			<per-second>200</per-second>
+			<unrest>4</unrest>
+			<image>graphics/icons/welfare/public healthcare.png</image>
+		</building>
+		<building ID = "b_pension">
+			<name>Pension</name>
+			<cost>20000</cost>
+			<per-second>400</per-second>
+			<unrest>5</unrest>
+			<image>graphics/icons/science/Granny Pension.png</image>
+		</building>
+	</buildings>
+</building-list>

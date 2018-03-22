@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<jardesc>
+    <jar path="CivilisationClicker/clicker.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/CivilisationClicker/data/jardesc.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="true" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="false" mainClassHandleIdentifier="=CivilisationClicker/src&lt;civilisationClicker{CivilisationMainClass.java[CivilisationMainClass" manifestLocation="/CivilisationClicker/data/manifest" manifestVersion="1.0" reuseManifest="true" saveManifest="true" usesManifest="true">
+        <sealing sealJar="true">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="true" exportOutputFolder="false">
+        <file path="/CivilisationClicker/europe-map-with-all-countries-throughout.jpg"/>
+        <javaElement handleIdentifier="=CivilisationClicker/src"/>
+        <folder path="/CivilisationClicker/sound"/>
+        <folder path="/CivilisationClicker/data"/>
+        <folder path="/CivilisationClicker/music"/>
+        <file path="/CivilisationClicker/.classpath"/>
+        <folder path="/CivilisationClicker/mods"/>
+        <folder path="/CivilisationClicker/saved"/>
+        <file path="/CivilisationClicker/.project"/>
+        <folder path="/CivilisationClicker/graphics"/>
+    </selectedElements>
+</jardesc>

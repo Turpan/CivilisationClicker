@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<unit-list>
+	<unit ID = "u_soldier">
+		<name>Soldier</name>
+		<icon>graphics/icons/units/soldier.png</icon>
+		<cost>100</cost>
+		<power>10</power>
+	</unit>
+	<unit ID = "u_artillery">
+		<name>Artillery</name>
+		<icon>graphics/icons/units/Artillery.png</icon>
+		<cost>2000</cost>
+		<power>200</power>
+	</unit>
+	<unit ID = "u_robots">
+		<name>Killer Robots</name>
+		<icon>graphics/icons/units/army robo.png</icon>
+		<cost>20000</cost>
+		<power>2000</power>
+	</unit>
+</unit-list>

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dev-files> <!-- fuck with this at own risk -->
+	<file>defines.xml</file>
+	<file>buildings.xml</file>
+	<file>upgrades.xml</file>
+	<file>maplist.xml</file>
+	<file>edicts.xml</file>
+	<file>units.xml</file>
+</dev-files>
