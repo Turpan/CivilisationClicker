@@ -81,7 +81,10 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 		int y = gameMap.mainPanel.getViewport().getViewPosition().y;
 		miniMap.updateViewWindow(x, y);
 		adjacencyList = new HashSet<Dimension>(gameMap.adjacencyList);
-		for (Dimension adjacency : map.adjacencyList) adjacencyList.add(adjacency);
+		for (Dimension adjacency : map.adjacencyList) {
+			gameMap.addConnection(adjacency);
+			adjacencyList.add(adjacency);
+		}
 		getDevelopementImages();
 		createUI();
 	}

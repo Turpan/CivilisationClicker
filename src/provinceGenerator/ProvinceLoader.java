@@ -33,7 +33,7 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 	public int playerCount, provinceOwner[], provinceSelected;
 	public Color ownerColours[];
 	public ProvincePanel provincePanels[];
-	protected ProvinceBorder provinceBorders[];
+	protected ProvincePanel provinceBorders[];
 	public Color borderColors[];
 	protected BufferedImage provinceMap;
 	public Set<Dimension> adjacencyList = new HashSet<Dimension>();
@@ -41,6 +41,7 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 	public JScrollPane mainPanel;
 	private List<ProvinceListener> listeners = new ArrayList<ProvinceListener>();
 	public List<Color> provinceColors = new ArrayList<Color>();
+	public List<ProvincePanel> connectionPanels = new ArrayList<ProvincePanel>();
 	protected JPanel clickPanel;
 	public JPanel mapContainerPanel;
 	public ProvinceLoader(String mapName, String mapDirectory, int playerCount, Dimension screenSize) {
@@ -65,12 +66,10 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 	public void loadProvinces() {
 		mapWidth = provinceMap.getWidth();
 		mapHeight = provinceMap.getHeight();
-		int progressMilestone = (mapWidth * mapHeight) / 100;
-		int progressCount = 0;
 		initialiseData(provinceColors.size());
 		for (int i=0; i<provinceColors.size(); i++) {
 			provincePanels[i] = new ProvincePanel();
-			provinceBorders[i] = new ProvinceBorder();
+			provinceBorders[i] = new ProvincePanel();
 		}
 		for (int x=0; x<mapWidth; x++) {
 			for (int y=0; y<mapHeight; y++) {
@@ -78,17 +77,12 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 				for (int i=0; i<provinceColors.size(); i++) {
 					if (testedColour.getRGB() == provinceColors.get(i).getRGB()) {
 						provincePanels[i].addPixelToList(x, y);
-						boolean border = checkBorderPixel(x, y, provinceColors.get(i));
-						if (border) {
+						if (checkBorderPixel(x, y, provinceColors.get(i))) {
 							provinceBorders[i].addPixelToList(x, y);
 							checkAdjacency(x, y, provinceColors.get(i), i);
 						}
 						break;
 					}
-				}
-				progressCount += 1;
-				if (progressCount == progressMilestone) {
-					progressCount = 0;
 				}
 			}
 		}
@@ -145,7 +139,7 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 	}
 	private void initialiseData(int a) {
 		provincePanels = new ProvincePanel[a];
-		provinceBorders = new ProvinceBorder[a];
+		provinceBorders = new ProvincePanel[a];
 		provinceOwner = new int[a];
 		ownerColours = new Color[playerCount];
 		borderColors = new Color[a];
@@ -255,6 +249,60 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 	}
 	public void addProvinceListener(ProvinceListener listener) {
 		listeners.add(listener);
+	}
+	public void addConnection(Dimension connection) {
+		int distance = Integer.MAX_VALUE;
+		int loopCount = 0;
+		Dimension point1 = new Dimension();
+		Dimension point2 = new Dimension();
+		for (Dimension pixel1 : provinceBorders[connection.width].pixelList) {
+			for (Dimension pixel2 : provinceBorders[connection.height].pixelList) {
+				int hypot = (int) Math.hypot(pixel1.width - pixel2.width, pixel1.height - pixel2.height);
+				if (hypot < distance) {
+					distance = hypot;
+					point1 = pixel1;
+					point2 = pixel2;
+				}
+				loopCount ++;
+				System.out.println(loopCount);
+			}
+		}
+		if (point2.width < point1.width) {
+			Dimension spare = point2;
+			point2 = point1;
+			point1 = spare;
+		}
+		ProvincePanel connectionLine = new ProvincePanel();
+		int width = point2.width - point1.width;
+		int height = point2.height - point1.height;
+		int absoluteheight = height;
+		if (absoluteheight < 0) absoluteheight = 0 - absoluteheight;
+		if (width >= absoluteheight) {
+			int heightOffset = width / absoluteheight;
+			int y = 0;
+			for (int x=0; x<width; x++) {
+				if (x % heightOffset == 0) y -= (height < 0) ? 1 : -1;
+				connectionLine.addPixelToList(point1.width + x, point1.height + y);
+				connectionLine.addPixelToList(point1.width + x, point1.height + y + 1);
+			}
+		} else {
+			int widthOffSet = absoluteheight / width;
+			int x = 0;
+			int y = 0;
+			for (int i=0; i<absoluteheight; i++) {
+				y -= (height < 0) ? 1 : -1;
+				if (y % widthOffSet == 0) x++;
+				connectionLine.addPixelToList(point1.width + x, point1.height + y);
+				connectionLine.addPixelToList(point1.width + x, point1.height + y + 1);
+			}
+		}
+		connectionLine.provinceColor = Color.YELLOW;
+		connectionLine.drawRectangle();
+		connectionLine.setBounds(connectionLine.X, connectionLine.Y,
+				connectionLine.provinceImage.getWidth(), connectionLine.provinceImage.getHeight() + 5);
+		mapPanel.add(connectionLine, Integer.valueOf(2));
+		mapPanel.repaint();
+		connectionPanels.add(connectionLine);
 	}
 	private void moveMap(int newX, int newY) {
     	int c = newX - clickX;
