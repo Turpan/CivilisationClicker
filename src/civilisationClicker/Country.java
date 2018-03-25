@@ -236,7 +236,7 @@ public class Country {
 	}
 	void findAccessableProvinces() {
 		adjacencyList = new HashSet<Integer>();
-		for (Dimension provinceAdjacency : CivilisationMainClass.mapScreen.gameMap.adjacencyList) {
+		for (Dimension provinceAdjacency : MapScreen.adjacencyList) {
 			int province = provinceAdjacency.width;
 			int adjacent = provinceAdjacency.height;
 			Province mapprovince = MapScreen.provinceList.get(province);

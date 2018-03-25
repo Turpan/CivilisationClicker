@@ -1,5 +1,6 @@
 package civilisationClicker;
 
+import java.awt.Dimension;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -273,37 +274,66 @@ public class XMLLoader {
 		        			Map map = new Map(mapIDs.item(0).getTextContent());
 		        			for (int j=0; j<mapData.getLength(); j++) {
 		        				Node data = mapData.item(j);
-		        				String datatype = data.getNodeName();
-		        				switch (datatype) {
-		        				case "mapfile":
-		        					map.setMapFile(data.getTextContent());
-		        					break;
-		        				case "provinces":
+		        				if (data.getNodeType() == Node.ELEMENT_NODE) {
 		        					Element elem = (Element) data;
-		        					NodeList provinceData = elem.getElementsByTagName("province");
-		        					for (int k=0; k<provinceData.getLength(); k++) {
-		        						Node provinceNode = provinceData.item(k);
-		        						NodeList provinceNodeData = provinceNode.getChildNodes();
-		        						NamedNodeMap provinceIDs = provinceNode.getAttributes();
-		        						Province province = new Province(MathFunctions.parseInt(provinceIDs.item(0).getTextContent()));
-		        						for (int h=0; h<provinceNodeData.getLength(); h++) {
-		        							Node provinceNodeNode = provinceNodeData.item(h);
-		        							String provincedatatype = provinceNodeNode.getNodeName();
-		        							switch (provincedatatype) {
-		        							case "red":
-		        								province.setRed(MathFunctions.parseInt(provinceNodeNode.getTextContent()));
-		        								break;
-		        							case "green":
-		        								province.setGreen(MathFunctions.parseInt(provinceNodeNode.getTextContent()));
-		        								break;
-		        							case "blue":
-		        								province.setBlue(MathFunctions.parseInt(provinceNodeNode.getTextContent()));
-		        								break;
+			        				String datatype = data.getNodeName();
+			        				switch (datatype) {
+			        				case "mapfile":
+			        					map.setMapFile(data.getTextContent());
+			        					break;
+			        				case "provinces":
+			        					NodeList provinceData = elem.getElementsByTagName("province");
+			        					for (int k=0; k<provinceData.getLength(); k++) {
+			        						Node provinceNode = provinceData.item(k);
+			        						NodeList provinceNodeData = provinceNode.getChildNodes();
+			        						NamedNodeMap provinceIDs = provinceNode.getAttributes();
+			        						Province province = new Province(MathFunctions.parseInt(provinceIDs.item(0).getTextContent()));
+			        						for (int h=0; h<provinceNodeData.getLength(); h++) {
+			        							Node provinceNodeNode = provinceNodeData.item(h);
+			        							String provincedatatype = provinceNodeNode.getNodeName();
+			        							switch (provincedatatype) {
+			        							case "red":
+			        								province.setRed(MathFunctions.parseInt(provinceNodeNode.getTextContent()));
+			        								break;
+			        							case "green":
+			        								province.setGreen(MathFunctions.parseInt(provinceNodeNode.getTextContent()));
+			        								break;
+			        							case "blue":
+			        								province.setBlue(MathFunctions.parseInt(provinceNodeNode.getTextContent()));
+			        								break;
+			        							}
+			        						}
+			        						map.addProvince(province);
+			        					}
+			        					break;
+			        				case "straits":
+			        					NodeList straitData = elem.getElementsByTagName("strait");
+			        					for (int k=0; k<straitData.getLength(); k++) {
+			        						Node straitNode = straitData.item(k);
+			        						NodeList straitNodeData = straitNode.getChildNodes();
+			        						int a = -1;
+		        							int b = -1;
+			        						for (int h=0; h<straitNodeData.getLength(); h++) {
+			        							Node straitNodeNode = straitNodeData.item(h);
+			        							String straitdatatype = straitNodeNode.getNodeName();
+			        							switch (straitdatatype) {
+			        							case "side-a":
+			        								a = MathFunctions.parseInt(straitNodeNode.getTextContent());
+			        								break;
+			        							case "side-b":
+			        								b = MathFunctions.parseInt(straitNodeNode.getTextContent());
+			        								break;
+			        							}
+			        						}
+			        						if (a > -1 && b > -1) {
+		        								Dimension adjacency1 = new Dimension(a, b);
+		        								Dimension adjacency2 = new Dimension(b, a);
+		        								map.addAdjacency(adjacency1);
+		        								map.addAdjacency(adjacency2);
 		        							}
-		        						}
-		        						map.addProvince(province);
-		        					}
-		        					break;
+			        					}
+			        					break;
+			        				}
 		        				}
 		        			}
 		        			mapList.add(map);

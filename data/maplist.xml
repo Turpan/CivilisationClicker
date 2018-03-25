@@ -154,5 +154,19 @@
 				<blue>190</blue>
 			</province>
 		</provinces>
+		<straits>
+			<strait>
+				<side-a>0</side-a>
+				<side-b>3</side-b>
+			</strait>
+			<strait>
+				<side-a>0</side-a>
+				<side-b>2</side-b>
+			</strait>
+			<strait>
+				<side-a>15</side-a>
+				<side-b>28</side-b>
+			</strait>
+		</straits>
 	</map>
 </maplist>

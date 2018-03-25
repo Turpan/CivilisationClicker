@@ -1,12 +1,16 @@
 package civilisationClicker;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class Map {
 	List<Province> provinceList = new ArrayList<Province>();
 	List<Color> provinceColors = new ArrayList<Color>();
+	Set<Dimension> adjacencyList = new HashSet<Dimension>();
 	String map;
 	String mapfile;
 	@Override
@@ -38,6 +42,9 @@ public class Map {
 	}
 	void addProvince(Province province) {
 		provinceList.add(province);
+	}
+	void addAdjacency(Dimension adjacency) {
+		adjacencyList.add(adjacency);
 	}
 	void compileColors() {
 		for (Province province : provinceList) {

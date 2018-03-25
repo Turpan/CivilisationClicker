@@ -5,7 +5,9 @@ import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -37,6 +39,7 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 	QuickBuy quickBuy;
 	ProvinceLoader gameMap;
 	static List<Province> provinceList;
+	static Set<Dimension> adjacencyList;
 	MapScreen() {
 		List<Country> playerList = CivilisationMainClass.playerList;
 		Map map = DataBase.mapList.get(DataBase.chosenMap);
@@ -77,6 +80,8 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 		int x = gameMap.mainPanel.getViewport().getViewPosition().x;
 		int y = gameMap.mainPanel.getViewport().getViewPosition().y;
 		miniMap.updateViewWindow(x, y);
+		adjacencyList = new HashSet<Dimension>(gameMap.adjacencyList);
+		for (Dimension adjacency : map.adjacencyList) adjacencyList.add(adjacency);
 		getDevelopementImages();
 		createUI();
 	}
