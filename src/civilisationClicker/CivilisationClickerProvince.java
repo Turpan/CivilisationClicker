@@ -155,7 +155,7 @@ public class CivilisationClickerProvince {
 	}
 	void calculateProductionModifier() {
 		double productionModifier = 0;
-		if (CivilisationMainClass.tickCount < CivilisationClickerCountry.HAPPINESSAMNESTYPERIOD) {
+		if (CivilisationMainClass.timeCount < CivilisationClickerCountry.HAPPINESSAMNESTYPERIOD) {
 			productionModifier = 100;
 		} else {
 			if (happiness > unrest) {

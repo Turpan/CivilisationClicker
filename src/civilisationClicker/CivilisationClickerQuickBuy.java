@@ -67,7 +67,7 @@ public class CivilisationClickerQuickBuy implements QuickBuySlotListener{
 	void updateLabels() {
 		if (CivilisationClickerMapScreen.selectedProvince > -1) {
 			CivilisationClickerProvince selectedProvince = CivilisationClickerMapScreen.getSelectedProvince();
-			if (selectedProvince.owner == CivilisationMainClass.playerID) {
+			if (selectedProvince.owner == CivilisationMainClass.playerID && !selectedProvince.coloniseInProgress) {
 				addPanel();
 			} else {
 				mainPanel.removeAll();

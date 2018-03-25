@@ -41,6 +41,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	static JPanel mainPanel;
 	static JPanel contentPanel;
 	static Timer clickTimer;
+	static Timer guiTimer;
 	static String gameType, playerName;
 	static CivilisationClickerTimer listener;
 	static CivilisationClickerServer server;
@@ -59,7 +60,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	static int playerID, port, lobbySize;
 	static int gameHeight;
 	static int gameWidth;
-	static int tickCount;
+	static int timeCount;
 	static int timerStatus;
 	static int selectedPanel;
 	static String playerNames[];
@@ -251,6 +252,8 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		battleList = new CivilisationClickerBattleList();
 		resourceBar = new CivilisationClickerResourceBar();
 		mainLayeredPanel.add(resourceBar.mainPanel, Integer.valueOf(3));
+		guiTimer = new Timer(10, resourceBar);
+		guiTimer.start();
 		if (gameType == GAMETYPEHOST) {
 			listener = new CivilisationClickerTimer();
 			clickTimer = new Timer(1000, listener);
@@ -463,7 +466,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		}
 	}
 	static void timerTick() {
-		tickCount += 1;
+		timeCount += 1;
 		clickerMaster.timerTick();
 		resourceBar.timerTick();
 		for (CivilisationClickerCountry country : playerList) {
@@ -600,6 +603,8 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		mainLayeredPanel.add(resourceBar.mainPanel, Integer.valueOf(3));
 		listener = new CivilisationClickerTimer();
 		clickTimer = new Timer(1000, listener);
+		guiTimer = new Timer(10, resourceBar);
+		guiTimer.start();
 		playerTicked = new boolean[playerCount - 1];
 		clickTimer.start();
 		mainPanel.revalidate();

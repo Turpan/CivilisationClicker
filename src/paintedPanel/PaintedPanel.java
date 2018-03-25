@@ -71,8 +71,9 @@ public class PaintedPanel extends JPanel{
 		paintBufferY = y;
 	}
 	public void setAlpha(float alpha) {
-		this.alpha = alpha;
 		if (alpha < 0) alpha = 0;
 		else if (alpha > 1) alpha = 1;
+		this.alpha = alpha;
+		this.repaint();
 	}
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
@@ -81,15 +82,25 @@ public class CivilisationClickerResearchScreen implements ResearchListener{
 		researchPanelHeight = mainPanel.bgImage.getIconHeight();
 	}
 	@Override
-	public void researchPurchased(int screenType, int researchOption) {
+	public void researchPurchased(int screenType, int researchOption, int x, int y) {
+		CivilisationMainClass.resourceBar.removeMouseOverPanel();
+		CivilisationMainClass.resourceBar.resetCostLabel();
 		findNextResearch(screenType);
+		if (researchPoolList[screenType].optionCounter -1 >= researchOption) {
+			researchPoolList[screenType].researchList.get(researchOption).setPosition(x, y);
+			researchPoolList[screenType].researchList.get(researchOption).showMouseOverPanel();
+			researchPoolList[screenType].researchList.get(researchOption).showCost();
+		}
 	}
 }
 class CivilisationClickerResearchPool{
+	static final int startingx = 102;
+	static final int startingy = 27;
 	static final int xoffset = 214;
 	static final int yoffset = 161;
-	static final int width = 127;
+	static final int width = 129;
 	static final int height = 127;
+	static final int optiongap = 2;
 	int x;
 	int y;
 	int screenType;
@@ -98,8 +109,8 @@ class CivilisationClickerResearchPool{
 	List<CivilisationClickerResearchOption> researchList = new ArrayList<CivilisationClickerResearchOption>();
 	CivilisationClickerResearchPool(int screenType) {
 		this.screenType = screenType;
-		int x = 114;
-		int y = 27;
+		x = startingx;
+		y = startingy;
 		for (int i=0; i<screenType; i++) {
 			if ((i & 1) == 0) x += xoffset;
 			else {
@@ -124,14 +135,18 @@ class CivilisationClickerResearchPool{
 		mainPanel.removeAll();
 		for (CivilisationClickerResearchOption option : researchList) {
 			mainPanel.add(option.mainPanel);
+			mainPanel.add(Box.createRigidArea(new Dimension(0, optiongap)));
 		}
+		mainPanel.add(Box.createVerticalGlue());
 	}
 }
 class CivilisationClickerResearchOption implements MouseListener, MouseMotionListener{
 	static final int WIDTH = 127;
-	static final int HEIGHT = 43;
+	static final int HEIGHT = 41;
 	int screenType;
 	int option;
+	int x;
+	int y;
 	JPanel descriptionPanel, namePanel, clickPanel;
 	JLayeredPane mainPanel;
 	JLabel nameLabel, costLabel;
@@ -148,21 +163,21 @@ class CivilisationClickerResearchOption implements MouseListener, MouseMotionLis
 		mainPanel.setMaximumSize(new Dimension(WIDTH, HEIGHT));
 		mainPanel.setOpaque(false);
 		clickPanel = new JPanel();
-		clickPanel.setBounds(0, 0, WIDTH, 43);
+		clickPanel.setBounds(0, 0, WIDTH, HEIGHT);
 		clickPanel.setOpaque(false);
 		clickPanel.addMouseListener(this);
 		clickPanel.addMouseMotionListener(this);
 		iconPanel = new PaintedPanel();
 		iconPanel.bgImage = new ImageIcon(researchOption.Icon);
-		iconPanel.setBounds(0, 2, 42, 41);
+		iconPanel.setBounds(0, 0, 42, 41);
 		nameLabel = new JLabel("<html><div style='text-align: center;'>" + researchOption.Name + "</div></html>");
 		nameLabel.setForeground(Color.WHITE);
 		nameLabel.setFont(new Font("Serif", Font.PLAIN, 12));
-		nameLabel.setBounds(44, 2, 85, 20);
+		nameLabel.setBounds(44, 0, 85, 20);
 		costLabel = new JLabel("<html><div style='text-align: center;'>" + researchOption.cost + "</div></html>");
 		costLabel.setForeground(Color.WHITE);
 		costLabel.setFont(new Font("Serif", Font.PLAIN, 12));
-		costLabel.setBounds(44, 22, 85, 21);
+		costLabel.setBounds(44, 20, 85, 21);
 		mainPanel.add(iconPanel, Integer.valueOf(1));
 		mainPanel.add(nameLabel, Integer.valueOf(1));
 		mainPanel.add(costLabel, Integer.valueOf(1));
@@ -172,7 +187,7 @@ class CivilisationClickerResearchOption implements MouseListener, MouseMotionLis
 		String buildingname = researchOption.Building;
 		String description = "";
 		for (CivilisationClickerBuilding building : CivilisationClickerDataBase.buildingList.get(screenType).buildingList) {
-			if (building.ID == researchOption.Building) {
+			if (building.ID.equals(researchOption.Building)) {
 				buildingname = building.Name;
 				break;
 			}
@@ -193,30 +208,45 @@ class CivilisationClickerResearchOption implements MouseListener, MouseMotionLis
 	void addListener(ResearchListener listener) {
 		listeners.add(listener);
 	}
+	void showMouseOverPanel() {
+		CivilisationMainClass.resourceBar.showMouseOverPanel(x, y, createDescription());
+	}
+	void showCost() {
+		int a = CivilisationClickerSuperScreen.researchPointPool;
+		CivilisationMainClass.resourceBar.updateCostLabel(a - 1, researchOption.cost);
+	}
+	void setPosition(int x, int y) {
+		this.x = x;
+		this.y = y;
+	}
 	@Override
 	public void mouseDragged(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
 	}
 	@Override
-	public void mouseMoved(MouseEvent arg0) {
-		// TODO Auto-generated method stub
-		
+	public void mouseMoved(MouseEvent e) {
+		int a = CivilisationClickerSuperScreen.researchPointPool;
+		x = e.getX() + CivilisationMainClass.resourceBar.researchScreen.researchPoolList[screenType].x;
+		y = e.getY() + CivilisationMainClass.resourceBar.researchScreen.researchPoolList[screenType].y
+				+ ((HEIGHT + CivilisationClickerResearchPool.optiongap) * option) + CivilisationClickerResourceBar.RESOURCEBARSIZE;
+		CivilisationMainClass.resourceBar.updateCostLabel(a - 1, researchOption.cost);
+		CivilisationMainClass.resourceBar.moveMouseOverPanel(x, y);
 	}
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		CivilisationMainClass.soundEngine.playClickSound();
-		CivilisationClickerCountry country = CivilisationMainClass.playerList.get(CivilisationMainClass.playerID);
-		country.buyResearch(researchOption, screenType);
-		for (ResearchListener listener : listeners) listener.researchPurchased(screenType, option);
+		CivilisationClickerCountry country = CivilisationMainClass.getPlayer();
+		if (country.buyResearch(researchOption, screenType))
+			for (ResearchListener listener : listeners) listener.researchPurchased(screenType, option, x, y);
 	}
 	@Override
 	public void mouseEntered(MouseEvent e) {
-		int a = CivilisationClickerSuperScreen.researchPointPool;
-		int x = e.getX() + CivilisationMainClass.resourceBar.researchScreen.researchPoolList[screenType].x;
-		int y = e.getY() + CivilisationMainClass.resourceBar.researchScreen.researchPoolList[screenType].y + (HEIGHT * option);
-		CivilisationMainClass.resourceBar.updateCostLabel(a - 1, researchOption.cost);
-		CivilisationMainClass.resourceBar.showMouseOverPanel(x, y, createDescription());
+		x = e.getX() + CivilisationMainClass.resourceBar.researchScreen.researchPoolList[screenType].x;
+		y = e.getY() + CivilisationMainClass.resourceBar.researchScreen.researchPoolList[screenType].y
+				+ ((HEIGHT + CivilisationClickerResearchPool.optiongap) * option) + CivilisationClickerResourceBar.RESOURCEBARSIZE;
+		showCost();
+		showMouseOverPanel();
 	}
 	@Override
 	public void mouseExited(MouseEvent arg0) {
@@ -235,5 +265,5 @@ class CivilisationClickerResearchOption implements MouseListener, MouseMotionLis
 	}
 }
 interface ResearchListener{
-	void researchPurchased(int screenType, int researchOption);
+	void researchPurchased(int screenType, int researchOption, int x, int y);
 }

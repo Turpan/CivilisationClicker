@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Point;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -19,8 +21,10 @@ import javax.swing.JPanel;
 
 import paintedPanel.PaintedPanel;
 
-public class CivilisationClickerResourceBar implements MouseListener, MouseMotionListener, OrderListener{
+public class CivilisationClickerResourceBar implements MouseListener, MouseMotionListener, OrderListener, ActionListener{
 	static final int RESOURCEBARSIZE = 32;
+	boolean showMouseOver;
+	int mouseOverCount;
 	Point topPanelInitialPoint;
 	JPanel resourceBarPanel;
 	JPanel[] resourceLabelPanel, resourceCostLabelPanel;
@@ -43,6 +47,7 @@ public class CivilisationClickerResourceBar implements MouseListener, MouseMotio
 		mouseoverPanel = new PaintedPanel();
 		mouseoverPanel.bgImage = mouseoverImage;
 		mouseoverPanel.setLayout(new GridBagLayout());
+		mouseoverPanel.setOpaque(false);
 		mouseoverLabel = new JLabel();
 		mouseoverLabel.setForeground(Color.WHITE);
 		mouseoverPanel.add(mouseoverLabel);
@@ -103,9 +108,9 @@ public class CivilisationClickerResourceBar implements MouseListener, MouseMotio
 		mainPanel.add(troopsScreen, Integer.valueOf(1));
 	}
 	void timerTick() {
-		int hours = CivilisationMainClass.tickCount / 3600;
-		int minutes = (CivilisationMainClass.tickCount % 3600) / 60;
-		int seconds = (CivilisationMainClass.tickCount % 3600) % 60;
+		int hours = CivilisationMainClass.timeCount / 3600;
+		int minutes = (CivilisationMainClass.timeCount % 3600) / 60;
+		int seconds = (CivilisationMainClass.timeCount % 3600) % 60;
 		String timerText = "";
 		timerText += (hours < 10) ? ("0" + hours) : hours;
 		timerText += ":";
@@ -130,13 +135,23 @@ public class CivilisationClickerResourceBar implements MouseListener, MouseMotio
 	}
 	void showMouseOverPanel(int x, int y, String text) {
 		removeMouseOverPanel();
+		showMouseOver = true;
+		mouseOverCount = 0;
+		mouseoverPanel.setAlpha(mouseOverCount);
 		int width = mouseoverImage.getIconWidth();
 		int height = mouseoverImage.getIconHeight();
 		mouseoverPanel.setBounds(x, y, width, height);
 		mouseoverLabel.setText("<html>" + text + "</html>");
 		mainPanel.add(mouseoverPanel, Integer.valueOf(4));
 	}
+	void moveMouseOverPanel(int x, int y) {
+		int width = mouseoverImage.getIconWidth();
+		int height = mouseoverImage.getIconHeight();
+		mouseoverPanel.setBounds(x, y, width, height);
+	}
 	void removeMouseOverPanel() {
+		showMouseOver = false;
+		mouseOverCount = 0;
 		if (mouseoverPanel.getParent() == mainPanel) mainPanel.remove(mouseoverPanel);
 		mainPanel.revalidate();
 		mainPanel.repaint();
@@ -448,5 +463,10 @@ public class CivilisationClickerResourceBar implements MouseListener, MouseMotio
 	public void mouseMoved(MouseEvent arg0) {
 		// TODO Auto-generated method stub
 		
+	}
+	@Override
+	public void actionPerformed(ActionEvent arg0) {
+		if (showMouseOver && mouseOverCount < 2000) mouseOverCount += 30;
+		if (showMouseOver) mouseoverPanel.setAlpha((((float) mouseOverCount - 1000) / 1000));
 	}
 }

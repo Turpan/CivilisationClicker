@@ -30,7 +30,7 @@ public class CivilisationClickerCountry {
 			return false;
 		return true;
 	}
-	static final double baseColoniseCost = 5000;
+	static final double baseColoniseCost = 25000;
 	static final double coloniseCostMulitplier = 1.5;
 	static final double AICOMBATPOINTREQUIREMENT = 0.8;
 	static final int HAPPINESSAMNESTYPERIOD = 600;
@@ -281,17 +281,19 @@ public class CivilisationClickerCountry {
 			}
 		}
 	}
-	void buyResearch(CivilisationClickerResearch researchOption, int screenType) {
+	boolean buyResearch(CivilisationClickerResearch researchOption, int screenType) {
+		boolean researchPurchased = false;
 		int a = CivilisationClickerSuperScreen.researchPointPool;
 		if (points[a - 1] >= researchOption.cost) {		
 			for (CivilisationClickerResearch research : researchList.get(screenType).researchList) {
-				if (research == researchOption) {
+				if (researchPurchased = research.equals(researchOption)) {
 					research.setPurchased(true);
 					points[a - 1] -= researchOption.cost;
 					break;
 				}
 			}
 		}
+		return researchPurchased;
 	}
 	boolean buyEdict(int edictid, int provinceid, int count) {
 		boolean edictPurchased = false;
