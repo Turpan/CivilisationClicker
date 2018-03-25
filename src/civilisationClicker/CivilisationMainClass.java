@@ -36,27 +36,27 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	static final int GAMESPEED1 = 1000;
 	static final int GAMESPEED2 = 500;
 	static final int GAMESPEED3 = 1;
-	static CivilisationClickerMusicPlayer musicPlayer;
-	static CivilisationClickerSuperScreen clickerMaster;
+	static MusicPlayer musicPlayer;
+	static SuperScreen clickerMaster;
 	static JPanel mainPanel;
 	static JPanel contentPanel;
 	static Timer clickTimer;
 	static Timer guiTimer;
 	static String gameType, playerName;
-	static CivilisationClickerTimer listener;
-	static CivilisationClickerServer server;
-	static CivilisationClickerClient client;
-	static CivilisationClickerLobbyScreen lobbyScreen;
-	static CivilisationClickerMapSelector mapSelector;
-	static CivilisationClickerMapScreen mapScreen;
-	static CivilisationClickerResourceBar resourceBar;
+	static TimerHandler listener;
+	static Server server;
+	static Client client;
+	static LobbyScreen lobbyScreen;
+	static MapSelector mapSelector;
+	static MapScreen mapScreen;
+	static ResourceBar resourceBar;
 	//static CivilisationMenuBar menuBar;
-	static CivilisationClickerGameStartWindow gameStartWindow;
-	static CivilisationClickerCheatClass cheatListener;
-	static CivilisationClickerSoundEngine soundEngine;
-	static CivilisationClickerOptionsMenu optionsMenu;
-	static CivilisationClickerBattleList battleList;
-	static List<CivilisationClickerCountry> playerList;
+	static GameStartWindow gameStartWindow;
+	static CheatClass cheatListener;
+	static SoundEngine soundEngine;
+	static OptionsMenu optionsMenu;
+	static BattleList battleList;
+	static List<Country> playerList;
 	static int playerID, port, lobbySize;
 	static int gameHeight;
 	static int gameWidth;
@@ -79,9 +79,9 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	}
 	private static void createAndShowGUI() {
         //Create and set up the window.
-		CivilisationClickerXMLLoader.loadXMLData();
-		CivilisationClickerXMLLoader.sortXMLData();
-		CivilisationClickerXMLLoader.sendXMLData();
+		XMLLoader.loadXMLData();
+		XMLLoader.sortXMLData();
+		XMLLoader.sendXMLData();
 		loadSettings();
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
@@ -102,9 +102,9 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
         frame.setResizable(false);
         frame.add(mainLayeredPanel);
         createMusicPlayer();
-        soundEngine = new CivilisationClickerSoundEngine();
-        optionsMenu = new CivilisationClickerOptionsMenu();
-        CivilisationMainMenu.createMainMenu();
+        soundEngine = new SoundEngine();
+        optionsMenu = new OptionsMenu();
+        MainMenu.createMainMenu();
     }
 	static void createHostGameScreen() {
 		JPanel formPanel = new JPanel();
@@ -157,13 +157,13 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 				return;
 			}
 			lobbySize = players;
-			mapSelector = new CivilisationClickerMapSelector();
+			mapSelector = new MapSelector();
 			mainLayeredPanel.add(mapSelector, Integer.valueOf(2));
 			//lobbyScreen = new CivilisationClickerLobbyScreen(true, players);
 			//server = new CivilisationClickerServer(port, players-1);
 			//server.start();
 		} else {
-			CivilisationMainMenu.createMainMenu();
+			MainMenu.createMainMenu();
 		}
 	}
 	static void createJoinGameScreen() {
@@ -204,67 +204,67 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 			if (playerName == "") {
 				playerName = Integer.toString(ThreadLocalRandom.current().nextInt(1000, 500000));
 			}
-			client = new CivilisationClickerClient(ip, port);
+			client = new Client(ip, port);
 			client.start();
 			mainPanel.removeAll();
 			JLabel connectionLabel = new JLabel("Connecting to server...");
 			mainPanel.add(connectionLabel);
 			mainPanel.revalidate();
 		} else {
-			CivilisationMainMenu.createMainMenu();
+			MainMenu.createMainMenu();
 		}
 	}
 	static void createMusicPlayer() {
-		musicPlayer = new CivilisationClickerMusicPlayer();
+		musicPlayer = new MusicPlayer();
 		musicPlayer.dataFileLocation = "music/music-data.txt";
 		musicPlayer.loadMusic();
 		musicPlayer.play();
 	}
 	static void createMultiplayerGame(int players, String[] playerNames, int[] startingProvince, Color[] playerColor, int map) {
 		lobbyActive = false;
-		CivilisationClickerDataBase.chosenMap = map;
-		cheatListener = new CivilisationClickerCheatClass();
+		DataBase.chosenMap = map;
+		cheatListener = new CheatClass();
 		cheatButton = new JButton("Cheat");
 		cheatButton.setBounds(gameWidth - 40, 0, 40, 40);
 		cheatButton.addActionListener(cheatListener);
 		mainLayeredPanel.add(cheatButton, Integer.valueOf(3));
 		playerCount = players;
 		CivilisationMainClass.playerNames = playerNames;
-		playerList = new ArrayList<CivilisationClickerCountry>();
+		playerList = new ArrayList<Country>();
 		for (int i=0; i<players; i++) {
 			if (startingProvince[i] > -1) {
-				CivilisationClickerCountry country = new CivilisationClickerCountry(i, false, playerNames[i], playerColor[i], startingProvince[i]);
+				Country country = new Country(i, false, playerNames[i], playerColor[i], startingProvince[i]);
 				playerList.add(country);
 			}
 		}
 		mainPanel.removeAll();
-		gameStartWindow = new CivilisationClickerGameStartWindow(startingProvince, playerNames);
+		gameStartWindow = new GameStartWindow(startingProvince, playerNames);
 		mainLayeredPanel.add(gameStartWindow, Integer.valueOf(2));
-		CivilisationClickerDataBase.mapList.get(map).createDevelopementData();
-		CivilisationClickerSuperScreen.loadData();
-		CivilisationClickerSuperScreen.selectedBuySellButton = 1;
-		mapScreen = new CivilisationClickerMapScreen();
-		for (CivilisationClickerCountry country : playerList) country.findAccessableProvinces();
+		DataBase.mapList.get(map).createDevelopementData();
+		SuperScreen.loadData();
+		SuperScreen.selectedBuySellButton = 1;
+		mapScreen = new MapScreen();
+		for (Country country : playerList) country.findAccessableProvinces();
 		mainPanel.add(mapScreen.mainPanel);
 		selectedPanel = 8;
-		clickerMaster = new CivilisationClickerSuperScreen();
+		clickerMaster = new SuperScreen();
 		clickerMaster.createClickerScreens();
-		battleList = new CivilisationClickerBattleList();
-		resourceBar = new CivilisationClickerResourceBar();
+		battleList = new BattleList();
+		resourceBar = new ResourceBar();
 		mainLayeredPanel.add(resourceBar.mainPanel, Integer.valueOf(3));
 		guiTimer = new Timer(10, resourceBar);
 		guiTimer.start();
 		if (gameType == GAMETYPEHOST) {
-			listener = new CivilisationClickerTimer();
+			listener = new TimerHandler();
 			clickTimer = new Timer(1000, listener);
 			playerTicked = new boolean[playerCount - 1];
 		}
 		if (gameType == GAMETYPECLIENT) {
-			gameStartWindow.changeStatus(playerID, CivilisationClickerGameStartWindow.PLAYERSTATUSWAITING);
-			String output = "playerwaitstatus;" + CivilisationClickerGameStartWindow.PLAYERSTATUSWAITING + ";";
+			gameStartWindow.changeStatus(playerID, GameStartWindow.PLAYERSTATUSWAITING);
+			String output = "playerwaitstatus;" + GameStartWindow.PLAYERSTATUSWAITING + ";";
 			client.outPutCommand(output);
 		} else if (gameType == GAMETYPEHOST) {
-			gameStartWindow.changeStatus(playerID, CivilisationClickerGameStartWindow.PLAYERSTATUSREADY);
+			gameStartWindow.changeStatus(playerID, GameStartWindow.PLAYERSTATUSREADY);
 		}
 		mainPanel.revalidate();
 		frame.revalidate();
@@ -277,8 +277,8 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		resourceBar.resetCostLabel();
 		switch (newTab) {
 		case 1:
-			if (CivilisationClickerMapScreen.selectedProvince != -1) {
-				if (CivilisationClickerMapScreen.getSelectedProvince().owner == playerID && !CivilisationClickerMapScreen.getSelectedProvince().coloniseInProgress) {
+			if (MapScreen.selectedProvince != -1) {
+				if (MapScreen.getSelectedProvince().owner == playerID && !MapScreen.getSelectedProvince().coloniseInProgress) {
 					mainPanel.removeAll();
 					clickerMaster.swapTabs(1);
 					selectedPanel = 1;
@@ -286,8 +286,8 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 			}
 			break;
 		case 2:
-			if (CivilisationClickerMapScreen.selectedProvince != -1) {
-				if (CivilisationClickerMapScreen.getSelectedProvince().owner == playerID && !CivilisationClickerMapScreen.getSelectedProvince().coloniseInProgress) {
+			if (MapScreen.selectedProvince != -1) {
+				if (MapScreen.getSelectedProvince().owner == playerID && !MapScreen.getSelectedProvince().coloniseInProgress) {
 					mainPanel.removeAll();
 					clickerMaster.swapTabs(2);
 					selectedPanel = 2;
@@ -295,8 +295,8 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 			}
 			break;
 		case 3:
-			if (CivilisationClickerMapScreen.selectedProvince != -1) {
-				if (CivilisationClickerMapScreen.getSelectedProvince().owner == playerID && !CivilisationClickerMapScreen.getSelectedProvince().coloniseInProgress) {
+			if (MapScreen.selectedProvince != -1) {
+				if (MapScreen.getSelectedProvince().owner == playerID && !MapScreen.getSelectedProvince().coloniseInProgress) {
 					mainPanel.removeAll();
 					clickerMaster.swapTabs(3);
 					selectedPanel = 3;
@@ -304,8 +304,8 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 			}
 			break;
 		case 4:
-			if (CivilisationClickerMapScreen.selectedProvince != -1) {
-				if (CivilisationClickerMapScreen.getSelectedProvince().owner == playerID && !CivilisationClickerMapScreen.getSelectedProvince().coloniseInProgress) {
+			if (MapScreen.selectedProvince != -1) {
+				if (MapScreen.getSelectedProvince().owner == playerID && !MapScreen.getSelectedProvince().coloniseInProgress) {
 					mainPanel.removeAll();
 					clickerMaster.swapTabs(4);
 					selectedPanel = 4;
@@ -316,7 +316,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 			mainPanel.removeAll();
 			mainPanel.add(mapScreen.mainPanel);
 			selectedPanel = 8;
-			if (CivilisationClickerMapScreen.selectedProvince != -1) {
+			if (MapScreen.selectedProvince != -1) {
 				//provinceListener.updateProvinceInfoWindow(provinceLoader.provinceSelected);
 			}
 			break;
@@ -337,8 +337,8 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		resourceBar.resetCostLabel();
 		switch (newTab) {
 		case 1:
-			if (CivilisationClickerMapScreen.selectedProvince != -1) {
-				if (CivilisationClickerMapScreen.getProvince(province).owner == playerID && !CivilisationClickerMapScreen.getProvince(province).coloniseInProgress) {
+			if (MapScreen.selectedProvince != -1) {
+				if (MapScreen.getProvince(province).owner == playerID && !MapScreen.getProvince(province).coloniseInProgress) {
 					mainPanel.removeAll();
 					clickerMaster.swapTabs(1, province);
 					selectedPanel = 1;
@@ -346,8 +346,8 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 			}
 			break;
 		case 2:
-			if (CivilisationClickerMapScreen.selectedProvince != -1) {
-				if (CivilisationClickerMapScreen.getProvince(province).owner == playerID && !CivilisationClickerMapScreen.getProvince(province).coloniseInProgress) {
+			if (MapScreen.selectedProvince != -1) {
+				if (MapScreen.getProvince(province).owner == playerID && !MapScreen.getProvince(province).coloniseInProgress) {
 					mainPanel.removeAll();
 					clickerMaster.swapTabs(2, province);
 					selectedPanel = 2;
@@ -355,8 +355,8 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 			}
 			break;
 		case 3:
-			if (CivilisationClickerMapScreen.selectedProvince != -1) {
-				if (CivilisationClickerMapScreen.getProvince(province).owner == playerID && !CivilisationClickerMapScreen.getProvince(province).coloniseInProgress) {
+			if (MapScreen.selectedProvince != -1) {
+				if (MapScreen.getProvince(province).owner == playerID && !MapScreen.getProvince(province).coloniseInProgress) {
 					mainPanel.removeAll();
 					clickerMaster.swapTabs(3, province);
 					selectedPanel = 3;
@@ -364,8 +364,8 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 			}
 			break;
 		case 4:
-			if (CivilisationClickerMapScreen.selectedProvince != -1) {
-				if (CivilisationClickerMapScreen.getProvince(province).owner == playerID && !CivilisationClickerMapScreen.getProvince(province).coloniseInProgress) {
+			if (MapScreen.selectedProvince != -1) {
+				if (MapScreen.getProvince(province).owner == playerID && !MapScreen.getProvince(province).coloniseInProgress) {
 					mainPanel.removeAll();
 					clickerMaster.swapTabs(4, province);
 					selectedPanel = 4;
@@ -381,19 +381,19 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	static void joinLobby(int players, int map) {
 		mainPanel.removeAll();
 		playerCount = players;
-		lobbyScreen = new CivilisationClickerLobbyScreen(false, players, map);
+		lobbyScreen = new LobbyScreen(false, players, map);
 		gameType = GAMETYPECLIENT;
 	}
 	static void connectionFailed() {
-		CivilisationMainMenu.createMainMenu();
+		MainMenu.createMainMenu();
 	}
 	static void mapSelected(int map) {
 		mainLayeredPanel.remove(mapSelector);
 		lobbyActive = true;
 		playerID = 1;
-		lobbyScreen = new CivilisationClickerLobbyScreen(true, lobbySize, map);
+		lobbyScreen = new LobbyScreen(true, lobbySize, map);
 		gameType = GAMETYPEHOST;
-		server = new CivilisationClickerServer(port, lobbySize-1);
+		server = new Server(port, lobbySize-1);
 		server.start();
 	}
 	static void timerSynchronise(int player) {
@@ -451,11 +451,11 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		}
 	}
 	static void createInfoWindow(String message) {
-		mainLayeredPanel.add(new CivilisationClickerInfoWindow(message), Integer.valueOf(2));
+		mainLayeredPanel.add(new InfoWindow(message), Integer.valueOf(2));
 	}
 	static void removePlayer(int player) {
-		for (int i=0; i<CivilisationClickerMapScreen.provinceList.size(); i++) {
-			if (CivilisationClickerMapScreen.provinceList.get(i).owner == player) {
+		for (int i=0; i<MapScreen.provinceList.size(); i++) {
+			if (MapScreen.provinceList.get(i).owner == player) {
 				resetProvince(i, false, 0);
 			}
 		}
@@ -469,7 +469,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		timeCount += 1;
 		clickerMaster.timerTick();
 		resourceBar.timerTick();
-		for (CivilisationClickerCountry country : playerList) {
+		for (Country country : playerList) {
 			if (country.ID == playerID - 1 || (country.isAI && gameType != GAMETYPECLIENT)) country.timerTick();
 		}
 		mapScreen.timerTick();
@@ -535,7 +535,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		timerStatus = speed;
 		resourceBar.updateTimerButtons();
 	}
-	static CivilisationClickerCountry getPlayer() {
+	static Country getPlayer() {
 		return playerList.get(playerID - 1);
 	}
 	static void loadSettings() {
@@ -552,7 +552,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 				String setting = scan.next();
 				switch (setting) {
 				case "MusicVolume":
-					CivilisationClickerOptionsMenu.musicVolume = scan.nextInt();
+					OptionsMenu.musicVolume = scan.nextInt();
 					break;
 				case "Resolution":
 					gameWidth = scan.nextInt();
@@ -571,37 +571,37 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		gameType = GAMETYPESINGLE;
 		playerID = 1;
 		lobbyActive = false;
-		CivilisationClickerDataBase.chosenMap = 0;
-		cheatListener = new CivilisationClickerCheatClass();
+		DataBase.chosenMap = 0;
+		cheatListener = new CheatClass();
 		cheatButton = new JButton("Cheat");
 		cheatButton.setBounds(gameWidth - 340, 0, 40, 40);
 		cheatButton.addActionListener(cheatListener);
 		mainLayeredPanel.add(cheatButton, Integer.valueOf(3));
 		playerCount = 4;
 		CivilisationMainClass.playerNames = new String[] {"Amy", "Computer 1", "Computer 2", "Computer 3"};
-		playerList = new ArrayList<CivilisationClickerCountry>();
-		CivilisationClickerCountry player = new CivilisationClickerCountry(0, false, playerNames[0], Color.blue, 3);
-		CivilisationClickerCountry ai1 = new CivilisationClickerCountry(1, true, playerNames[1], Color.green, 7);
-		CivilisationClickerCountry ai2 = new CivilisationClickerCountry(2, true, playerNames[2], Color.red, 15);
-		CivilisationClickerCountry ai3 = new CivilisationClickerCountry(3, true, playerNames[3], Color.orange, 27);
+		playerList = new ArrayList<Country>();
+		Country player = new Country(0, false, playerNames[0], Color.blue, 3);
+		Country ai1 = new Country(1, true, playerNames[1], Color.green, 7);
+		Country ai2 = new Country(2, true, playerNames[2], Color.red, 15);
+		Country ai3 = new Country(3, true, playerNames[3], Color.orange, 27);
 		playerList.add(player);
 		playerList.add(ai1);
 		playerList.add(ai2);
 		playerList.add(ai3);
 		mainPanel.removeAll();
-		CivilisationClickerDataBase.mapList.get(0).createDevelopementData();
-		CivilisationClickerSuperScreen.loadData();
-		CivilisationClickerSuperScreen.selectedBuySellButton = 1;
-		mapScreen = new CivilisationClickerMapScreen();
-		for (CivilisationClickerCountry country : playerList) country.findAccessableProvinces();
+		DataBase.mapList.get(0).createDevelopementData();
+		SuperScreen.loadData();
+		SuperScreen.selectedBuySellButton = 1;
+		mapScreen = new MapScreen();
+		for (Country country : playerList) country.findAccessableProvinces();
 		mainPanel.add(mapScreen.mainPanel);
 		selectedPanel = 8;
-		clickerMaster = new CivilisationClickerSuperScreen();
+		clickerMaster = new SuperScreen();
 		clickerMaster.createClickerScreens();
-		battleList = new CivilisationClickerBattleList();
-		resourceBar = new CivilisationClickerResourceBar();
+		battleList = new BattleList();
+		resourceBar = new ResourceBar();
 		mainLayeredPanel.add(resourceBar.mainPanel, Integer.valueOf(3));
-		listener = new CivilisationClickerTimer();
+		listener = new TimerHandler();
 		clickTimer = new Timer(1000, listener);
 		guiTimer = new Timer(10, resourceBar);
 		guiTimer.start();
