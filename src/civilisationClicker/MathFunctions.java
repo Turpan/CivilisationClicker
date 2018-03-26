@@ -1,6 +1,10 @@
 package civilisationClicker;
 
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.security.MessageDigest;
 
 public class MathFunctions {
 	public static String withSuffix(double count) { // taken from https://stackoverflow.com/questions/9769554/how-to-convert-number-into-k-thousands-m-million-and-b-billion-suffix-in-jsp
@@ -62,5 +66,27 @@ public class MathFunctions {
 			parsedDouble = defaultOutcome;
 		}
 		return parsedDouble;
+	}
+	private static byte[] createChecksum(File file) throws Exception {
+		InputStream input = new FileInputStream(file);
+		byte[] buffer = new byte[2048];
+		MessageDigest digest = MessageDigest.getInstance("MD5");
+		int bytesRead = -1;
+		do {
+			bytesRead = input.read(buffer);
+			if (bytesRead > -1) {
+				digest.update(buffer, 0, bytesRead);
+			}
+		} while (bytesRead > -1);
+		input.close();
+		return digest.digest();
+	}
+	public static String getMD5CheckSum(File file) throws Exception{
+		byte[] bytes = createChecksum(file);
+		String result = "";
+		for (int i=0; i<bytes.length; i++) {
+			result += Integer.toString( ( bytes[i] & 0xff ) + 0x100, 16).substring( 1 );
+		}
+		return result;
 	}
 }

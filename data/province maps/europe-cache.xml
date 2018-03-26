@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mapcache>
+  <imagehash>f36bf330b6415bb46644b8c87191a129</imagehash>
+  <xmlhash>36bb4ffd1328c5e380e711add0cca4bd</xmlhash>
+  <connectionpoints>
+    <connection>
+      <a>730</a>
+      <b>366</b>
+      <c>732</c>
+      <d>365</d>
+    </connection>
+    <connection>
+      <a>362</a>
+      <b>470</b>
+      <c>381</c>
+      <d>476</d>
+    </connection>
+    <connection>
+      <a>512</a>
+      <b>499</b>
+      <c>519</c>
+      <d>502</d>
+    </connection>
+  </connectionpoints>
+</mapcache>

@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -42,6 +43,7 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 	private List<ProvinceListener> listeners = new ArrayList<ProvinceListener>();
 	public List<Color> provinceColors = new ArrayList<Color>();
 	public List<ProvincePanel> connectionPanels = new ArrayList<ProvincePanel>();
+	public List<Dimension> connectionList = new ArrayList<Dimension>();
 	protected JPanel clickPanel;
 	public JPanel mapContainerPanel;
 	public ProvinceLoader(String mapName, String mapDirectory, int playerCount, Dimension screenSize) {
@@ -250,28 +252,37 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 	public void addProvinceListener(ProvinceListener listener) {
 		listeners.add(listener);
 	}
-	public void addConnection(Dimension connection) {
-		int distance = Integer.MAX_VALUE;
-		int loopCount = 0;
-		Dimension point1 = new Dimension();
-		Dimension point2 = new Dimension();
-		for (Dimension pixel1 : provinceBorders[connection.width].pixelList) {
-			for (Dimension pixel2 : provinceBorders[connection.height].pixelList) {
-				int hypot = (int) Math.hypot(pixel1.width - pixel2.width, pixel1.height - pixel2.height);
-				if (hypot < distance) {
-					distance = hypot;
-					point1 = pixel1;
-					point2 = pixel2;
+	public Rectangle addConnection(Dimension connection) {
+		Dimension reversal = new Dimension(connection.height, connection.width);
+		if (!connectionList.contains(connection) && !connectionList.contains(reversal)) {
+			int distance = Integer.MAX_VALUE;
+			Dimension point1 = new Dimension();
+			Dimension point2 = new Dimension();
+			for (Dimension pixel1 : provinceBorders[connection.width].pixelList) {
+				for (Dimension pixel2 : provinceBorders[connection.height].pixelList) {
+					int hypot = (int) Math.hypot(pixel1.width - pixel2.width, pixel1.height - pixel2.height);
+					if (hypot < distance) {
+						distance = hypot;
+						point1 = pixel1;
+						point2 = pixel2;
+					}
 				}
-				loopCount ++;
-				System.out.println(loopCount);
 			}
+			if (point2.width < point1.width) {
+				Dimension spare = point2;
+				point2 = point1;
+				point1 = spare;
+			}
+			addConnectionToList(connection);
+			Rectangle points = new Rectangle(point1.width, point1.height, point2.width, point2.height);
+			createConnection(points);
+			return points;
 		}
-		if (point2.width < point1.width) {
-			Dimension spare = point2;
-			point2 = point1;
-			point1 = spare;
-		}
+		return null;
+	}
+	public void createConnection(Rectangle points) {
+		Dimension point1 = new Dimension(points.x, points.y);
+		Dimension point2 = new Dimension(points.width, points.height);
 		ProvincePanel connectionLine = new ProvincePanel();
 		int width = point2.width - point1.width;
 		int height = point2.height - point1.height;
@@ -303,6 +314,9 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 		mapPanel.add(connectionLine, Integer.valueOf(2));
 		mapPanel.repaint();
 		connectionPanels.add(connectionLine);
+	}
+	private void addConnectionToList(Dimension connection) {
+		connectionList.add(connection);
 	}
 	private void moveMap(int newX, int newY) {
     	int c = newX - clickX;

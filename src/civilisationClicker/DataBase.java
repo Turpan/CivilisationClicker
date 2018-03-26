@@ -11,6 +11,9 @@ public class DataBase {
 	static List<Unit> unitList;
 	static List<String> screenTypes;
 	static int chosenMap;
+	static Map getChosenMap() {
+		return mapList.get(chosenMap);
+	}
 	static List<Edict> createNewEdictList() {
 		List<Edict> newList = new ArrayList<Edict>();
 		for (Edict edict : edictList) {

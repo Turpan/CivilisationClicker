@@ -1,6 +1,7 @@
 package civilisationClicker;
 
 import java.awt.Dimension;
+import java.awt.Rectangle;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -11,6 +12,13 @@ import java.util.Set;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.OutputKeys;
+import javax.xml.transform.Transformer;
+import javax.xml.transform.TransformerConfigurationException;
+import javax.xml.transform.TransformerException;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -318,10 +326,10 @@ public class XMLLoader {
 			        							String straitdatatype = straitNodeNode.getNodeName();
 			        							switch (straitdatatype) {
 			        							case "side-a":
-			        								a = MathFunctions.parseInt(straitNodeNode.getTextContent());
+			        								a = MathFunctions.parseInt(straitNodeNode.getTextContent(), -1);
 			        								break;
 			        							case "side-b":
-			        								b = MathFunctions.parseInt(straitNodeNode.getTextContent());
+			        								b = MathFunctions.parseInt(straitNodeNode.getTextContent(), -1);
 			        								break;
 			        							}
 			        						}
@@ -563,6 +571,132 @@ public class XMLLoader {
 		edictList = null;
 		unitList = null;
 		mapList = null;
+	}
+	static void saveMapCache(MapCache mapCache, File mapCacheFile) {
+		try {
+			DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder docBuilder;
+			docBuilder = docFactory.newDocumentBuilder();
+			Document doc = docBuilder.newDocument();
+			Element rootElement = doc.createElement("mapcache");
+			doc.appendChild(rootElement);
+			Element imageHashNode = doc.createElement("imagehash");
+			imageHashNode.appendChild(doc.createTextNode(mapCache.mapImageHash));
+			rootElement.appendChild(imageHashNode);
+			Element XMLHashNode = doc.createElement("xmlhash");
+			XMLHashNode.appendChild(doc.createTextNode(mapCache.mapXMLHash));
+			rootElement.appendChild(XMLHashNode);
+			Element connectionNodes = doc.createElement("connectionpoints");
+			for (Rectangle points : mapCache.connectionLines) {
+				Element rectangleNode = doc.createElement("connection");
+				Element aNode = doc.createElement("a");
+				aNode.appendChild(doc.createTextNode(points.x + ""));
+				rectangleNode.appendChild(aNode);
+				Element bNode = doc.createElement("b");
+				bNode.appendChild(doc.createTextNode(points.y + ""));
+				rectangleNode.appendChild(bNode);
+				Element cNode = doc.createElement("c");
+				cNode.appendChild(doc.createTextNode(points.width + ""));
+				rectangleNode.appendChild(cNode);
+				Element dNode = doc.createElement("d");
+				dNode.appendChild(doc.createTextNode(points.height + ""));
+				rectangleNode.appendChild(dNode);
+				connectionNodes.appendChild(rectangleNode);
+			}
+			rootElement.appendChild(connectionNodes);
+			TransformerFactory transformerFactory = TransformerFactory.newInstance();
+			transformerFactory.setAttribute("indent-number", Integer.valueOf(2));
+			Transformer transformer = transformerFactory.newTransformer();
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			DOMSource source = new DOMSource(doc);
+			StreamResult result = new StreamResult(mapCacheFile);
+			transformer.transform(source, result);
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (TransformerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	static MapCache loadMapCache(File mapCacheFile) {
+		MapCache mapCache = new MapCache();
+		Document doc;
+		try {
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+	        DocumentBuilder dBuilder;
+			dBuilder = dbFactory.newDocumentBuilder();
+			doc = dBuilder.parse(mapCacheFile);
+			doc.getDocumentElement().normalize();
+	        NodeList nList = doc.getElementsByTagName("mapcache");
+	        Node mapCacheNode = nList.item(0);
+	        NodeList mapCacheData = mapCacheNode.getChildNodes();
+	        for (int i=0; i<mapCacheData.getLength(); i++) {
+	        	Node data = mapCacheData.item(i);
+	        	String datatype = data.getNodeName();
+	        	switch(datatype) {
+	        	case "imagehash":
+	        		mapCache.setMapImageHash(data.getTextContent());
+	        		break;
+	        	case "xmlhash":
+	        		mapCache.setMapXMLHash(data.getTextContent());
+	        		break;
+	        	case "connectionpoints":
+	        		mapCache = loadMapCacheRectangles(mapCache, data);
+	        		break;
+	        	}
+	        }
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return mapCache;
+	}
+	static MapCache loadMapCacheRectangles(MapCache mapCache, Node rectangleNode) {
+		int a = -1;
+		int b = -1;
+		int c = -1;
+		int d = -1;
+		if (rectangleNode.getNodeType() == Node.ELEMENT_NODE) {
+			Element elem = (Element) rectangleNode;
+			NodeList connectionNodes = elem.getElementsByTagName("connection");
+			for (int i=0; i<connectionNodes.getLength(); i++) {
+				Node connectionNode = connectionNodes.item(i);
+				NodeList nodeList = connectionNode.getChildNodes();
+				for (int j=0; j<nodeList.getLength(); j++) {
+					Node data = nodeList.item(j);
+					String datatype = data.getNodeName();
+					switch (datatype) {
+					case "a":
+						a = MathFunctions.parseInt(data.getTextContent(), -1);
+						break;
+					case "b":
+						b = MathFunctions.parseInt(data.getTextContent(), -1);
+						break;
+					case "c":
+						c = MathFunctions.parseInt(data.getTextContent(), -1);
+						break;
+					case "d":
+						d = MathFunctions.parseInt(data.getTextContent(), -1);
+						break;
+					}
+				}
+				if (a > -1 && b > -1 && c > -1 && d > -1) {
+					Rectangle points = new Rectangle(a, b, c, d);
+					mapCache.addConnectionLine(points);
+				}
+			}
+		}
+		return mapCache;
 	}
 	static String getFileExtension(File file) {
 		String extension = "";
