@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Point;
+import java.awt.Rectangle;
+import java.io.File;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -42,7 +44,7 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 	static Set<Dimension> adjacencyList;
 	MapScreen() {
 		List<Country> playerList = CivilisationMainClass.playerList;
-		Map map = DataBase.mapList.get(DataBase.chosenMap);
+		Map map = DataBase.getChosenMap();
 		provinceList = map.provinceList;
 		for (Province province : provinceList) {
 			province.clearProvince();
@@ -81,9 +83,59 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 		int y = gameMap.mainPanel.getViewport().getViewPosition().y;
 		miniMap.updateViewWindow(x, y);
 		adjacencyList = new HashSet<Dimension>(gameMap.adjacencyList);
-		for (Dimension adjacency : map.adjacencyList) adjacencyList.add(adjacency);
+		for (Dimension adjacency : map.adjacencyList) {
+			adjacencyList.add(adjacency);
+		}
+		checkMapCache(map);
 		getDevelopementImages();
 		createUI();
+	}
+	void checkMapCache(Map map) {
+		File mapCacheFile = new File("data/province maps/" + map.map + "-cache.xml");
+		if (!mapCacheFile.exists()) {
+			createMapGraphics(map);
+		} else {
+			MapCache mapCache = XMLLoader.loadMapCache(mapCacheFile);
+			File mapImageFile = new File("data/province maps/" + map.map + "-map.png");
+			File mapXMLFile = new File("data/maplist.xml");
+			String mapImageHash = "";
+			String mapXMLHash = "";
+			try {
+				mapImageHash = MathFunctions.getMD5CheckSum(mapImageFile);
+				mapXMLHash = MathFunctions.getMD5CheckSum(mapXMLFile);
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			if (mapCache.mapImageHash.equals(mapImageHash) && mapCache.mapXMLHash.equals(mapXMLHash)) {
+				loadMapGraphics(mapCache);
+			} else {
+				createMapGraphics(map);
+			}
+		}
+	}
+	void loadMapGraphics(MapCache mapCache) {
+		for (Rectangle points : mapCache.connectionLines) {
+			gameMap.createConnection(points);
+		}
+	}
+	void createMapGraphics(Map map) {
+		MapCache mapCache = new MapCache();
+		File mapImageFile = new File("data/province maps/" + map.map + "-map.png");
+		File mapXMLFile = new File("data/maplist.xml");
+		File mapCacheFile = new File("data/province maps/" + map.map + "-cache.xml");
+		try {
+			mapCache.setMapImageHash(MathFunctions.getMD5CheckSum(mapImageFile));
+			mapCache.setMapXMLHash(MathFunctions.getMD5CheckSum(mapXMLFile));
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		for (Dimension adjacency : map.adjacencyList) {
+			Rectangle connectionLine = gameMap.addConnection(adjacency);
+			if (connectionLine != null) mapCache.addConnectionLine(connectionLine);
+		}
+		XMLLoader.saveMapCache(mapCache, mapCacheFile);
 	}
 	void createUI() {
 		mainPanel = new JLayeredPane();

@@ -35,7 +35,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	static final String GAMETYPECLIENT = "client";
 	static final int GAMESPEED1 = 1000;
 	static final int GAMESPEED2 = 500;
-	static final int GAMESPEED3 = 1;
+	static final int GAMESPEED3 = 100;
 	static MusicPlayer musicPlayer;
 	static SuperScreen clickerMaster;
 	static JPanel mainPanel;
