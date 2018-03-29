@@ -149,9 +149,15 @@ public class OptionsMenu implements ScrollListener, ItemListener{
 	@Override
 	public void viewChanged(int newValue) {
 		musicVolume = newValue;
-		double volume = (double) newValue / 100;
+		double volume;
+		if (newValue == 0){
+			volume = 0;
+		}else {
+		volume = java.lang.Math.log10((double) newValue)/2 ;
+		}
 		CivilisationMainClass.musicPlayer.setVolume(volume);
-	}
+		
+	}	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {

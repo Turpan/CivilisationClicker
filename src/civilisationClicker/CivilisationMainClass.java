@@ -552,6 +552,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 				String setting = scan.next();
 				switch (setting) {
 				case "MusicVolume":
+					Thread.sleep(5000);
 					OptionsMenu.musicVolume = scan.nextInt();
 					break;
 				case "Resolution":
@@ -562,7 +563,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 				scan.close();
 			}
 			settingsReader.close();
-		} catch (IOException e) {
+		} catch (IOException | InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
@@ -578,7 +579,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		cheatButton.addActionListener(cheatListener);
 		mainLayeredPanel.add(cheatButton, Integer.valueOf(3));
 		playerCount = 4;
-		CivilisationMainClass.playerNames = new String[] {"Amy", "Computer 1", "Computer 2", "Computer 3"};
+		CivilisationMainClass.playerNames = new String[] {"Amy", "Tyrone is a cool guy", "Computer 2", "Computer 3"};
 		playerList = new ArrayList<Country>();
 		Country player = new Country(0, false, playerNames[0], Color.blue, 3);
 		Country ai1 = new Country(1, true, playerNames[1], Color.green, 7);
