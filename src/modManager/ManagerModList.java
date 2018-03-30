@@ -38,10 +38,10 @@ public class ManagerModList implements MouseListener, ItemListener{
 		createInterface();
 	}
 	void createInterface() {
-		upButtonImage = new ImageIcon(ManagerMain.installDirectory + "\\graphics\\buttons\\modmanagerup.png");
-		upButtonPressedImage = new ImageIcon(ManagerMain.installDirectory + "\\graphics\\buttons\\modmanageruppressed.png");
-		downButtonImage = new ImageIcon(ManagerMain.installDirectory + "\\graphics\\buttons\\modmanagerdown.png");
-		downButtonPressedImage = new ImageIcon(ManagerMain.installDirectory + "\\graphics\\buttons\\modmanagerdownpressed.png");
+		upButtonImage = new ImageIcon("graphics/buttons/modmanagerup.png");
+		upButtonPressedImage = new ImageIcon("graphics/buttons/modmanageruppressed.png");
+		downButtonImage = new ImageIcon("graphics/buttons/modmanagerdown.png");
+		downButtonPressedImage = new ImageIcon("graphics/buttons/modmanagerdownpressed.png");
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
 		mainPanel.setPreferredSize(new Dimension(400, 800));

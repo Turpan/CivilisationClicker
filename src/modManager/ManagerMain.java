@@ -15,7 +15,6 @@ import directoryFinder.DirectoryFinder;
 public class ManagerMain {
 	static JFrame frame;
 	static JPanel mainPanel;
-	static String installDirectory;
 	static ManagerModList modListUI;
 	static List<File> modList = new ArrayList<File>();
 	static List<File> savedModList = new ArrayList<File>();
@@ -28,8 +27,6 @@ public class ManagerMain {
 	}
 	private static void createAndShowGUI() {
         //Create and set up the window.
-		DirectoryFinder directoryFinder = new DirectoryFinder();
-		installDirectory = directoryFinder.findOwnDirectory();
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.PAGE_AXIS));
 		mainPanel.setBounds(0, 0, 400, 800);
@@ -40,7 +37,7 @@ public class ManagerMain {
         frame = new JFrame("Civilisation Clicker");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 800 + 39);
-        frame.setIconImage(new ImageIcon(installDirectory + "\\graphics\\icons\\city_game.png").getImage());
+        frame.setIconImage(new ImageIcon("graphics/icons/city_game.png").getImage());
         frame.setVisible(true);
         frame.setResizable(false);
         frame.add(mainPanel);
