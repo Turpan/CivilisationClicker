@@ -314,7 +314,7 @@ class EdictPanel implements MouseListener{
 	void showCost() {
 		Edict edict = MapScreen.provinceList
 				.get(EdictScreen.selectedProvince).edictList.get(this.edict);
-		int screen = SuperScreen.governmentPointPool - 1;
+		int screen = Defines.GOVERNMENTPOINTPOOL - 1;
 		CivilisationMainClass.resourceBar.updateCostLabel(screen, edict.Cost);
 	}
 	@Override

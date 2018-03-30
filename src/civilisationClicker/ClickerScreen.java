@@ -22,7 +22,7 @@ import paintedPanel.PaintedPanel;
 import scrollBar.ScrollBar;
 import scrollBar.ScrollListener;
 
-public class Screen implements MouseListener, ScrollListener{
+public class ClickerScreen implements MouseListener, ScrollListener{
 	static int middlePanelWidth;
 	static boolean buttonPressed;
 	int ID, province, middlePanelSize, scrollWindowSize;
@@ -39,7 +39,7 @@ public class Screen implements MouseListener, ScrollListener{
 	PaintedPanel buildingBuyPanel[];
 	BuildingGraphicBar[] buildingGraphicPanel;
 	ScrollBar buildingScrollBar;
-	public Screen(int ID, int province) {
+	public ClickerScreen(int ID, int province) {
 		this.ID = ID;
 		this.province = province;
 		mainPanel = new JPanel();
@@ -170,7 +170,7 @@ public class Screen implements MouseListener, ScrollListener{
 	void showBuildingCost(int building) {
 		int buyModifier = 0;
 		int sellModifier = 0;
-		int a = SuperScreen.buildingPointPool;
+		int a = Defines.BUILDINGPOINTPOOL;
 		switch (SuperScreen.selectedBuySellButton) {
 		case 1:
 			buyModifier = 1;
@@ -197,7 +197,7 @@ public class Screen implements MouseListener, ScrollListener{
 			double potentialBuildingCost = buildingCost;
 			for (int i=0; i<buyModifier; i++) {
 				totalCost += potentialBuildingCost;
-				potentialBuildingCost = potentialBuildingCost * ProvinceDevelopement.buildingScaleMultiplier;
+				potentialBuildingCost = potentialBuildingCost * Defines.BUILDINGSCALEMULTIPLIER;
 			}
 			CivilisationMainClass.resourceBar.updateCostLabel(a - 1, (int) totalCost);
 		} else if (sellModifier != 0) {
@@ -205,7 +205,7 @@ public class Screen implements MouseListener, ScrollListener{
 			double potentialBuildingCost = buildingCost;
 			for (int i=0; i<sellModifier; i++) {
 				totalRebate += potentialBuildingCost;
-				potentialBuildingCost = potentialBuildingCost / ProvinceDevelopement.buildingScaleMultiplier;
+				potentialBuildingCost = potentialBuildingCost / Defines.BUILDINGSCALEMULTIPLIER;
 			}
 			CivilisationMainClass.resourceBar.updateRefundLabel(a - 1, totalRebate);
 		}

@@ -203,7 +203,7 @@ class QuickBuySlot implements MouseListener, MouseWheelListener{
 	}
 	void showCost() {
 		resetCost();
-		int a = SuperScreen.buildingPointPool;
+		int a = Defines.BUILDINGPOINTPOOL;
 		Province selectedProvince = MapScreen.getSelectedProvince();
 		ProvinceDevelopement developement = selectedProvince.developementList.get(screenType);
 		CivilisationMainClass.resourceBar.updateCostLabel(a-1, developement.buildingCost[ID]);

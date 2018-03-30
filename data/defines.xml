@@ -14,4 +14,24 @@
 			<name>welfare</name>
 		</screentype>
 	</screentypes>
+	<aibuttonpress>100</aibuttonpress>
+	<aicoloniseturnrequirement>20</aicoloniseturnrequirement>
+	<battleduration>600</battleduration>
+	<buildingpointpool>1</buildingpointpool>
+	<colonisebuttonvalue>1</colonisebuttonvalue>
+	<coloniseduration>6000</coloniseduration>
+	<colonisetickvalue>10</colonisetickvalue>
+	<governmentpointpool>4</governmentpointpool>
+	<happinessamnestyperiod>600</happinessamnestyperiod>
+	<militarypointpool>3</militarypointpool>
+	<nextstagebuildingrequirement>250</nextstagebuildingrequirement>
+	<researchpointpool>2</researchpointpool>
+	<revoltriskthreshold>4</revoltriskthreshold>
+	<revolttime>600</revolttime>
+	<aicombatpointrequirement>0.8</aicombatpointrequirement>
+	<basecolonisecost>25000</basecolonisecost>
+	<buildingscalemultiplier>1.1</buildingscalemultiplier>
+	<colonisecostmultiplier>1.5</colonisecostmultiplier>
+	<edictcostmultiplier>1.1</edictcostmultiplier>
+	<unitcostmultiplier>1.1</unitcostmultiplier>
 </defines>

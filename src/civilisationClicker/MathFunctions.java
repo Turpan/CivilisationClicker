@@ -58,7 +58,7 @@ public class MathFunctions {
 		}
 		return parsedDouble;
 	}
-	public static double parseDouble(String toParse, int defaultOutcome) {
+	public static double parseDouble(String toParse, double defaultOutcome) {
 		double parsedDouble = 0;
 		try {
 			parsedDouble = Double.parseDouble(toParse);
