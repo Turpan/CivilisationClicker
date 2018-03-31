@@ -90,8 +90,6 @@ public class OptionsMenu implements ScrollListener, ItemListener{
 		mainPanel.add(volumeContainerPanel);
 		mainPanel.add(resolutionContainerPanel);
 		mainPanel.add(Box.createVerticalGlue());
-		double volume = (double) musicVolume / 100;
-		CivilisationMainClass.musicPlayer.setVolume(volume);
 	}
 	void loadResolutions() {
 		File resolutionsFile = new File("data/resolutions.txt");
@@ -128,6 +126,16 @@ public class OptionsMenu implements ScrollListener, ItemListener{
 			e.printStackTrace();
 		}
 	}
+	void setVolume(int newValue) {
+		musicVolume = newValue;
+		double volume;
+		if (newValue == 0){
+			volume = 0;
+		}else {
+			volume = java.lang.Math.log10((double) musicVolume)/2 ;
+		}
+		CivilisationMainClass.musicPlayer.setVolume(volume);
+	}
 	void saveSettings() {
 		File settingsFile = new File("saved/settings.txt");
 		try {
@@ -148,10 +156,8 @@ public class OptionsMenu implements ScrollListener, ItemListener{
 	}
 	@Override
 	public void viewChanged(int newValue) {
-		musicVolume = newValue;
-		double volume = (double) newValue / 100;
-		CivilisationMainClass.musicPlayer.setVolume(volume);
-	}
+		setVolume(newValue);
+	}	
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
