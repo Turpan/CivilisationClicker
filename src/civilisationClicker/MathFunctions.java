@@ -4,7 +4,9 @@ import java.awt.Dimension;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class MathFunctions {
 	public static String withSuffix(double count) { // taken from https://stackoverflow.com/questions/9769554/how-to-convert-number-into-k-thousands-m-million-and-b-billion-suffix-in-jsp
@@ -86,6 +88,28 @@ public class MathFunctions {
 		String result = "";
 		for (int i=0; i<bytes.length; i++) {
 			result += Integer.toString( ( bytes[i] & 0xff ) + 0x100, 16).substring( 1 );
+		}
+		return result;
+	}
+	public static String getMD5CheckSum(String data) {
+		byte[] stringData;
+		try {
+			stringData = data.getBytes("UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			stringData = data.getBytes();
+		}
+		String result = "";
+		MessageDigest md;
+		try {
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+			System.out.println("Please report this bug.");
+			return result; //this should never happen
+		}
+		byte[] digest = md.digest(stringData);
+		for (int i=0; i<digest.length; i++) {
+			result += Integer.toString( ( digest[i] & 0xff ) + 0x100, 16).substring( 1 );
 		}
 		return result;
 	}

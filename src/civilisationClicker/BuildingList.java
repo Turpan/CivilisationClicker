@@ -17,4 +17,13 @@ public class BuildingList {
 		if (!buildingList.isEmpty()) listSize = buildingList.size();
 		return listSize;
 	}
+	@Override
+	public String toString() {
+		String string = "";
+		string += screenType;
+		for (Building building : buildingList) {
+			string += building.toString();
+		}
+		return string;
+	}
 }

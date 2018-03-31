@@ -223,4 +223,10 @@ public class Province {
 		edictList = DataBase.createNewEdictList();
 		createProvinceDevelopement();
 	}
+	@Override
+	public String toString() {
+		String string = "";
+		string += ID;
+		return string;
+	}
 }

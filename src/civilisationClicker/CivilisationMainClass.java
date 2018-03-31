@@ -24,9 +24,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-import directoryFinder.DirectoryFinder;
-import provinceGenerator.ProvinceLoader;
-
 public class CivilisationMainClass{ //I hate comments. Good luck reading this nerds.
 	static final String GAMESTATELOBBY = "lobby";
 	static final String GAMESTATEINPROGRESS = "ingame";
@@ -63,6 +60,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	static int timeCount;
 	static int timerStatus;
 	static int selectedPanel;
+	static String checkSum;
 	static String playerNames[];
 	static boolean playerTicked[];
 	static boolean lobbyActive;
@@ -82,6 +80,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		XMLLoader.loadXMLData();
 		XMLLoader.sortXMLData();
 		XMLLoader.sendXMLData();
+		checkSum = DataBase.getCheckSum();
 		loadSettings();
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));

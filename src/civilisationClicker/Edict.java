@@ -51,6 +51,8 @@ public class Edict {
 		String edict = ID + ";";
 		edict += Name + ";";
 		edict += Count + ";";
+		edict += Cost + ";";
+		edict += Happiness + ";";
 		return edict;
 	}
 }

@@ -8,6 +8,7 @@ public class Unit {
 	int Cost;
 	int Count;
 	int Available;
+	boolean Unlocked = false;
 	Unit(String ID) {
 		this.ID = ID;
 	}
@@ -60,6 +61,8 @@ public class Unit {
 		output += ID + ";";
 		output += Power + ";";
 		output += Count + ";";
+		output += Cost + ";";
+		output += Unlocked + ";";
 		return output;
 	}
 }

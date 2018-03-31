@@ -21,4 +21,28 @@ public class Defines {
 	static double COLONISECOSTMULTIPLIER = 1.5;
 	static double EDICTCOSTMULTIPLIER = 1.1;
 	static double UNITCOSTMULTIPLIER = 1.1;
+	static String getString() {
+		String string = "";
+		string += AIBUTTONPRESS;
+		string += AICOLONISETURNREQUIREMENT;
+		string += BATTLEDURATION;
+		string += BUILDINGPOINTPOOL;
+		string += COLONISEBUTTONVALUE;
+		string += COLONISEDURATION;
+		string += COLONISETICKVALUE;
+		string += GOVERNMENTPOINTPOOL;
+		string += HAPPINESSAMNESTYPERIOD;
+		string += MILITARYPOINTPOOL;
+		string += NEXTSTAGEBUILDINGREQUIREMENT;
+		string += RESEARCHPOINTPOOL;
+		string += REVOLTRISKTHRESHOLD;
+		string += REVOLTTIME;
+		string += AICOMBATPOINTREQUIREMENT;
+		string += BASECOLONISECOST;
+		string += BUILDINGSCALEMULTIPLIER;
+		string += COLONISECOSTMULTIPLIER;
+		string += EDICTCOSTMULTIPLIER;
+		string += UNITCOSTMULTIPLIER;
+		return string;
+	}
 }

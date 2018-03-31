@@ -38,4 +38,27 @@ public class DataBase {
 		}
 		return newList;
 	}
+	static String getCheckSum() {
+		String data = "";
+		data += Defines.getString();
+		for (BuildingList buildingList : buildingList) {
+			data += buildingList.toString();
+		}
+		for (Map map : mapList) {
+			data += map.toString();
+		}
+		for (ResearchList researchList : researchList) {
+			data += researchList.toString();
+		}
+		for (Edict edict : edictList) {
+			data += edict.toString();
+		}
+		for (Unit unit : unitList) {
+			data += unit.toString();
+		}
+		for (String screenType : screenTypes) {
+			data += screenType;
+		}
+		return MathFunctions.getMD5CheckSum(data);
+	}
 }

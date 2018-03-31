@@ -60,4 +60,17 @@ public class Map {
 			province.createProvinceDevelopement();
 		}
 	}
+	@Override
+	public String toString() {
+		String string = map;
+		string += mapfile;
+		for (int i=0; i<provinceList.size(); i++) {
+			string += provinceList.get(0).toString();
+			string += provinceColors.get(0).toString();
+		}
+		for (Dimension adjacency : adjacencyList) {
+			string += adjacency.toString();
+		}
+		return string;
+	}
 }
