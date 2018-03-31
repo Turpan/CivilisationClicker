@@ -141,7 +141,7 @@ abstract class InfoTemplate {
 		titleLabel = new JLabel();
 		titleLabel.setForeground(Color.white);
 		infoBar = new JProgressBar();
-		infoBar.setMaximum(Province.COLONISEDURATION);
+		infoBar.setMaximum(Defines.COLONISEDURATION);
 		infoBar.setBounds(ProvinceInfo.BARBOUNDS);
 		infoButton = new PaintedPanel();
 		infoButton.setLayout(new GridBagLayout());
@@ -221,7 +221,7 @@ class ProvinceInfoMilitary extends InfoTemplate implements MouseListener{
 	ProvinceInfoMilitary() {
 		super();
 		infoButton.addMouseListener(this);
-		infoBar.setMaximum(Battle.BATTLEDURATION);
+		infoBar.setMaximum(Defines.BATTLEDURATION);
 	}
 	void updateLabels() {
 		Province province = MapScreen.getSelectedProvince();
@@ -295,7 +295,7 @@ class ProvinceInfoHappiness extends InfoTemplate implements MouseListener {
 		Province selectedProvince = MapScreen.getSelectedProvince();
 		if (selectedProvince.revoltRisk) {
 			titleLabel.setText("Revolt Brewing.");
-			infoBar.setMaximum(Province.REVOLTTIME);
+			infoBar.setMaximum(Defines.REVOLTTIME);
 			infoBar.setValue(selectedProvince.revoltRiskCounter);
 			infoBar.setBackground(Color.WHITE);
 			infoBar.setForeground(Color.BLACK);

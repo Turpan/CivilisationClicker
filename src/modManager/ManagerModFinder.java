@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 public class ManagerModFinder {
 	static List<File> modFinder() {
 		List<File> fileList = new ArrayList<File>();
-		File modListFile = new File(ManagerMain.installDirectory + "\\data\\modlist.xml");
+		File modListFile = new File("data/modlist.xml");
 		if (modListFile.exists() && !modListFile.isDirectory()) {
 			try {
 				DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -29,7 +29,7 @@ public class ManagerModFinder {
 		        for (int i=0; i<nList.getLength(); i++) {
 		        	Node nNode = nList.item(i);
 		        	if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-		        		File modFile = new File(ManagerMain.installDirectory + "\\mods\\" + nNode.getTextContent());
+		        		File modFile = new File("mods/" + nNode.getTextContent());
 		        		if (modFile.exists()) {
 		        			fileList.add(modFile);
 		        			ManagerMain.savedModList.add(modFile);
@@ -47,7 +47,7 @@ public class ManagerModFinder {
 				e.printStackTrace();
 			}
 		}
-		File[] files = new File(ManagerMain.installDirectory + "\\mods\\").listFiles();
+		File[] files = new File("mods/").listFiles();
 		for (int i=0; i<files.length; i++) {
 			if (getFileExtension(files[i]).equals("xml") && !fileList.contains(files[i])) fileList.add(files[i]);
 		}

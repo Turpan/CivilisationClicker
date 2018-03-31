@@ -32,9 +32,9 @@ public class ManagerXMLSaver {
 			TransformerFactory transformerFactory = TransformerFactory.newInstance();
 			transformerFactory.setAttribute("indent-number", Integer.valueOf(2));
 			Transformer transformer = transformerFactory.newTransformer();
-			//transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+			transformer.setOutputProperty(OutputKeys.INDENT, "yes");
 			DOMSource source = new DOMSource(doc);
-			StreamResult result = new StreamResult(new File(ManagerMain.installDirectory + "\\data\\modlist.xml"));
+			StreamResult result = new StreamResult(new File("data/modlist.xml"));
 			transformer.transform(source, result);
 		} catch (ParserConfigurationException e) {
 			// TODO Auto-generated catch block

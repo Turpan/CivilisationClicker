@@ -60,6 +60,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	static int timeCount;
 	static int timerStatus;
 	static int selectedPanel;
+	static String checkSum;
 	static String playerNames[];
 	static boolean playerTicked[];
 	static boolean lobbyActive;
@@ -79,6 +80,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		XMLLoader.loadXMLData();
 		XMLLoader.sortXMLData();
 		XMLLoader.sendXMLData();
+		checkSum = DataBase.getCheckSum();
 		loadSettings();
 		createMusicPlayer();
 		mainPanel = new JPanel();

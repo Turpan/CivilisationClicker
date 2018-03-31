@@ -1,0 +1,48 @@
+package civilisationClicker;
+
+public class Defines {
+	static int AIBUTTONPRESS = 100;
+	static int AICOLONISETURNREQUIREMENT = 20;
+	static int BATTLEDURATION = 600;
+	static int BUILDINGPOINTPOOL = 1;
+	static int COLONISEBUTTONVALUE = 1;
+	static int COLONISEDURATION = 6000;
+	static int COLONISETICKVALUE = 10;
+	static int GOVERNMENTPOINTPOOL = 4;
+	static int HAPPINESSAMNESTYPERIOD = 600;
+	static int MILITARYPOINTPOOL = 3;
+	static int NEXTSTAGEBUILDINGREQUIREMENT = 250;
+	static int RESEARCHPOINTPOOL = 2;
+	static int REVOLTRISKTHRESHOLD = 4;
+	static int REVOLTTIME = 600;
+	static double AICOMBATPOINTREQUIREMENT = 0.8;
+	static double BASECOLONISECOST = 25000;
+	static double BUILDINGSCALEMULTIPLIER = 1.1;
+	static double COLONISECOSTMULTIPLIER = 1.5;
+	static double EDICTCOSTMULTIPLIER = 1.1;
+	static double UNITCOSTMULTIPLIER = 1.1;
+	static String getString() {
+		String string = "";
+		string += AIBUTTONPRESS;
+		string += AICOLONISETURNREQUIREMENT;
+		string += BATTLEDURATION;
+		string += BUILDINGPOINTPOOL;
+		string += COLONISEBUTTONVALUE;
+		string += COLONISEDURATION;
+		string += COLONISETICKVALUE;
+		string += GOVERNMENTPOINTPOOL;
+		string += HAPPINESSAMNESTYPERIOD;
+		string += MILITARYPOINTPOOL;
+		string += NEXTSTAGEBUILDINGREQUIREMENT;
+		string += RESEARCHPOINTPOOL;
+		string += REVOLTRISKTHRESHOLD;
+		string += REVOLTTIME;
+		string += AICOMBATPOINTREQUIREMENT;
+		string += BASECOLONISECOST;
+		string += BUILDINGSCALEMULTIPLIER;
+		string += COLONISECOSTMULTIPLIER;
+		string += EDICTCOSTMULTIPLIER;
+		string += UNITCOSTMULTIPLIER;
+		return string;
+	}
+}

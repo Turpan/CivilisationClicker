@@ -5,11 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Province {
-	static final int REVOLTRISKTHRESHOLD = 4;
-	static final int REVOLTTIME = 600;
-	static final int COLONISEDURATION = 6000;
-	static final int COLONISEBUTTONVALUE = 1;
-	static final int COLONISETICKVALUE = 10;
 	int ID;
 	int owner;
 	int unrest;
@@ -66,7 +61,7 @@ public class Province {
 	}
 	void coloniseButtonPressed() {
 		if (coloniseInProgress) {
-			coloniseProgress += COLONISEBUTTONVALUE;
+			coloniseProgress += Defines.COLONISEBUTTONVALUE;
 			if (coloniseProgress >= 6000) {
 				coloniseProgress = 0;
 				coloniseInProgress = false;
@@ -96,7 +91,7 @@ public class Province {
 		}
 	}
 	void coloniseTick() {
-		coloniseProgress += COLONISETICKVALUE;
+		coloniseProgress += Defines.COLONISETICKVALUE;
 		if (coloniseProgress >= 6000) {
 			coloniseProgress = 0;
 			coloniseInProgress = false;
@@ -116,7 +111,7 @@ public class Province {
 	}
 	void revoltRiskTick() {
 		revoltRiskCounter += 1;
-		if (revoltRiskCounter >= REVOLTTIME) {
+		if (revoltRiskCounter >= Defines.REVOLTTIME) {
 			CivilisationMainClass.resetProvince(ID, false, 0);
 			if (CivilisationMainClass.gameType == CivilisationMainClass.GAMETYPEHOST) {
 				String output = "provincestatus;owner;0;" + ID + ";";
@@ -155,7 +150,7 @@ public class Province {
 	}
 	void calculateProductionModifier() {
 		double productionModifier = 0;
-		if (CivilisationMainClass.timeCount < Country.HAPPINESSAMNESTYPERIOD) {
+		if (CivilisationMainClass.timeCount < Defines.HAPPINESSAMNESTYPERIOD) {
 			productionModifier = 100;
 		} else {
 			if (happiness > unrest) {
@@ -179,7 +174,7 @@ public class Province {
 			} else {
 				productionModifier = 100;
 			}
-			if (happiness <= (unrest * REVOLTRISKTHRESHOLD) && unrest != 0) {
+			if (happiness <= (unrest * Defines.REVOLTRISKTHRESHOLD) && unrest != 0) {
 				revoltRisk = true;
 			} else {
 				revoltRisk = false;
@@ -192,7 +187,7 @@ public class Province {
 	}
 	void recieveColoniseProgressData(int progress, int player) {
 		coloniseProgress = progress;
-		if (coloniseProgress >= COLONISEDURATION) {
+		if (coloniseProgress >= Defines.COLONISEDURATION) {
 			coloniseProgress = 0;
 			coloniseInProgress = false;
 		}
@@ -227,5 +222,11 @@ public class Province {
 		developementList = new ArrayList<ProvinceDevelopement>();
 		edictList = DataBase.createNewEdictList();
 		createProvinceDevelopement();
+	}
+	@Override
+	public String toString() {
+		String string = "";
+		string += ID;
+		return string;
 	}
 }

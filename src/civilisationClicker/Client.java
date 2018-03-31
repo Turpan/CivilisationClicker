@@ -195,7 +195,7 @@ public class Client extends Thread{
 	void processColonisationCheckData(Scanner inputScanner) {
 		int province = inputScanner.nextInt();
 		boolean check = inputScanner.nextBoolean();
-		if (check) CivilisationMainClass.playerList.get(CivilisationMainClass.playerID).startColonisation(province);
+		if (check) CivilisationMainClass.getPlayer().startColonisation(province);
 		inputScanner.close();
 	}
 	void processColoniseProgressData(Scanner inputScanner) {
@@ -284,6 +284,8 @@ public class Client extends Thread{
 			inputScanner.next();
 			unit.setPower(inputScanner.nextInt());
 			unit.Count = inputScanner.nextInt();
+			inputScanner.next();
+			inputScanner.next();
 		}
 		CivilisationMainClass.battleList.recieveBattleData(attackerUnits, province, attackerID, defenderID);
 		inputScanner.close();
@@ -298,6 +300,8 @@ public class Client extends Thread{
 			inputScanner.next();
 			unit.setPower(inputScanner.nextInt());
 			unit.Count = inputScanner.nextInt();
+			inputScanner.next();
+			inputScanner.next();
 		}
 		CivilisationMainClass.battleList.recieveJoinBattleData(defenderUnits, province, attackerID, defenderID);
 		inputScanner.close();
