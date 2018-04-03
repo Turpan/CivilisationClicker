@@ -121,25 +121,9 @@ public class Screen implements MouseListener, ScrollListener{
 	}
 	void playClickSound() {
 		Random rand = new Random();
-		int soundPlayed = rand.nextInt(3) + 1;
-		switch (soundPlayed) {
-		case 1:
-			SuperScreen.clickSound1[ID - 1].setFramePosition(0);
-			SuperScreen.clickSound1[ID - 1].start();
-			break;
-		case 2:
-			SuperScreen.clickSound2[ID - 1].setFramePosition(0);
-			SuperScreen.clickSound2[ID - 1].start();
-			break;
-		case 3:
-			SuperScreen.clickSound3[ID - 1].setFramePosition(0);
-			SuperScreen.clickSound3[ID - 1].start();
-			break;
-		default:
-			SuperScreen.clickSound1[ID - 1].setFramePosition(0);
-			SuperScreen.clickSound1[ID - 1].start();
-			break;
-		}
+		int soundPlayed = rand.nextInt(3);
+		SoundEngine.buttonClicks[ID-1][soundPlayed].setFramePosition(0);
+		SoundEngine.buttonClicks[ID-1][soundPlayed].start();
 	}
 	void buyBuilding(int building) {
 		int modifier = 0;
