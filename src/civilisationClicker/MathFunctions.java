@@ -1,12 +1,6 @@
 package civilisationClicker;
 
 import java.awt.Dimension;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class MathFunctions {
 	public static String withSuffix(double count) { // taken from https://stackoverflow.com/questions/9769554/how-to-convert-number-into-k-thousands-m-million-and-b-billion-suffix-in-jsp
@@ -60,7 +54,7 @@ public class MathFunctions {
 		}
 		return parsedDouble;
 	}
-	public static double parseDouble(String toParse, double defaultOutcome) {
+	public static double parseDouble(String toParse, int defaultOutcome) {
 		double parsedDouble = 0;
 		try {
 			parsedDouble = Double.parseDouble(toParse);
@@ -69,48 +63,11 @@ public class MathFunctions {
 		}
 		return parsedDouble;
 	}
-	private static byte[] createChecksum(File file) throws Exception {
-		InputStream input = new FileInputStream(file);
-		byte[] buffer = new byte[2048];
-		MessageDigest digest = MessageDigest.getInstance("MD5");
-		int bytesRead = -1;
-		do {
-			bytesRead = input.read(buffer);
-			if (bytesRead > -1) {
-				digest.update(buffer, 0, bytesRead);
-			}
-		} while (bytesRead > -1);
-		input.close();
-		return digest.digest();
-	}
-	public static String getMD5CheckSum(File file) throws Exception{
-		byte[] bytes = createChecksum(file);
-		String result = "";
-		for (int i=0; i<bytes.length; i++) {
-			result += Integer.toString( ( bytes[i] & 0xff ) + 0x100, 16).substring( 1 );
+	public static double audioLogScaling(double inputVol) {
+		if (inputVol == 0) {
+			return 0.0;
+		} else {
+			return java.lang.Math.log10(inputVol)/2;
 		}
-		return result;
-	}
-	public static String getMD5CheckSum(String data) {
-		byte[] stringData;
-		try {
-			stringData = data.getBytes("UTF-8");
-		} catch (UnsupportedEncodingException e) {
-			stringData = data.getBytes();
-		}
-		String result = "";
-		MessageDigest md;
-		try {
-			md = MessageDigest.getInstance("MD5");
-		} catch (NoSuchAlgorithmException e) {
-			e.printStackTrace();
-			System.out.println("Please report this bug.");
-			return result; //this should never happen
-		}
-		byte[] digest = md.digest(stringData);
-		for (int i=0; i<digest.length; i++) {
-			result += Integer.toString( ( digest[i] & 0xff ) + 0x100, 16).substring( 1 );
-		}
-		return result;
 	}
 }

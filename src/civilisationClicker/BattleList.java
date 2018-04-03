@@ -80,7 +80,7 @@ public class BattleList {
 	}
 	void finishBattle(int province, int attacker, int defender, boolean attackerVictor) {
 		CivilisationMainClass.mapScreen.colorBorder(province, Color.BLACK);
-		/*Battle testBattle = new Battle(null, province, attacker, defender);
+		Battle testBattle = new Battle(null, province, attacker, defender);
 		Iterator<Battle> iter = battleList.iterator();
 		while (iter.hasNext()) {
 			Battle battle = iter.next();
@@ -89,7 +89,7 @@ public class BattleList {
 				iter.remove();
 				break;
 			}
-		}*/
+		}
 	}
 	boolean battleInProvince(int province) {
 		Battle testBattle = new Battle(null, province, 0, 0);
@@ -115,7 +115,6 @@ public class BattleList {
 							+ battle.defender + ";" + battle.tickCount + ";";
 					CivilisationMainClass.networkCommunication(output);
 				}
-				if (battle.tickCount > Defines.BATTLEDURATION) iter.remove();
 			}
 		}
 	}

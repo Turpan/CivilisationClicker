@@ -153,7 +153,7 @@ public class EdictScreen implements ProvinceIconListener, EdictListener{
 	@Override
 	public void edictClicked(int edict) {
 		if (CivilisationMainClass.getPlayer().buyEdict(edict, selectedProvince, 1)) {
-			CivilisationMainClass.soundEngine.playClickSound();
+			SoundEngine.playClickSound();
 			edictButtons.get(edict).showCost();
 			updateLabels();
 		}
@@ -314,7 +314,7 @@ class EdictPanel implements MouseListener{
 	void showCost() {
 		Edict edict = MapScreen.provinceList
 				.get(EdictScreen.selectedProvince).edictList.get(this.edict);
-		int screen = Defines.GOVERNMENTPOINTPOOL - 1;
+		int screen = SuperScreen.governmentPointPool - 1;
 		CivilisationMainClass.resourceBar.updateCostLabel(screen, edict.Cost);
 	}
 	@Override

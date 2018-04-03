@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.concurrent.ThreadLocalRandom;
 
 public class Battle {
+	static final int BATTLEDURATION = 600;
 	List<Unit> attackerTroops;
 	List<Unit> defenderTroops;
 	int attacker;
@@ -97,7 +98,7 @@ public class Battle {
 	void timerTick() {
 		tickCount += 1;
 		calculatePower();
-		if (tickCount >= Defines.BATTLEDURATION) calculateVictor();
+		if (tickCount >= BATTLEDURATION) calculateVictor();
 	}
 	public void updateTickCount(int progress) {
 		tickCount = progress;
