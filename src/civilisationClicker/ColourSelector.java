@@ -172,7 +172,7 @@ public class ColourSelector extends JPanel implements ActionListener, ItemListen
 			previewMap.colourProvinces();
 			this.revalidate();
 		} else if (e.getSource() == selectButton) {
-			CivilisationMainClass.soundEngine.playClickSound();
+			SoundEngine.playClickSound();
 			CivilisationMainClass.lobbyScreen.colourSelected(selectedRed, selectedGreen, selectedBlue);
 		}
 	}
@@ -180,7 +180,7 @@ public class ColourSelector extends JPanel implements ActionListener, ItemListen
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
-			CivilisationMainClass.soundEngine.playClickSound();
+			SoundEngine.playClickSound();
 			if (colourSelector.getSelectedIndex() != numberOfColours) {
 				int a = colourSelector.getSelectedIndex();
 				redField.setText(Integer.toString(colourRed[a]));

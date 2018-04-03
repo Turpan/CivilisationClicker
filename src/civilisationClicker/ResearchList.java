@@ -24,13 +24,4 @@ public class ResearchList {
 		if (!researchList.isEmpty()) listSize = researchList.size();
 		return listSize;
 	}
-	@Override
-	public String toString() {
-		String string = "";
-		string += screenType;
-		for (Research research : researchList) {
-			string += research.toString();
-		}
-		return string;
-	}
 }

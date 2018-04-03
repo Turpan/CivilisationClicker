@@ -13,6 +13,10 @@ import javax.swing.ImageIcon;
 
 public class SuperScreen {
 	static final int maxStages = 4;
+	static final int buildingPointPool = 1;
+	static final int researchPointPool = 2;
+	static final int militaryPointPool = 3;
+	static final int governmentPointPool = 4;
 	static Image[] borderPanelImage;
 	static Image[] buildingUIBar;
 	static Image[] buildingButtonImage;
@@ -24,7 +28,7 @@ public class SuperScreen {
 	static Clip clickSound1[];
 	static Clip clickSound2[];
 	static Clip clickSound3[];
-	ClickerScreen[][] provinceScreens;
+	Screen[][] provinceScreens;
 	SuperScreen() {
 		
 	}
@@ -110,16 +114,16 @@ public class SuperScreen {
 	}
 	void clearProvince(int province) {
 		for (int i=0; i<screenCount; i++) {
-			provinceScreens[i][province] = new ClickerScreen(i+1, province);
+			provinceScreens[i][province] = new Screen(i+1, province);
 		}
 	}
 	void createClickerScreens() {
-		ClickerScreen.middlePanelWidth = CivilisationMainClass.gameWidth - (300 + 467 + 14 + 14);
-		provinceScreens = new ClickerScreen[screenCount][MapScreen.provinceList.size()];
+		Screen.middlePanelWidth = CivilisationMainClass.gameWidth - (300 + 467 + 14 + 14);
+		provinceScreens = new Screen[screenCount][MapScreen.provinceList.size()];
 		for (int i=0; i<screenCount; i++) {
 			int j = 0;
 			for (Province province : MapScreen.provinceList) {
-				if (province.owner == CivilisationMainClass.playerID) provinceScreens[i][j] = new ClickerScreen(i + 1, j);
+				if (province.owner == CivilisationMainClass.playerID) provinceScreens[i][j] = new Screen(i + 1, j);
 				j++;
 			}
 		}
