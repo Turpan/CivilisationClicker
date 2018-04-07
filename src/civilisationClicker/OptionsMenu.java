@@ -20,10 +20,14 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import scrollBar.ScrollBar;
+import scrollBar.ScrollEvent;
 import scrollBar.ScrollListener;
 
 public class OptionsMenu implements ScrollListener, ItemListener{
-	static int musicVolume, numberOfResolutions, selectedResolutionX, selectedResolutionY;
+	static final String MUSICSLIDER = "musicslider";
+	static final String EFFECTSSLIDER = "effectsslider";
+	static double musicVolume;
+	static int numberOfResolutions, selectedResolutionX, selectedResolutionY;
 	static int resolutionSelectedIndex;
 	static int[] resolutionX, resolutionY;
 	boolean resolutionWarning;
@@ -57,8 +61,9 @@ public class OptionsMenu implements ScrollListener, ItemListener{
 		String volumeDownButton = "graphics/buttons/volumeright";
 		String volumeScrollBar = "graphics/buttons/volumeslider";
 		volumeSlider = new ScrollBar(ScrollBar.SCROLLHORIZONTAL, new Dimension(200, 20), volumeUpButton, volumeDownButton, volumeScrollBar);
+		volumeSlider.setID(MUSICSLIDER);
 		volumeSlider.createScrollBar(105, 5);
-		volumeSlider.setScrollBarPosition(musicVolume);
+		volumeSlider.setScrollBarPosition((int) musicVolume);
 		volumeSlider.setButtonViewChange(1);
 		volumeSlider.setBackgroundImage("graphics/buttons/volumebackground.png");
 		volumeSlider.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -127,14 +132,8 @@ public class OptionsMenu implements ScrollListener, ItemListener{
 		}
 	}
 	void setVolume(int newValue) {
-		musicVolume = newValue;
-		double volume;
-		if (newValue == 0){
-			volume = 0;
-		}else {
-			volume = java.lang.Math.log10((double) musicVolume)/2 ;
-		}
-		CivilisationMainClass.musicPlayer.setVolume(volume);
+		musicVolume = MathFunctions.audioLogScaling(newValue);
+		CivilisationMainClass.musicPlayer.setVolume(musicVolume);
 	}
 	void saveSettings() {
 		File settingsFile = new File("saved/settings.txt");
@@ -153,11 +152,13 @@ public class OptionsMenu implements ScrollListener, ItemListener{
 			CivilisationMainClass.mainLayeredPanel.add(new InfoWindow("Some settings require restart to take affect."), Integer.valueOf(3));
 			resolutionWarning = false;
 		}
-	}
-	@Override
-	public void viewChanged(int newValue) {
-		setVolume(newValue);
 	}	
+	@Override
+	public void viewChanged(ScrollEvent scrollEvent) {
+		if (scrollEvent.getSource() == MUSICSLIDER) {
+			setVolume(scrollEvent.getViewChanged());
+		}
+	}
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {

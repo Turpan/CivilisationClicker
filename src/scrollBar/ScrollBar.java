@@ -19,6 +19,7 @@ public class ScrollBar extends PaintedPanel implements MouseInputListener{ //rem
 	private static final long serialVersionUID = 1L;
 	public static final String SCROLLVERTICAL = "vertical";
 	public static final String SCROLLHORIZONTAL = "horizontal";
+	String ID;
 	boolean upButtonPressed, downButtonPressed, scrollBarPressed;
 	JLabel upButtonLabel, downButtonLabel;
 	public PaintedPanel scrollBar;
@@ -52,6 +53,9 @@ public class ScrollBar extends PaintedPanel implements MouseInputListener{ //rem
 			break;
 		}
 		createComponents();
+	}
+	public void setID(String ID) {
+		this.ID = ID;
 	}
 	private void createComponents() {
 		this.setMinimumSize(panelSize);
@@ -244,7 +248,8 @@ public class ScrollBar extends PaintedPanel implements MouseInputListener{ //rem
 			upButtonPressed = true;
 			updateScrollBar();
 			updateButtons();
-			for (ScrollListener sL : listeners) sL.viewChanged(viewPosition);
+			ScrollEvent scrollEvent = new ScrollEvent(ID, viewPosition);
+			for (ScrollListener sL : listeners) sL.viewChanged(scrollEvent);
 		} else if (e.getSource() == downButtonLabel) {
 			viewPosition += buttonViewChange;
 			if (viewPosition > (windowSize - viewSize)) {
@@ -254,7 +259,8 @@ public class ScrollBar extends PaintedPanel implements MouseInputListener{ //rem
 			downButtonPressed = true;
 			updateScrollBar();
 			updateButtons();
-			for (ScrollListener sL : listeners) sL.viewChanged(viewPosition);
+			ScrollEvent scrollEvent = new ScrollEvent(ID, viewPosition);
+			for (ScrollListener sL : listeners) sL.viewChanged(scrollEvent);
 		} else if (e.getSource() == scrollBar) {
 			switch(scrollDirection) {
 			case SCROLLVERTICAL:
@@ -300,7 +306,8 @@ public class ScrollBar extends PaintedPanel implements MouseInputListener{ //rem
 			}
 			moveScrollBar(click);
 			updateButtons();
-			for (ScrollListener sL : listeners) sL.viewChanged(viewPosition = calculateWindowPosition());
+			ScrollEvent scrollEvent = new ScrollEvent(ID, viewPosition = calculateWindowPosition());
+			for (ScrollListener sL : listeners) sL.viewChanged(scrollEvent);
 		}
 	}
 	@Override

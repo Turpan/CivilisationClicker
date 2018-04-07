@@ -20,6 +20,7 @@ import javax.swing.JScrollPane;
 
 import paintedPanel.PaintedPanel;
 import scrollBar.ScrollBar;
+import scrollBar.ScrollEvent;
 import scrollBar.ScrollListener;
 
 public class QuickBuy implements QuickBuySlotListener{
@@ -150,8 +151,8 @@ class QuickBuyMain implements ScrollListener{
 		for (QuickBuySlot quickBuy : buildingSlots) quickBuy.updateLabels();
 	}
 	@Override
-	public void viewChanged(int newValue) {
-		mainPanel.getViewport().setViewPosition(new Point(0, newValue));
+	public void viewChanged(ScrollEvent scrollEvent) {
+		mainPanel.getViewport().setViewPosition(new Point(0, scrollEvent.getViewChanged()));
 	}
 }
 interface QuickBuySlotListener {

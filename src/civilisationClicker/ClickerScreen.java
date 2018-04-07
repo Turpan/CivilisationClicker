@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 
 import paintedPanel.PaintedPanel;
 import scrollBar.ScrollBar;
+import scrollBar.ScrollEvent;
 import scrollBar.ScrollListener;
 
 public class ClickerScreen implements MouseListener, ScrollListener{
@@ -506,7 +507,7 @@ public class ClickerScreen implements MouseListener, ScrollListener{
 		buildingCountLabel = new JLabel[a];
 	}
 	@Override
-	public void viewChanged(int newValue) {
-		buildingScrollPanel.getViewport().setViewPosition(new Point(0, newValue));
+	public void viewChanged(ScrollEvent scrollEvent) {
+		buildingScrollPanel.getViewport().setViewPosition(new Point(0, scrollEvent.getViewChanged()));
 	}
 }
