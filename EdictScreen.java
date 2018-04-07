@@ -126,9 +126,10 @@ public class EdictScreen implements ProvinceIconListener, EdictListener{
 		for (int i=0; i<MapScreen.provinceList.size(); i++) {
 			boolean redrawAtEnd = false;
 			Color provinceColor = Color.GRAY;
-			if (CivilisationMainClass.mapScreen.gameMap.provincePanels[i].getColor() != CivilisationMainClass.getPlayer().color) {
-				provinceColor = CivilisationMainClass.mapScreen.gameMap.provincePanels[i].getColor();
-				CivilisationMainClass.mapScreen.gameMap.colourProvince(i, CivilisationMainClass.getPlayer().color);
+			if (CivilisationMainClass.mapScreen.gameMap.provincePanels[i].provinceColor != CivilisationMainClass.mapScreen.gameMap.ownerColours[CivilisationMainClass.playerID - 1]) {
+				provinceColor = CivilisationMainClass.mapScreen.gameMap.provincePanels[i].provinceColor;
+				CivilisationMainClass.mapScreen.gameMap.provincePanels[i].provinceColor = CivilisationMainClass.mapScreen.gameMap.ownerColours[CivilisationMainClass.playerID - 1];
+				CivilisationMainClass.mapScreen.gameMap.provincePanels[i].drawRectangle();
 				redrawAtEnd = true;
 			}
 			Image imageToScale = CivilisationMainClass.mapScreen.gameMap.provincePanels[i].provinceImage;
@@ -139,7 +140,8 @@ public class EdictScreen implements ProvinceIconListener, EdictListener{
 			imageToScale = imageToScale.getScaledInstance(imageDimension.width, imageDimension.height, Image.SCALE_REPLICATE);
 			provinceIcons[i] = new ImageIcon(imageToScale);
 			if (redrawAtEnd) {
-				CivilisationMainClass.mapScreen.gameMap.colourProvince(i, provinceColor);
+				CivilisationMainClass.mapScreen.gameMap.provincePanels[i].provinceColor = provinceColor;
+				CivilisationMainClass.mapScreen.gameMap.provincePanels[i].drawRectangle();
 			}
 		}
 	}

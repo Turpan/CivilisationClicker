@@ -5,14 +5,8 @@ import java.awt.Dimension;
 import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Point;
-import java.awt.Rectangle;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.IOException;
-import java.util.HashSet;
 import java.util.List;
 
-import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
@@ -56,24 +50,28 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 		gameMap.loadProvinces();
 		for (int i=0; i<playerList.size(); i++) {
 			Country country = playerList.get(i);
+			gameMap.ownerColours[i] = country.color;
 			if (country.startingProvince != -1) {
-				gameMap.colourProvince(country.startingProvince, country.color);
+				gameMap.provinceOwner[country.startingProvince] = i+1;
 				provinceList.get(country.startingProvince).setOwner(i+1);
 				for (ProvinceDevelopement developement : provinceList.get(country.startingProvince).developementList) {
 					developement.checkBuildingStage();
 				}
 			}
 		}
+		gameMap.colourProvinces();
 		gameMap.addProvinceListener(this);
 		miniMap = new MiniMap(displaySize);
 		miniMap.setColorList(map.provinceColors);
 		miniMap.loadProvinces();
 		for (int i=0; i<playerList.size(); i++) {
 			Country country = playerList.get(i);
+			miniMap.ownerColours[i] = country.color;
 			if (country.startingProvince != -1) {
-				miniMap.colourProvince(country.startingProvince, country.color);
+				miniMap.provinceOwner[country.startingProvince] = i+1;
 			}
 		}
+		miniMap.colourProvinces();
 		miniMap.mapContainerPanel.setBounds(0, 7, miniMap.MAPCONTAINERWIDTH, miniMap.MAPCONTAINERHEIGHT);
 		miniMap.addMiniMapListener(this);
 		int x = gameMap.mainPanel.getViewport().getViewPosition().x;
@@ -185,8 +183,8 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 		}
 	}
 	void colorBorder(int province, Color color) {
-		//gameMap.borderColors[province] = color;
-		//miniMap.borderColors[province] = color; //come back to this later
+		gameMap.borderColors[province] = color;
+		miniMap.borderColors[province] = color;
 		gameMap.colourBorders();
 		miniMap.colourBorders();
 	}
@@ -195,29 +193,27 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 			Country country = CivilisationMainClass.playerList.get(owner-1);
 			if(owner == CivilisationMainClass.playerID || (country.isAI && CivilisationMainClass.gameType == CivilisationMainClass.GAMETYPEHOST))
 				country.findAccessableProvinces();
-			gameMap.colourProvince(province, country.color);
-			miniMap.colourProvince(province, country.color);
-		} else {
-			gameMap.colourProvince(province, Color.GRAY);
-			miniMap.colourProvince(province, Color.GRAY);
 		}
 		provinceList.get(province).owner = owner;
 		provinceList.get(province).clearProvince();
+		gameMap.provinceOwner[province] = owner;
+		miniMap.provinceOwner[province] = owner;
+		gameMap.colourProvinces();
+		miniMap.colourProvinces();
 	}
 	void changeProvinceOwner(int province, int owner, boolean conquered) {
 		if(owner > 0) {
 			Country country = CivilisationMainClass.playerList.get(owner-1);
 			if(owner == CivilisationMainClass.playerID || (country.isAI && CivilisationMainClass.gameType == CivilisationMainClass.GAMETYPEHOST))
 				country.findAccessableProvinces();
-			gameMap.colourProvince(province, country.color);
-			miniMap.colourProvince(province, country.color);
-		} else {
-			gameMap.colourProvince(province, Color.GRAY);
-			miniMap.colourProvince(province, Color.GRAY);
 		}
 		if (provinceList.get(province).owner == CivilisationMainClass.playerID && quickButton.selectedProvince == province) changeSelectedOwnProvince(); 
 		provinceList.get(province).owner = owner;
 		provinceList.get(province).clearProvince(conquered);
+		gameMap.provinceOwner[province] = owner;
+		miniMap.provinceOwner[province] = owner;
+		gameMap.colourProvinces();
+		miniMap.colourProvinces();
 	}
 	void changeSelectedOwnProvince(int province) {
 		quickButton.selectedProvince = province;

@@ -35,6 +35,9 @@ public class QuickButton implements MouseListener{
 	QuickButton() {
 		initialiseArrays();
 		createGraphics();
+		for (int i=0; i<BUTTONPOSITIONS.length; i++) {
+			System.out.println(BUTTONPOSITIONS[i]);
+		}
 	}
 	void createGraphics() {
 		Rectangle mainPanelBounds = new Rectangle(CivilisationMainClass.gameWidth - PANELBOUNDS.width,

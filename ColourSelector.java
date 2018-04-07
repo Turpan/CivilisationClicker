@@ -52,7 +52,10 @@ public class ColourSelector extends JPanel implements ActionListener, ItemListen
 		colorList.add(new Color(0, 0, 0));
 		previewMap.setColorList(colorList);
 		previewMap.loadProvinces();
+		previewMap.provinceOwner[0] = 1;
+		previewMap.ownerColours[0] = new Color(colourRed[0], colourBlue[0], colourBlue[0]);
 		previewMap.mainPanel.setBounds(0, 40, WIDTH, HEIGHT - 40);
+		previewMap.colourProvinces();
 		selectorPanel = new JPanel();
 		selectorPanel.setLayout(new BoxLayout(selectorPanel, BoxLayout.LINE_AXIS));
 		selectorPanel.setBounds(0, 0, WIDTH, 20);
@@ -165,7 +168,8 @@ public class ColourSelector extends JPanel implements ActionListener, ItemListen
 			selectedRed = red;
 			selectedGreen = green;
 			selectedBlue = blue;
-			previewMap.colourProvince(0, new Color(selectedRed, selectedGreen, selectedBlue));
+			previewMap.ownerColours[0] = new Color(red, green, blue);
+			previewMap.colourProvinces();
 			this.revalidate();
 		} else if (e.getSource() == selectButton) {
 			SoundEngine.playClickSound();
@@ -185,7 +189,8 @@ public class ColourSelector extends JPanel implements ActionListener, ItemListen
 				selectedRed = colourRed[a];
 				selectedGreen = colourGreen[a];
 				selectedBlue = colourBlue[a];
-				previewMap.colourProvince(0, new Color(colourRed[a], colourGreen[a], colourBlue[a]));
+				previewMap.ownerColours[0] = new Color(colourRed[a], colourGreen[a], colourBlue[a]);
+				previewMap.colourProvinces();
 				this.revalidate();
 			}
 		}
