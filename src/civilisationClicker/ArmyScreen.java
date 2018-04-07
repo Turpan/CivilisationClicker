@@ -242,7 +242,7 @@ class UnitPanel implements MouseListener{
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		Unit unit = CivilisationMainClass.getPlayer().unitList.get(ID);
-		int screen = SuperScreen.militaryPointPool - 1;
+		int screen = Defines.MILITARYPOINTPOOL - 1;
 		CivilisationMainClass.resourceBar.updateCostLabel(screen, unit.Cost);
 	}
 	@Override
@@ -252,7 +252,7 @@ class UnitPanel implements MouseListener{
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getSource() == clickPanel) {
-			SoundEngine.playClickSound();
+			CivilisationMainClass.soundEngine.playClickSound();
 			for (UnitListener listener : listeners) listener.unitClicked(ID, 1);
 		}
 	}

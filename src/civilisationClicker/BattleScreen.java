@@ -389,7 +389,7 @@ public class CivilisationClickerBattleScreen implements MouseListener{
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		SoundEngine.playClickSound();
+		CivilisationMainClass.soundEngine.playClickSound();
 		if (e.getSource() == battleInfoClickPanel) {
 			CivilisationMainClass.mainPanel.removeAll();
 			CivilisationMainClass.mainPanel.add(mainPanel);

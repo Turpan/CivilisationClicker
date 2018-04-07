@@ -23,7 +23,7 @@ public class MusicPlayer implements Runnable{
 	BooleanControl control = null;
 	FloatControl volumeControl = null;
 	int numberOfMusicFiles;
-	double volume;
+	static double volume;
 	String dataFileLocation;
 	String[] musicFileLocation;
 	private SourceDataLine musicLine;
@@ -87,7 +87,7 @@ public class MusicPlayer implements Runnable{
 		}
 	}
 	void setVolume(double volume) {
-		this.volume = MathFunctions.audioLogScaling(volume);
+		MusicPlayer.volume = volume;
 		if (musicLine.isControlSupported(FloatControl.Type.VOLUME)) {
 	        volumeControl = (FloatControl)musicLine.getControl( FloatControl.Type.VOLUME );
 	        double min = volumeControl.getMinimum();
