@@ -403,7 +403,7 @@ public class ResourceBar implements MouseListener, MouseMotionListener, OrderLis
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		SoundEngine.playClickSound();
+		CivilisationMainClass.soundEngine.playClickSound();
 		if (e.getSource() == speed0Button) {
 			CivilisationMainClass.changeGameSpeed(0);
 		} else if (e.getSource() == speed1Button) {

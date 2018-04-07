@@ -212,7 +212,7 @@ class CivilisationClickerResearchOption implements MouseListener, MouseMotionLis
 		CivilisationMainClass.resourceBar.showMouseOverPanel(x, y, createDescription());
 	}
 	void showCost() {
-		int a = SuperScreen.researchPointPool;
+		int a = Defines.RESEARCHPOINTPOOL;
 		CivilisationMainClass.resourceBar.updateCostLabel(a - 1, researchOption.cost);
 	}
 	void setPosition(int x, int y) {
@@ -226,7 +226,7 @@ class CivilisationClickerResearchOption implements MouseListener, MouseMotionLis
 	}
 	@Override
 	public void mouseMoved(MouseEvent e) {
-		int a = SuperScreen.researchPointPool;
+		int a = Defines.RESEARCHPOINTPOOL;
 		x = e.getX() + CivilisationMainClass.resourceBar.researchScreen.researchPoolList[screenType].x;
 		y = e.getY() + CivilisationMainClass.resourceBar.researchScreen.researchPoolList[screenType].y
 				+ ((HEIGHT + CivilisationClickerResearchPool.optiongap) * option) + ResourceBar.RESOURCEBARSIZE;
@@ -235,7 +235,7 @@ class CivilisationClickerResearchOption implements MouseListener, MouseMotionLis
 	}
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		SoundEngine.playClickSound();
+		CivilisationMainClass.soundEngine.playClickSound();
 		Country country = CivilisationMainClass.getPlayer();
 		if (country.buyResearch(researchOption, screenType))
 			for (ResearchListener listener : listeners) listener.researchPurchased(screenType, option, x, y);

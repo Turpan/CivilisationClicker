@@ -35,6 +35,9 @@ public class QuickButton implements MouseListener{
 	QuickButton() {
 		initialiseArrays();
 		createGraphics();
+		for (int i=0; i<BUTTONPOSITIONS.length; i++) {
+			System.out.println(BUTTONPOSITIONS[i]);
+		}
 	}
 	void createGraphics() {
 		Rectangle mainPanelBounds = new Rectangle(CivilisationMainClass.gameWidth - PANELBOUNDS.width,
@@ -108,7 +111,7 @@ public class QuickButton implements MouseListener{
 				selectedScreen = i;
 				buttonPanel.bgImage = buttonImages[i];
 				screenPanels[i].bgImage = screenPressedImages[i];
-				SoundEngine.playClickSound();
+				CivilisationMainClass.soundEngine.playClickSound();
 				if (e.getClickCount() >= 2) CivilisationMainClass.changeTabs(selectedScreen + 1, selectedProvince);
 				for(QuickButtonListener listener : listeners) listener.screenChanged(i);
 				break;

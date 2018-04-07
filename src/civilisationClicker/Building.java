@@ -53,6 +53,17 @@ public class Building {
 	void setUnlocked(boolean Unlocked) {
 		this.Unlocked = Unlocked;
 	}
+	@Override
+	public String toString() {
+		String string = "";
+		string += ID + ";";
+		string += Name + ";";
+		string += Cost + ";";
+		string += PointsPerSecond + ";";
+		string += Unrest + ";";
+		string += Unlocked + ";";
+		return string;
+	}
 	/*void addResearch(CivilisationClickerResearch research) {
 		researchList.add(research);
 	}

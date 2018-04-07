@@ -185,7 +185,7 @@ public class OrderTroopsScreen extends PaintedPanel implements ActionListener, M
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		SoundEngine.playClickSound();
+		CivilisationMainClass.soundEngine.playClickSound();
 		if (e.getSource() == cancelButton) {
 			listener.removeOrderScreen(this);
 		} else if (e.getSource() == confirmButton) {
@@ -309,7 +309,7 @@ class OrderUnitPanel implements ActionListener, MouseListener{
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		SoundEngine.playClickSound();
+		CivilisationMainClass.soundEngine.playClickSound();
 		if (e.getSource() == unitUpButton) {
 			for (OrderUnitPanelListener listener : listeners) listener.upButton(ID);
 		} else if (e.getSource() == unitDownButton) {

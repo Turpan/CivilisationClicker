@@ -421,7 +421,7 @@ public class LobbyScreen implements ActionListener, MouseListener{
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		SoundEngine.playClickSound();
+		CivilisationMainClass.soundEngine.playClickSound();
 		if (e.getSource() == viewMapLabel) {
 			if (itemOnScreen == ONSCREENCOLOURSELECTOR) {
 				CivilisationMainClass.mainLayeredPanel.remove(colourSelector);
