@@ -89,7 +89,7 @@ public class MapSelector extends JPanel implements ActionListener, ItemListener{
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getActionCommand() == "selectMap") {
-			CivilisationMainClass.soundEngine.playClickSound();
+			SoundEngine.playClickSound();
 			CivilisationMainClass.mapSelected(mapSelector.getSelectedIndex());
 		}
 	}
@@ -97,7 +97,7 @@ public class MapSelector extends JPanel implements ActionListener, ItemListener{
 	public void itemStateChanged(ItemEvent e) {
 		// TODO Auto-generated method stub
 		if (e.getStateChange() == ItemEvent.SELECTED) {
-			CivilisationMainClass.soundEngine.playClickSound();
+			SoundEngine.playClickSound();
 			mapLabel.setIcon(mapImages[mapSelector.getSelectedIndex()]);
 			this.revalidate();
 		}

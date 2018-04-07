@@ -1,14 +1,7 @@
 package civilisationClicker;
 
 import java.awt.Image;
-import java.io.File;
-import java.io.IOException;
 
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.UnsupportedAudioFileException;
 import javax.swing.ImageIcon;
 
 public class SuperScreen {
@@ -21,9 +14,6 @@ public class SuperScreen {
 	int happinessAmnestyCounter;
 	static ImageIcon[] clickImage;
 	static ImageIcon[] clickImagePressed;
-	static Clip clickSound1[];
-	static Clip clickSound2[];
-	static Clip clickSound3[];
 	ClickerScreen[][] provinceScreens;
 	SuperScreen() {
 		
@@ -31,43 +21,7 @@ public class SuperScreen {
 	static void loadData() {
 		screenCount = DataBase.screenTypes.size();
 		provinceCount = DataBase.mapList.get(DataBase.chosenMap).provinceList.size();
-		loadSound();
 		loadImages();
-	}
-	static void loadSound() {
-		initialiseAudioVariables();
-		int i = 0;
-		for (String screenType : DataBase.screenTypes) {
-			File audioFile1 = new File("sound/" + screenType + "-click1.wav");
-			File audioFile2 = new File("sound/" + screenType + "-click2.wav");
-			File audioFile3 = new File("sound/" + screenType + "-click3.wav");
-			try {
-				AudioInputStream stream1 = AudioSystem.getAudioInputStream(audioFile1);
-				AudioInputStream stream2 = AudioSystem.getAudioInputStream(audioFile2);
-				AudioInputStream stream3 = AudioSystem.getAudioInputStream(audioFile3);
-				clickSound1[i] = AudioSystem.getClip();
-				clickSound2[i] = AudioSystem.getClip();
-				clickSound3[i] = AudioSystem.getClip();
-				clickSound1[i].open(stream1);
-				clickSound2[i].open(stream2);
-				clickSound3[i].open(stream3);
-			} catch (UnsupportedAudioFileException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (LineUnavailableException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			i++;
-		}
-	}
-	static void initialiseAudioVariables() {
-		clickSound1 = new Clip[screenCount];
-		clickSound2 = new Clip[screenCount];
-		clickSound3 = new Clip[screenCount];
 	}
 	static void loadImages() {
 		leftBarStageImage = new Image[screenCount][maxStages];

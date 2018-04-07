@@ -50,7 +50,6 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	//static CivilisationMenuBar menuBar;
 	static GameStartWindow gameStartWindow;
 	static CheatClass cheatListener;
-	static SoundEngine soundEngine;
 	static OptionsMenu optionsMenu;
 	static BattleList battleList;
 	static List<Country> playerList;
@@ -90,8 +89,8 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		mainLayeredPanel.setMaximumSize(new Dimension(gameWidth, gameHeight));
 		mainLayeredPanel.add(mainPanel, Integer.valueOf(1));
 		mainLayeredPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		soundEngine = new SoundEngine();
         optionsMenu = new OptionsMenu();
+        SoundEngine.loadClickerSounds();
         frame = new JFrame("Civilisation Clicker");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(gameWidth, gameHeight);

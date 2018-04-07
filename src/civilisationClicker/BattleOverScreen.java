@@ -147,7 +147,7 @@ public class BattleOverScreen extends JPanel implements MouseListener{
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		CivilisationMainClass.soundEngine.playClickSound();
+		SoundEngine.playClickSound();
 		if (e.getSource() == closeButton) {
 			for (BattleOverScreenListener listener : listeners) listener.battleOver(this);
 		}

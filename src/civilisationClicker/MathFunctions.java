@@ -113,4 +113,11 @@ public class MathFunctions {
 		}
 		return result;
 	}
+	public static double audioLogScaling(double inputVol) {
+		if (inputVol == 0) {
+			return 0.0;
+		} else {
+			return java.lang.Math.log10(inputVol)/2;
+		}
+	}
 }

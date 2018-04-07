@@ -7,26 +7,22 @@ public class MainMenuListener implements MouseListener{
 
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		SoundEngine.playClickSound();
 		if (e.getSource() == MainMenu.startGameLabel) {
-			CivilisationMainClass.soundEngine.playClickSound();
 			CivilisationMainClass.mainPanel.removeAll();
 			CivilisationMainClass.gameType = CivilisationMainClass.GAMETYPESINGLE;
 			CivilisationMainClass.playerCount = 1;
 			CivilisationMainClass.playerID = 1;
 		} else if (e.getSource() == MainMenu.quickGameLabel) {
-			CivilisationMainClass.soundEngine.playClickSound();
 			CivilisationMainClass.mainPanel.removeAll();
 			CivilisationMainClass.quickStart();
 		} else if (e.getSource() == MainMenu.hostGameLabel) {
-			CivilisationMainClass.soundEngine.playClickSound();
 			CivilisationMainClass.mainPanel.removeAll();
 			CivilisationMainClass.createHostGameScreen();
 		} else if (e.getSource() == MainMenu.joinGameLabel) {
-			CivilisationMainClass.soundEngine.playClickSound();
 			CivilisationMainClass.mainPanel.removeAll();
 			CivilisationMainClass.createJoinGameScreen();
 		} else if (e.getSource() == MainMenu.optionsMenuLabel) {
-			CivilisationMainClass.soundEngine.playClickSound();
 			CivilisationMainClass.mainPanel.removeAll();
 			CivilisationMainClass.mainPanel.add(CivilisationMainClass.optionsMenu.mainPanel);
 		}

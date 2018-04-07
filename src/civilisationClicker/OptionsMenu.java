@@ -161,7 +161,7 @@ public class OptionsMenu implements ScrollListener, ItemListener{
 	@Override
 	public void itemStateChanged(ItemEvent e) {
 		if (e.getStateChange() == ItemEvent.SELECTED) {
-			CivilisationMainClass.soundEngine.playClickSound();
+			SoundEngine.playClickSound();
 			resolutionSelectedIndex = resolutionSelector.getSelectedIndex();
 			if (resolutionSelectedIndex != numberOfResolutions) {
 				selectedResolutionX = resolutionX[resolutionSelectedIndex];

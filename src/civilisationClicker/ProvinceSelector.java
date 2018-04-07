@@ -75,7 +75,7 @@ public class ProvinceSelector extends ScaledMap implements ActionListener, Provi
 	@Override
 	public void provinceChanged(int provinceChanged) {
 		if (provinceChanged != -1) {
-			CivilisationMainClass.soundEngine.playProvinceClickSound();
+			SoundEngine.playProvinceClickSound();
 			boolean provinceInUse = false;
 			for (int i=0; i<playerProvince.length; i++) {
 				if (playerProvince[i] == provinceChanged) {

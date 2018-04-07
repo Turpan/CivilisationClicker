@@ -151,7 +151,7 @@ public class EdictScreen implements ProvinceIconListener, EdictListener{
 	@Override
 	public void edictClicked(int edict) {
 		if (CivilisationMainClass.getPlayer().buyEdict(edict, selectedProvince, 1)) {
-			CivilisationMainClass.soundEngine.playClickSound();
+			SoundEngine.playClickSound();
 			edictButtons.get(edict).showCost();
 			updateLabels();
 		}

@@ -87,7 +87,7 @@ public class QuickBuy implements QuickBuySlotListener{
 	}
 	@Override
 	public void buildingBought(int screenType, int building, int amount) {
-		CivilisationMainClass.soundEngine.playClickSound();
+		SoundEngine.playClickSound();
 		ProvinceDevelopement developement = MapScreen.getSelectedProvince().developementList.get(screenType);
 		if (developement.buyBuilding(building, amount)) {
 			buildingQuickBuy.get(screenType).buildingSlots.get(building).updateLabels();

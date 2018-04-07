@@ -235,7 +235,7 @@ class CivilisationClickerResearchOption implements MouseListener, MouseMotionLis
 	}
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
-		CivilisationMainClass.soundEngine.playClickSound();
+		SoundEngine.playClickSound();
 		Country country = CivilisationMainClass.getPlayer();
 		if (country.buyResearch(researchOption, screenType))
 			for (ResearchListener listener : listeners) listener.researchPurchased(screenType, option, x, y);

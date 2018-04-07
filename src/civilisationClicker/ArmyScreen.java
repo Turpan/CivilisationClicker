@@ -252,7 +252,7 @@ class UnitPanel implements MouseListener{
 	@Override
 	public void mousePressed(MouseEvent e) {
 		if (e.getSource() == clickPanel) {
-			CivilisationMainClass.soundEngine.playClickSound();
+			SoundEngine.playClickSound();
 			for (UnitListener listener : listeners) listener.unitClicked(ID, 1);
 		}
 	}
