@@ -66,7 +66,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	static boolean lobbyActive;
 	public static int playerCount;
 	static JButton cheatButton;
-	public static JFrame frame, alertFrame;
+	public static JFrame frame;
 	public static JLayeredPane mainLayeredPanel;
 	public static void main(String[] args) {
 		javax.swing.SwingUtilities.invokeLater(new Runnable() {
@@ -77,12 +77,12 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	}
 	private static void createAndShowGUI() {
         //Create and set up the window.
+		loadSettings();
+		createMusicPlayer();
 		XMLLoader.loadXMLData();
 		XMLLoader.sortXMLData();
 		XMLLoader.sendXMLData();
 		checkSum = DataBase.getCheckSum();
-		loadSettings();
-		createMusicPlayer();
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
 		mainPanel.setBounds(0, 0, gameWidth, gameHeight);
@@ -90,9 +90,6 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		mainLayeredPanel.setMaximumSize(new Dimension(gameWidth, gameHeight));
 		mainLayeredPanel.add(mainPanel, Integer.valueOf(1));
 		mainLayeredPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-        //frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.LINE_AXIS));
-        //frame.pack();
-        //frame.setSize(gameWidth + 16, gameHeight + 39);
 		soundEngine = new SoundEngine();
         optionsMenu = new OptionsMenu();
         frame = new JFrame("Civilisation Clicker");
@@ -122,7 +119,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		JTextField playerNumberField = new JTextField();
 		playerNumberField.setColumns(2);
 		playerNumberField.setMaximumSize(new Dimension(20, 20));
-		playerNumberField.setText("1");
+		playerNumberField.setText("2");
 		formPanel.add(playerNameLabel);
 		formPanel.add(playerNameField);
 		formPanel.add(playerNumberLabel);

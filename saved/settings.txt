@@ -1,2 +1,2 @@
-MusicVolume;74;
+MusicVolume;25;
 Resolution;1600;900;

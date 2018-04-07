@@ -31,11 +31,9 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 	public int mapHeight;
 	protected int displayWidth;
 	protected int displayHeight;
-	public int playerCount, provinceOwner[], provinceSelected;
-	public Color ownerColours[];
+	public int playerCount, provinceSelected;
 	public ProvincePanel provincePanels[];
 	protected ProvincePanel provinceBorders[];
-	public Color borderColors[];
 	protected BufferedImage provinceMap;
 	public Set<Dimension> adjacencyList = new HashSet<Dimension>();
 	public JLayeredPane mapPanel;
@@ -51,7 +49,6 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 		this.mapDirectory = mapDirectory;
 		displayWidth = screenSize.width;
 		displayHeight = screenSize.height;
-		ownerColours = new Color[playerCount];
 		provinceSelected = -1;
 		provinceMapFile = new File(mapDirectory + mapName + "-map.png");
 		try {
@@ -118,9 +115,8 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 		clickPanel.addMouseListener(this);
 		clickPanel.addMouseMotionListener(this);
 		for (int i=0; i<provinceColors.size(); i++) {
-			provincePanels[i].provinceColor = Color.GRAY;
-			provinceBorders[i].provinceColor = Color.BLACK;
-			borderColors[i] = Color.BLACK;
+			provincePanels[i].setColor(Color.GRAY);
+			provinceBorders[i].setColor(Color.BLACK);
 			provincePanels[i].mapWidth = mapWidth;
 			provinceBorders[i].mapWidth = mapWidth;
 			provincePanels[i].mapHeight = mapHeight;
@@ -142,9 +138,6 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 	private void initialiseData(int a) {
 		provincePanels = new ProvincePanel[a];
 		provinceBorders = new ProvincePanel[a];
-		provinceOwner = new int[a];
-		ownerColours = new Color[playerCount];
-		borderColors = new Color[a];
 	}
 	private boolean checkBorderPixel(int x, int y, Color provinceColor) {
 		boolean border = false;
@@ -217,32 +210,35 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 			}	
 		}
 	}
-	public void colourProvinces() {
-		for (int i=0; i<provinceColors.size(); i++) {
-			Color newColor = Color.GRAY;
-			if (provinceOwner[i] == 0) {
-				newColor = Color.GRAY;
-			} else {
-				newColor = ownerColours[provinceOwner[i] - 1];
-			}
-			if (provincePanels[i].provinceColor != newColor) {
-				provincePanels[i].provinceColor = newColor;
-				provincePanels[i].drawRectangle();
-			}
+	public void colourProvince(int province, Color newColor) {
+		if (provincePanels[province].getColor() != newColor) {
+			provincePanels[province].setColor(newColor);
+			provincePanels[province].drawRectangle();
+		}
+		mapPanel.revalidate();
+		mapPanel.repaint();
+	}
+	public void imageProvince(int province, BufferedImage image) {
+		if (provincePanels[province].getImage() == null) {
+			provincePanels[province].setImage(image);
+			provincePanels[province].drawRectangle();
+		} else if (provincePanels[province].getImage().equals(image)) {
+			provincePanels[province].setImage(image);
+			provincePanels[province].drawRectangle();
 		}
 		mapPanel.revalidate();
 		mapPanel.repaint();
 	}
 	public void colourBorders() {
 		for (int i=0; i<provinceColors.size(); i++) {
-			Color newColor = Color.BLACK;
+			Color newColor;
 			if (provinceSelected == i) {
 				newColor = Color.YELLOW;
 			} else {
-				newColor = borderColors[i];
+				newColor = Color.BLACK;
 			}
-			if (provinceBorders[i].provinceColor != newColor) {
-				provinceBorders[i].provinceColor = newColor;
+			if (provinceBorders[i].getColor() != newColor) {
+				provinceBorders[i].setColor(newColor);
 				provinceBorders[i].drawRectangle();
 			}
 		}
@@ -307,7 +303,7 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 				connectionLine.addPixelToList(point1.width + x, point1.height + y + 1);
 			}
 		}
-		connectionLine.provinceColor = Color.YELLOW;
+		connectionLine.setColor(Color.YELLOW);
 		connectionLine.drawRectangle();
 		connectionLine.setBounds(connectionLine.X, connectionLine.Y,
 				connectionLine.provinceImage.getWidth(), connectionLine.provinceImage.getHeight() + 5);
@@ -361,12 +357,12 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 			for (int i=0; i<provinceColors.size(); i++) {
 				if (clickLocation.getRGB() == provinceColors.get(i).getRGB()) {
 					if (provinceSelected != -1) {
-						provinceBorders[provinceSelected].provinceColor = borderColors[provinceSelected];
+						provinceBorders[provinceSelected].setColor(Color.BLACK);
 						provinceBorders[provinceSelected].drawRectangle();
 						provinceBorders[provinceSelected].repaint();
 					}
 					provinceSelected = i;
-					provinceBorders[i].provinceColor = Color.YELLOW;
+					provinceBorders[i].setColor(Color.YELLOW);
 					provinceBorders[i].drawRectangle();
 					provinceBorders[i].repaint();
 					mapPanel.revalidate();
@@ -377,7 +373,7 @@ public class ProvinceLoader implements MouseListener, MouseMotionListener{
 			}
 			if (!provinceClicked) {
 				if (provinceSelected != -1) {
-					provinceBorders[provinceSelected].provinceColor = borderColors[provinceSelected];
+					provinceBorders[provinceSelected].setColor(Color.BLACK);
 					provinceBorders[provinceSelected].drawRectangle();
 					provinceBorders[provinceSelected].repaint();
 				}
