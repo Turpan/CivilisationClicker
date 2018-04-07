@@ -2,6 +2,9 @@ package civilisationClicker;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -27,12 +30,18 @@ public class Country {
 			return false;
 		return true;
 	}
+	static final double baseColoniseCost = 25000;
+	static final double coloniseCostMulitplier = 1.5;
+	static final double AICOMBATPOINTREQUIREMENT = 0.8;
+	static final int HAPPINESSAMNESTYPERIOD = 600;
+	static final int AIBUTTONPRESS = 100;
+	static final int AICOLONISETURNREQUIREMENT = 20;
 	Color color;
 	int totalUnitPoints;
 	int availableUnitPoints;
 	int startingProvince;
 	int ID;
-	double coloniseCost = Defines.BASECOLONISECOST;
+	double coloniseCost = baseColoniseCost;
 	double[] points = new double[DataBase.screenTypes.size()];
 	String name;
 	boolean isAI;
@@ -50,7 +59,7 @@ public class Country {
 	void AIAction() {
 		for (Province province : MapScreen.provinceList) {
 			if (province.owner == ID + 1) for (ProvinceDevelopement developement : province.developementList) {
-				for (int i=0; i<Defines.AIBUTTONPRESS; i++) developement.clickButton();
+				for (int i=0; i<AIBUTTONPRESS; i++) developement.clickButton();
 			}
 		}
 		if (AIColoniseWait) {
@@ -90,7 +99,7 @@ public class Country {
 		for (Province province : MapScreen.provinceList) 
 			if (province.owner != 0 && province.owner != ID+1 && adjacencyList.contains(Integer.valueOf(province.ID))) {
 			Country target = CivilisationMainClass.playerList.get(province.owner-1);
-			if (availableUnitPoints >= (target.availableUnitPoints * Defines.AICOMBATPOINTREQUIREMENT) && availableUnitPoints > 0 &&
+			if (availableUnitPoints >= (target.availableUnitPoints * AICOMBATPOINTREQUIREMENT) && availableUnitPoints > 0 &&
 					!CivilisationMainClass.battleList.battleInProvince(province.ID)) {
 				List<Unit> units = DataBase.createNewUnitList();
 				int j = 0;
@@ -123,10 +132,10 @@ public class Country {
 			double pointspersecond = 0;
 			for (Province province : MapScreen.provinceList) if (province.owner == ID+1){
 				ProvinceDevelopement developement = province.developementList.get(i);
-				for (int j=0; j<Defines.AIBUTTONPRESS; j++) pointspersecond += developement.pointsPerClick;
+				for (int j=0; j<AIBUTTONPRESS; j++) pointspersecond += developement.pointsPerClick;
 				pointspersecond += developement.pointsPerSecond();
 			}
-			if (pointspersecond >= (coloniseCost / Defines.AICOLONISETURNREQUIREMENT)) pointcheck++;
+			if (pointspersecond >= (coloniseCost / AICOLONISETURNREQUIREMENT)) pointcheck++;
 		}
 		colonisecheck = (pointcheck == points.length);
 		return colonisecheck;
@@ -135,7 +144,7 @@ public class Country {
 		boolean unitbought = false;
 		int unitid = 0;
 		double cost = Integer.MAX_VALUE;
-		int a = Defines.MILITARYPOINTPOOL-1;
+		int a = SuperScreen.militaryPointPool-1;
 		for (Unit unit : unitList) if (unit.Cost < cost) {
 			unitid = unitList.indexOf(unit);
 			cost = unit.Cost;
@@ -149,7 +158,7 @@ public class Country {
 		int edictid = 0;
 		int provinceid = 0;
 		double cost = Integer.MAX_VALUE;
-		int a = Defines.GOVERNMENTPOINTPOOL-1;
+		int a = SuperScreen.governmentPointPool-1;
 		for (Province province : MapScreen.provinceList) {
 			if (province.owner == ID + 1) for (Edict edict : province.edictList) if (edict.Cost < cost) {
 				cost = edict.Cost;
@@ -167,7 +176,7 @@ public class Country {
 		Research researchid = researchList.get(0).researchList.get(0);
 		double cost = Integer.MAX_VALUE;
 		int researchlistid = 0;
-		int a = Defines.RESEARCHPOINTPOOL-1;
+		int a = SuperScreen.researchPointPool-1;
 		for (ResearchList researchs : researchList) for (Research research : researchs.researchList) {
 			if (research.cost < cost && !research.purchased) {
 				cost = research.cost;
@@ -180,7 +189,7 @@ public class Country {
 		return researchbought;
 	}
 	boolean AIBuyBuilding() {
-		int a = Defines.BUILDINGPOINTPOOL-1;
+		int a = SuperScreen.buildingPointPool-1;
 		int buildingid = 0;
 		double cost = Integer.MAX_VALUE;
 		int provinceid = 0;
@@ -198,6 +207,7 @@ public class Country {
 		}
 		if (buildingbought = points[a] >= cost)
 			MapScreen.provinceList.get(provinceid).developementList.get(developementid).buyBuilding(buildingid, 1);
+		ProvinceDevelopement developement = MapScreen.provinceList.get(provinceid).developementList.get(developementid);
 		return buildingbought;
 	}
 	boolean AIColonise() {
@@ -226,7 +236,7 @@ public class Country {
 	}
 	void findAccessableProvinces() {
 		adjacencyList = new HashSet<Integer>();
-		for (Dimension provinceAdjacency : MapScreen.adjacencyList) {
+		for (Dimension provinceAdjacency : CivilisationMainClass.mapScreen.gameMap.adjacencyList) {
 			int province = provinceAdjacency.width;
 			int adjacent = provinceAdjacency.height;
 			Province mapprovince = MapScreen.provinceList.get(province);
@@ -243,7 +253,7 @@ public class Country {
 			points[i] -= coloniseCost;
 		}
 		province.coloniseInProgress = true;
-		coloniseCost = coloniseCost * Defines.COLONISECOSTMULTIPLIER;
+		coloniseCost = coloniseCost * coloniseCostMulitplier;
 		if (CivilisationMainClass.gameType == CivilisationMainClass.GAMETYPEHOST) {
 			int ID = this.ID + 1;
 			String output = "provincestatus;colonise;" + ID + ";" + province + ";";
@@ -273,7 +283,7 @@ public class Country {
 	}
 	boolean buyResearch(Research researchOption, int screenType) {
 		boolean researchPurchased = false;
-		int a = Defines.RESEARCHPOINTPOOL;
+		int a = SuperScreen.researchPointPool;
 		if (points[a - 1] >= researchOption.cost) {		
 			for (Research research : researchList.get(screenType).researchList) {
 				if (researchPurchased = research.equals(researchOption)) {
@@ -287,12 +297,12 @@ public class Country {
 	}
 	boolean buyEdict(int edictid, int provinceid, int count) {
 		boolean edictPurchased = false;
-		int a = Defines.GOVERNMENTPOINTPOOL;
+		int a = SuperScreen.governmentPointPool;
 		Province province = MapScreen.provinceList.get(provinceid);
 		Edict edict = province.edictList.get(edictid);
 		double potentialcost = edict.Cost;
 		for (int i=1; i<count; i++) {
-			potentialcost = potentialcost * Defines.EDICTCOSTMULTIPLIER;
+			potentialcost = potentialcost * Edict.EDICTCOSTMULTIPLIER;
 		}
 		if (edictPurchased = points[a - 1] >= potentialcost) {
 			points[a - 1] -= potentialcost;
@@ -306,12 +316,12 @@ public class Country {
 	boolean buyUnit(int unitid, int amount) {
 		boolean unitBought = false;
 		Unit unit = unitList.get(unitid);
-		int a = Defines.MILITARYPOINTPOOL;
+		int a = SuperScreen.militaryPointPool;
 		double totalCost = 0;
 		double potentialUnitCost = unit.Cost;
 		for (int i=0; i<amount; i++) {
 			totalCost += potentialUnitCost;
-			potentialUnitCost = potentialUnitCost * Defines.UNITCOSTMULTIPLIER;
+			potentialUnitCost = potentialUnitCost * Unit.UNITCOSTMULTIPLIER;
 		}
 		if (points[a - 1] >= totalCost) {
 			unitBought = true;

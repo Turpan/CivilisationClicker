@@ -87,7 +87,7 @@ public class QuickBuy implements QuickBuySlotListener{
 	}
 	@Override
 	public void buildingBought(int screenType, int building, int amount) {
-		CivilisationMainClass.soundEngine.playClickSound();
+		SoundEngine.playClickSound();
 		ProvinceDevelopement developement = MapScreen.getSelectedProvince().developementList.get(screenType);
 		if (developement.buyBuilding(building, amount)) {
 			buildingQuickBuy.get(screenType).buildingSlots.get(building).updateLabels();
@@ -203,7 +203,7 @@ class QuickBuySlot implements MouseListener, MouseWheelListener{
 	}
 	void showCost() {
 		resetCost();
-		int a = Defines.BUILDINGPOINTPOOL;
+		int a = SuperScreen.buildingPointPool;
 		Province selectedProvince = MapScreen.getSelectedProvince();
 		ProvinceDevelopement developement = selectedProvince.developementList.get(screenType);
 		CivilisationMainClass.resourceBar.updateCostLabel(a-1, developement.buildingCost[ID]);

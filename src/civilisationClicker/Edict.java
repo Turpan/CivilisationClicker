@@ -1,6 +1,7 @@
 package civilisationClicker;
 
 public class Edict {
+	static final double EDICTCOSTMULTIPLIER = 1.1;
 	String ID;
 	String Name;
 	int Cost;
@@ -28,7 +29,7 @@ public class Edict {
 	void edictPurchased(int count) {
 		Count += count;
 		for (int i=0; i<count; i++) {
-			Cost = (int) (Cost * Defines.EDICTCOSTMULTIPLIER);
+			Cost = (int) (Cost * EDICTCOSTMULTIPLIER);
 		}
 	}
 	@Override
@@ -51,8 +52,6 @@ public class Edict {
 		String edict = ID + ";";
 		edict += Name + ";";
 		edict += Count + ";";
-		edict += Cost + ";";
-		edict += Happiness + ";";
 		return edict;
 	}
 }

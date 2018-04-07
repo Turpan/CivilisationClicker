@@ -149,8 +149,7 @@ public class OptionsMenu implements ScrollListener, ItemListener{
 	@Override
 	public void viewChanged(int newValue) {
 		musicVolume = newValue;
-		//CivilisationMainClass.musicPlayer.setVolume(musicVolume);
-		//What the FUCK is this class doing!?????
+		CivilisationMainClass.musicPlayer.setVolume(musicVolume);
 	}	
 	@Override
 	public void itemStateChanged(ItemEvent e) {

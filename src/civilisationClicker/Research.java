@@ -73,13 +73,7 @@ public class Research {
 	}
 	@Override
 	public String toString() {
-		String toString = ID + ";";
-		toString += Building + ";";
-		toString += Effect + ";";
-		toString += value + ";";
-		toString += Required + ";";
-		toString += weight + ";";
-		toString += purchased + ";";
+		String toString = this.ID + ";" + this.Building + ";" + this.Effect + ";" + this.Required + ";" + this.purchased + ";";
 		return toString;
 	}
 }

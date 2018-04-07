@@ -1,6 +1,7 @@
 package civilisationClicker;
 
 public class Unit {
+	static final double UNITCOSTMULTIPLIER = 1.1;
 	String ID;
 	String Name;
 	String Icon;
@@ -8,7 +9,6 @@ public class Unit {
 	int Cost;
 	int Count;
 	int Available;
-	boolean Unlocked = false;
 	Unit(String ID) {
 		this.ID = ID;
 	}
@@ -37,7 +37,7 @@ public class Unit {
 		Count += count;
 		Available += count;
 		for (int i=0; i<count; i++) {
-			Cost = (int) (Cost * Defines.UNITCOSTMULTIPLIER);
+			Cost = (int) (Cost * UNITCOSTMULTIPLIER);
 		}
 	}
 	@Override
@@ -61,8 +61,6 @@ public class Unit {
 		output += ID + ";";
 		output += Power + ";";
 		output += Count + ";";
-		output += Cost + ";";
-		output += Unlocked + ";";
 		return output;
 	}
 }

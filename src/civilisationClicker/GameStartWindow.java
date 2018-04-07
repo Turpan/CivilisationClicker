@@ -109,7 +109,7 @@ public class GameStartWindow extends JPanel implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		CivilisationMainClass.soundEngine.playClickSound();
+		SoundEngine.playClickSound();
 		if (CivilisationMainClass.gameType == CivilisationMainClass.GAMETYPECLIENT) {
 			if (playerStatus[CivilisationMainClass.playerID - 1] == PLAYERSTATUSWAITING) {
 				playerStatus[CivilisationMainClass.playerID - 1] = PLAYERSTATUSREADY;
