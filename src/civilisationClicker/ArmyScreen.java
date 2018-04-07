@@ -280,10 +280,7 @@ class InvasionMap extends ScaledMap{
 	}
 	void resetInvasionScreen() {
 		for (int i=0; i<provinceColors.size(); i++) {
-			provincePanels[i].provinceColor = Color.GRAY;
-			provincePanels[i].drawRectangle();
-			provinceBorders[i].provinceColor = Color.BLACK;
-			provinceBorders[i].drawRectangle();
+			colourProvince(i, Color.GRAY);
 		}
 		provinceSelected = -1;
 		containerPanel.removeAll();
@@ -309,15 +306,13 @@ class InvasionMap extends ScaledMap{
 			int province = provinceSelected;
 			super.mousePressed(e);
 			if (province > -1) {
-				provincePanels[province].provinceColor = Color.GRAY;
-				provincePanels[province].drawRectangle();
-				provinceBorders[province].provinceColor = Color.BLACK;
+				colourProvince(province, Color.GRAY);
+				provinceBorders[province].setColor(Color.BLACK);
 				provinceBorders[province].drawRectangle();
 			}
 			if (provinceSelected > -1) {
-				provincePanels[provinceSelected].provinceColor = Color.RED;
-				provincePanels[provinceSelected].drawRectangle();
-				provinceBorders[provinceSelected].provinceColor = Color.RED;
+				colourProvince(provinceSelected, Color.RED);
+				provinceBorders[provinceSelected].setColor(Color.RED);
 				provinceBorders[provinceSelected].drawRectangle();
 			}
 			for (InvasionListener listener : listeners) listener.provinceSelected(provinceSelected);

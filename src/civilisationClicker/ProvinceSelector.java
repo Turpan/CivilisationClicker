@@ -21,10 +21,15 @@ public class ProvinceSelector extends ScaledMap implements ActionListener, Provi
 	JPanel buttonPanel;
 	JPanel selectorPanel;
 	JButton selectButton;
+	Color[] playerColor;
+	int[] playerProvince;
 	ProvinceSelector(String mapName, String mapDirectory, int playerCount, Dimension viewSize, int map) {
 		//this.mapName = mapName + "-selector";
 		super(mapName, mapDirectory, playerCount, viewSize);
 		setColorList(DataBase.mapList.get(map).provinceColors);
+		playerColor = new Color[playerCount];
+		playerProvince = new int[playerCount];
+		Arrays.fill(playerProvince, -1);
 		loadProvinces();
 		createProvinceSelector();
 	}
@@ -52,25 +57,34 @@ public class ProvinceSelector extends ScaledMap implements ActionListener, Provi
 		selectorPanel.add(mapContainerPanel);
 	}
 	void addPlayerColour(int player, Color playerColour) {
-		ownerColours[player - 1] = playerColour;
+		playerColor[player - 1] = playerColour;
 		colourProvinces();
 	}
 	void changeProvince(int player, int newProvince) {
-		for (int i=0; i<provinceColors.size(); i++) {
-			if (provinceOwner[i] == player) {
-				provinceOwner[i] = 0;
-			}
-		}
-		if (newProvince != -1) {
-			provinceOwner[newProvince] = player;
-		}
+		playerProvince[player - 1] = newProvince;
 		colourProvinces();
+	}
+	void colourProvinces() {
+		for (int i=0; i<provinceColors.size(); i++) {
+			colourProvince(i, Color.GRAY);
+		}
+		for (int i=0; i<playerProvince.length; i++) {
+			if (playerProvince[i] > -1) colourProvince(playerProvince[i], playerColor[i]);
+		}
 	}
 	@Override
 	public void provinceChanged(int provinceChanged) {
 		if (provinceChanged != -1) {
 			SoundEngine.playProvinceClickSound();
 			if (provinceOwner[provinceChanged] == 0) {
+			boolean provinceInUse = false;
+			for (int i=0; i<playerProvince.length; i++) {
+				if (playerProvince[i] == provinceChanged) {
+					provinceInUse = true;
+					break;
+				}
+			}
+			if (!provinceInUse) {
 				changeProvince(CivilisationMainClass.playerID, provinceChanged);
 			}
 		} else {
@@ -85,35 +99,25 @@ public class ProvinceSelector extends ScaledMap implements ActionListener, Provi
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		if (e.getSource() == selectButton) {
-			int province = -1;
-			int provinceCount = 0;
-			for (int i=0; i<provinceColors.size(); i++) {
-				if (provinceOwner[i] == CivilisationMainClass.playerID) {
-					province = i;
-					provinceCount ++;
+			boolean provinceInUse = false;
+			int ID = CivilisationMainClass.playerID - 1;
+			for (int i=0; i<playerProvince.length; i++) {
+				if (playerProvince[i] == playerProvince[ID] &&
+						i != ID) {
+					provinceInUse = true;
+					break;
 				}
 			}
-			if (provinceCount < 2) {
-				CivilisationMainClass.lobbyScreen.provinceSelected(province);
+			if (provinceInUse) {
+				playerProvince[ID] = -1;
 			} else {
-				for (int i=0; i<provinceColors.size(); i++) {
-					if (provinceOwner[i] == CivilisationMainClass.playerID) {
-						provinceOwner[i] = 0;
-					}
-				}
+				CivilisationMainClass.lobbyScreen.provinceSelected(playerProvince[ID]);
 			}
 		}
 	}
-	public void reloadData(Color[] playerColour, int[] playerStartProvince) {
-		Arrays.fill(provinceOwner, 0);
-		ownerColours = playerColour;
-		for (int i=0; i<playerStartProvince.length; i++) {
-			for (int j=0; j<provinceColors.size(); j++) {
-				if (j == playerStartProvince[i]) {
-					provinceOwner[j] = (i + 1);
-				}
-			}
-		}
+	public void reloadData(Color[] playerColor, int[] playerProvince) {
+		this.playerColor = playerColor;
+		this.playerProvince = playerProvince;
 		colourProvinces();
 	}
 	@Override

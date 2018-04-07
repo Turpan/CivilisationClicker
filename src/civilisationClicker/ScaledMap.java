@@ -52,9 +52,8 @@ public class ScaledMap extends ProvinceLoader{
 		clickPanel.addMouseListener(this);
 		clickPanel.addMouseMotionListener(this);
 		for (int i=0; i<provinceColors.size(); i++) {
-			provincePanels[i].provinceColor = Color.GRAY;
-			provinceBorders[i].provinceColor = Color.BLACK;
-			borderColors[i] = Color.BLACK;
+			provincePanels[i].setColor(Color.GRAY);
+			provinceBorders[i].setColor(Color.BLACK);
 			provincePanels[i].mapWidth = mapWidth;
 			provinceBorders[i].mapWidth = mapWidth;
 			provincePanels[i].mapHeight = mapHeight;
