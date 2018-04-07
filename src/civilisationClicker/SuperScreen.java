@@ -13,10 +13,6 @@ import javax.swing.ImageIcon;
 
 public class SuperScreen {
 	static final int maxStages = 4;
-	static final int buildingPointPool = 1;
-	static final int researchPointPool = 2;
-	static final int militaryPointPool = 3;
-	static final int governmentPointPool = 4;
 	static Image[] borderPanelImage;
 	static Image[] buildingUIBar;
 	static Image[] buildingButtonImage;
@@ -25,14 +21,53 @@ public class SuperScreen {
 	int happinessAmnestyCounter;
 	static ImageIcon[] clickImage;
 	static ImageIcon[] clickImagePressed;
-	Screen[][] provinceScreens;
+	static Clip clickSound1[];
+	static Clip clickSound2[];
+	static Clip clickSound3[];
+	ClickerScreen[][] provinceScreens;
 	SuperScreen() {
 		
 	}
 	static void loadData() {
 		screenCount = DataBase.screenTypes.size();
 		provinceCount = DataBase.mapList.get(DataBase.chosenMap).provinceList.size();
+		loadSound();
 		loadImages();
+	}
+	static void loadSound() {
+		initialiseAudioVariables();
+		int i = 0;
+		for (String screenType : DataBase.screenTypes) {
+			File audioFile1 = new File("sound/" + screenType + "-click1.wav");
+			File audioFile2 = new File("sound/" + screenType + "-click2.wav");
+			File audioFile3 = new File("sound/" + screenType + "-click3.wav");
+			try {
+				AudioInputStream stream1 = AudioSystem.getAudioInputStream(audioFile1);
+				AudioInputStream stream2 = AudioSystem.getAudioInputStream(audioFile2);
+				AudioInputStream stream3 = AudioSystem.getAudioInputStream(audioFile3);
+				clickSound1[i] = AudioSystem.getClip();
+				clickSound2[i] = AudioSystem.getClip();
+				clickSound3[i] = AudioSystem.getClip();
+				clickSound1[i].open(stream1);
+				clickSound2[i].open(stream2);
+				clickSound3[i].open(stream3);
+			} catch (UnsupportedAudioFileException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (LineUnavailableException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			i++;
+		}
+	}
+	static void initialiseAudioVariables() {
+		clickSound1 = new Clip[screenCount];
+		clickSound2 = new Clip[screenCount];
+		clickSound3 = new Clip[screenCount];
 	}
 	static void loadImages() {
 		leftBarStageImage = new Image[screenCount][maxStages];
@@ -75,16 +110,16 @@ public class SuperScreen {
 	}
 	void clearProvince(int province) {
 		for (int i=0; i<screenCount; i++) {
-			provinceScreens[i][province] = new Screen(i+1, province);
+			provinceScreens[i][province] = new ClickerScreen(i+1, province);
 		}
 	}
 	void createClickerScreens() {
-		Screen.middlePanelWidth = CivilisationMainClass.gameWidth - (300 + 467 + 14 + 14);
-		provinceScreens = new Screen[screenCount][MapScreen.provinceList.size()];
+		ClickerScreen.middlePanelWidth = CivilisationMainClass.gameWidth - (300 + 467 + 14 + 14);
+		provinceScreens = new ClickerScreen[screenCount][MapScreen.provinceList.size()];
 		for (int i=0; i<screenCount; i++) {
 			int j = 0;
 			for (Province province : MapScreen.provinceList) {
-				if (province.owner == CivilisationMainClass.playerID) provinceScreens[i][j] = new Screen(i + 1, j);
+				if (province.owner == CivilisationMainClass.playerID) provinceScreens[i][j] = new ClickerScreen(i + 1, j);
 				j++;
 			}
 		}

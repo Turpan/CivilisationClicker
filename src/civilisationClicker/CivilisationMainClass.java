@@ -24,9 +24,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.Timer;
 
-import directoryFinder.DirectoryFinder;
-import provinceGenerator.ProvinceLoader;
-
 public class CivilisationMainClass{ //I hate comments. Good luck reading this nerds.
 	static final String GAMESTATELOBBY = "lobby";
 	static final String GAMESTATEINPROGRESS = "ingame";
@@ -35,7 +32,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	static final String GAMETYPECLIENT = "client";
 	static final int GAMESPEED1 = 1000;
 	static final int GAMESPEED2 = 500;
-	static final int GAMESPEED3 = 1;
+	static final int GAMESPEED3 = 100;
 	static MusicPlayer musicPlayer;
 	static SuperScreen clickerMaster;
 	static JPanel mainPanel;
@@ -63,6 +60,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 	static int timeCount;
 	static int timerStatus;
 	static int selectedPanel;
+	static String checkSum;
 	static String playerNames[];
 	static boolean playerTicked[];
 	static boolean lobbyActive;
@@ -92,6 +90,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		mainLayeredPanel.setMaximumSize(new Dimension(gameWidth, gameHeight));
 		mainLayeredPanel.add(mainPanel, Integer.valueOf(1));
 		mainLayeredPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
+		soundEngine = new SoundEngine();
         optionsMenu = new OptionsMenu();
         frame = new JFrame("Civilisation Clicker");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -101,8 +100,6 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
         frame.setVisible(true);
         frame.setResizable(false);
         frame.add(mainLayeredPanel);
-        createMusicPlayer();
-        optionsMenu = new OptionsMenu();
         MainMenu.createMainMenu();
     }
 	static void createHostGameScreen() {
@@ -551,8 +548,9 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 				String setting = scan.next();
 				switch (setting) {
 				case "MusicVolume":
-					Thread.sleep(5000);
 					OptionsMenu.musicVolume = scan.nextInt();
+					double volume = java.lang.Math.log10((double) OptionsMenu.musicVolume)/2 ;
+					MusicPlayer.volume = volume;
 					break;
 				case "Resolution":
 					gameWidth = scan.nextInt();
@@ -562,7 +560,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 				scan.close();
 			}
 			settingsReader.close();
-		} catch (IOException | InterruptedException e) {
+		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}

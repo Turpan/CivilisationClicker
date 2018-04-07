@@ -1,8 +1,6 @@
 package civilisationClicker;
 
 public class ProvinceDevelopement {
-	static final double buildingScaleMultiplier = 1.1;
-	static final int nextStageBuildingRequirement = 250;
 	double pointsPerClick = 1;
 	double productionModifier = 100;
 	double[] buildingCost;
@@ -50,14 +48,14 @@ public class ProvinceDevelopement {
 	}
 	boolean buyBuilding(int building, int modifier) {
 		int owner = DataBase.mapList.get(DataBase.chosenMap).provinceList.get(province).owner;
-		int a = SuperScreen.buildingPointPool;
+		int a = Defines.BUILDINGPOINTPOOL;
 		boolean buildingBought = false;
 		if (modifier > 0) {
 			double totalCost = 0;
 			double potentialBuildingCost = buildingCost[building];
 			for (int i=0; i<modifier; i++) {
 				totalCost += potentialBuildingCost;
-				potentialBuildingCost = potentialBuildingCost * buildingScaleMultiplier;
+				potentialBuildingCost = potentialBuildingCost * Defines.BUILDINGSCALEMULTIPLIER;
 			}
 			if (buildingBought = CivilisationMainClass.playerList.get(owner-1).points[a - 1] >= totalCost) {
 				CivilisationMainClass.playerList.get(owner-1).points[a - 1] -= totalCost;
@@ -71,7 +69,7 @@ public class ProvinceDevelopement {
 				int totalRebate = 0;
 				for (int i=0; i<modifier; i++) {
 					totalRebate += buildingCost[building];
-					buildingCost[building] = buildingCost[building] / buildingScaleMultiplier;
+					buildingCost[building] = buildingCost[building] / Defines.BUILDINGSCALEMULTIPLIER;
 				}
 				CivilisationMainClass.playerList.get(owner).points[a - 1] += totalRebate;
 				buildingCount[building] -= modifier;
@@ -87,7 +85,7 @@ public class ProvinceDevelopement {
 		for (int i=0; i<buildingCount.length; i++) {
 			totalBuildings += buildingCount[i];
 		}
-		int stage = (totalBuildings/nextStageBuildingRequirement) + 1;
+		int stage = (totalBuildings/Defines.NEXTSTAGEBUILDINGREQUIREMENT) + 1;
 		if (stage > SuperScreen.maxStages) {
 			stage = SuperScreen.maxStages;
 		}

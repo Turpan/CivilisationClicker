@@ -477,7 +477,7 @@ public class CivilisationClickerMilitaryScreen implements MouseListener, ScrollL
 	}
 	@Override
 	public void mousePressed(MouseEvent e) {
-		SoundEngine.playClickSound();
+		CivilisationMainClass.soundEngine.playClickSound();
 		for (int i=0; i<numberOfUnits; i++) {
 			if (e.getSource() == unitClickPanel[i]) {
 				buyUnit(i);
