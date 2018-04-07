@@ -299,7 +299,7 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 	}
 	@Override
 	public void provinceChanged(int provinceChanged) {
-		CivilisationMainClass.soundEngine.playProvinceClickSound();
+		SoundEngine.playProvinceClickSound();
 		selectedProvince = provinceChanged;
 		updateLabels();
 		if (selectedProvince != -1) {

@@ -7,7 +7,6 @@ import java.awt.GridBagLayout;
 import java.awt.Point;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.Random;
 
 import javax.swing.BorderFactory;
 import javax.swing.Box;
@@ -120,26 +119,7 @@ public class ClickerScreen implements MouseListener, ScrollListener{
 		updateLabels();
 	}
 	void playClickSound() {
-		Random rand = new Random();
-		int soundPlayed = rand.nextInt(3) + 1;
-		switch (soundPlayed) {
-		case 1:
-			SuperScreen.clickSound1[ID - 1].setFramePosition(0);
-			SuperScreen.clickSound1[ID - 1].start();
-			break;
-		case 2:
-			SuperScreen.clickSound2[ID - 1].setFramePosition(0);
-			SuperScreen.clickSound2[ID - 1].start();
-			break;
-		case 3:
-			SuperScreen.clickSound3[ID - 1].setFramePosition(0);
-			SuperScreen.clickSound3[ID - 1].start();
-			break;
-		default:
-			SuperScreen.clickSound1[ID - 1].setFramePosition(0);
-			SuperScreen.clickSound1[ID - 1].start();
-			break;
-		}
+		SoundEngine.playPointClickSound(ID-1);
 	}
 	void buyBuilding(int building) {
 		int modifier = 0;
@@ -446,40 +426,34 @@ public class ClickerScreen implements MouseListener, ScrollListener{
 	}
 	@Override
 	public void mouseClicked(MouseEvent e) {
+		SoundEngine.playClickSound();
 		if (e.getSource() == buy1Label && SuperScreen.selectedBuySellButton != 1) {
-			CivilisationMainClass.soundEngine.playClickSound();
 			SuperScreen.selectedBuySellButton = 1;
 			colourBuySellLabels();
 			return;
 		} else if (e.getSource() == buy10Label && SuperScreen.selectedBuySellButton != 2) {
-			CivilisationMainClass.soundEngine.playClickSound();
 			SuperScreen.selectedBuySellButton = 2;
 			colourBuySellLabels();
 			return;
 		} else if (e.getSource() == buy100Label && SuperScreen.selectedBuySellButton != 3) {
-			CivilisationMainClass.soundEngine.playClickSound();
 			SuperScreen.selectedBuySellButton = 3;
 			colourBuySellLabels();
 			return;
 		} else if (e.getSource() == sell1Label && SuperScreen.selectedBuySellButton != 4) {
-			CivilisationMainClass.soundEngine.playClickSound();
 			SuperScreen.selectedBuySellButton = 4;
 			colourBuySellLabels();
 			return;
 		} else if (e.getSource() == sell10Label && SuperScreen.selectedBuySellButton != 5) {
-			CivilisationMainClass.soundEngine.playClickSound();
 			SuperScreen.selectedBuySellButton = 5;
 			colourBuySellLabels();
 			return;
 		} else if (e.getSource() == sell100Label && SuperScreen.selectedBuySellButton != 6) {
-			CivilisationMainClass.soundEngine.playClickSound();
 			SuperScreen.selectedBuySellButton = 6;
 			colourBuySellLabels();
 			return;
 		}
 		for (int i=0; i<buildingClickPanel.length; i++) {
 			if (e.getSource() == buildingClickPanel[i]) {
-				CivilisationMainClass.soundEngine.playClickSound();
 				buyBuilding(i);
 				return;
 			}

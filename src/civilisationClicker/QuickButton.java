@@ -111,7 +111,7 @@ public class QuickButton implements MouseListener{
 				selectedScreen = i;
 				buttonPanel.bgImage = buttonImages[i];
 				screenPanels[i].bgImage = screenPressedImages[i];
-				CivilisationMainClass.soundEngine.playClickSound();
+				SoundEngine.playPointClickSound(i);
 				if (e.getClickCount() >= 2) CivilisationMainClass.changeTabs(selectedScreen + 1, selectedProvince);
 				for(QuickButtonListener listener : listeners) listener.screenChanged(i);
 				break;
