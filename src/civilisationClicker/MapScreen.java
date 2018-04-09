@@ -42,6 +42,7 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 	QuickButton quickButton;
 	ProvinceInfo provinceInfo;
 	QuickBuy quickBuy;
+	ChatBox chatBox;
 	ProvinceLoader gameMap;
 	static List<Province> provinceList;
 	static Set<Dimension> adjacencyList;
@@ -169,6 +170,7 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 		quickButton.addListener(this);
 		provinceInfo = new ProvinceInfo();
 		quickBuy = new QuickBuy();
+		chatBox = new ChatBox();
 		miniMapPanel.add(miniMap.mapContainerPanel);
 		developementLayeredPanel.add(developementPanel, Integer.valueOf(2));
 		uiMainPanel.add(miniMapPanel);
@@ -179,6 +181,12 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 		mainPanel.add(gameMap.mainPanel, Integer.valueOf(1));
 		mainPanel.add(uiMainPanel, Integer.valueOf(2));
 		mainPanel.add(quickButton.mainPanel, Integer.valueOf(2));
+		mainPanel.add(chatBox.mainPanel, Integer.valueOf(2));
+		chatBox.addMessage(CivilisationMainClass.getPlayer(), "This is a short message");
+		chatBox.addMessage(CivilisationMainClass.playerList.get(1), "I am a robot, and this is a longer message.");
+		chatBox.addMessage(CivilisationMainClass.playerList.get(2), "I am also a robot, and this is a much longer longer longer longer longer message.");
+		chatBox.addMessage(CivilisationMainClass.getPlayer(), "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.");
+		chatBox.addMessage(CivilisationMainClass.playerList.get(3), "I agree, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.");
 	}
 	void createDevelopementImagePanels() {
 		developementImagePanel = new PaintedPanel[DataBase.screenTypes.size()];

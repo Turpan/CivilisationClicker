@@ -1,14 +1,23 @@
 package civilisationClicker;
 
 import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.FontMetrics;
+import java.awt.Graphics2D;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
+
+import javax.swing.JLabel;
 
 public class MathFunctions {
+	static final Font systemFont = new JLabel().getFont();
 	public static String withSuffix(double count) { // taken from https://stackoverflow.com/questions/9769554/how-to-convert-number-into-k-thousands-m-million-and-b-billion-suffix-in-jsp
 	    if (count < 1000) return "" + (int) count;
 	    int exp = (int) (Math.log(count) / Math.log(1000));
@@ -97,6 +106,8 @@ public class MathFunctions {
 			stringData = data.getBytes("UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			stringData = data.getBytes();
+			e.printStackTrace();
+			System.out.println("Please report this bug.");
 		}
 		String result = "";
 		MessageDigest md;
@@ -119,5 +130,95 @@ public class MathFunctions {
 		} else {
 			return java.lang.Math.log10(inputVol)/2;
 		}
+	}
+/*	public static String[] splitString(String toSplit, int width) {
+		int charWidth = getCharWidth();
+		int maxCharsPerLine = width / charWidth;
+		if (toSplit.length() <= maxCharsPerLine) return new String[] {toSplit};
+		char[] chars = toSplit.toCharArray();
+		boolean linesRemaining = false;
+		List<String> lines = new ArrayList<String>();
+		do {
+			linesRemaining = false;
+			int splitLength = 0;
+			if (toSplit.length() <= maxCharsPerLine) {
+				splitLength = toSplit.length();
+			} else {
+				for (int i=0; i<maxCharsPerLine; i++) {
+					if (String.valueOf(chars[i]).equals(" ")) splitLength = i;
+				}
+				if (splitLength == 0) {
+					splitLength = maxCharsPerLine;
+				}
+				linesRemaining = true;
+			}
+			lines.add(toSplit.substring(0, splitLength));
+			StringBuilder sb = new StringBuilder(toSplit);
+			sb.delete(0, splitLength);
+			toSplit = sb.toString();
+			chars = toSplit.toCharArray();
+		} while (linesRemaining);
+		String[] result = new String[lines.size()];
+		return lines.toArray(result);
+	}*/
+	public static String[] splitString(String toSplit, int width) {
+		List<String> lines = new ArrayList<String>();
+		boolean linesRemaining = false;
+		do {
+			int splitPoint = findSplitPoint(toSplit, width);
+			linesRemaining = toSplit.length() != splitPoint;
+			if (String.valueOf(toSplit.charAt(0)).equals(" ")) {
+				lines.add(toSplit.substring(1, splitPoint));
+			} else {
+				lines.add(toSplit.substring(0, splitPoint));
+			}
+			StringBuilder sb = new StringBuilder(toSplit);
+			sb.delete(0, splitPoint);
+			toSplit = sb.toString();
+		} while (linesRemaining);
+		String[] result = new String[lines.size()];
+		return lines.toArray(result);
+	}
+	private static int findSplitPoint(String toSplit, int width) {
+		int currentWidth = 0;
+		int splitPoint = 0;
+		int lastSpace = 0;
+		for (int i=0; i<toSplit.length(); i++)  {
+			int charWidth = getCharWidth(toSplit.charAt(i), systemFont);
+			currentWidth += charWidth;
+			if (currentWidth > width) {
+				splitPoint = i - 1;
+				break;
+			} else {
+				splitPoint = i;
+			}
+		}
+		if (splitPoint == toSplit.length() - 1) return toSplit.length();
+		for (int i=0; i<splitPoint; i++) {
+			if (String.valueOf(toSplit.charAt(i)).equals(" ")) {
+				lastSpace = i;
+			}
+		}
+		if (lastSpace != 0) splitPoint = lastSpace;
+		return splitPoint;
+	}
+	public static int getStringWidth(String toTest) {
+		int width = 0;
+		char[] chars = toTest.toCharArray();
+		for (char Char : chars) {
+			width += getCharWidth(Char, systemFont);
+		}
+		return width;
+	}
+	private static int getCharWidth(char Char, Font font) {
+		JLabel label = new JLabel();
+		FontMetrics metrics = label.getFontMetrics(font);
+		int width = metrics.charWidth(Char);
+		return width;
+	}
+	public static int getCharHeight(Font font) {
+		JLabel label = new JLabel();
+		FontMetrics metrics = label.getFontMetrics(font);
+		return metrics.getHeight();
 	}
 }

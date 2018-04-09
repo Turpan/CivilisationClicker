@@ -248,6 +248,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		resourceBar = new ResourceBar();
 		mainLayeredPanel.add(resourceBar.mainPanel, Integer.valueOf(3));
 		guiTimer = new Timer(10, resourceBar);
+		guiTimer.addActionListener(mapScreen.chatBox);
 		guiTimer.start();
 		if (gameType == GAMETYPEHOST) {
 			listener = new TimerHandler();
@@ -601,6 +602,7 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
 		listener = new TimerHandler();
 		clickTimer = new Timer(1000, listener);
 		guiTimer = new Timer(10, resourceBar);
+		guiTimer.addActionListener(mapScreen.chatBox);
 		guiTimer.start();
 		playerTicked = new boolean[playerCount - 1];
 		clickTimer.start();

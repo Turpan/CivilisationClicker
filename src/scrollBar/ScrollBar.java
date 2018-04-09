@@ -219,6 +219,11 @@ public class ScrollBar extends PaintedPanel implements MouseInputListener{ //rem
 			downButtonLabel.setVisible(false);
 		}
 	}
+	public void updateAlpha(float alpha) {
+		scrollBar.setAlpha(alpha);
+		revalidate();
+		repaint();
+	}
 	@Override
 	public void mouseClicked(MouseEvent arg0) {
 		// TODO Auto-generated method stub
@@ -315,5 +320,4 @@ public class ScrollBar extends PaintedPanel implements MouseInputListener{ //rem
 		// TODO Auto-generated method stub
 		
 	}
-	
 }
