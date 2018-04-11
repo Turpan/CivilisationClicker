@@ -31,7 +31,7 @@ public class ChatBox implements ScrollListener, MouseWheelListener, MouseListene
 	static final int HORIZONTALPAD = 10;
 	static final int STARTINGALPHA = 10000;
 	boolean scrollBarCreated;
-	boolean mousePresent;
+	boolean stayOnScreen;
 	int size;
 	int alphaCount = 1000;
 	JPanel mainPanel;
@@ -123,7 +123,7 @@ public class ChatBox implements ScrollListener, MouseWheelListener, MouseListene
 			chatMessage.updateAlpha((int) alpha);
 		}
 		scrollBar.updateAlpha(alphaFloat);
-		mainPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, (int) alpha)));
+		//mainPanel.setBorder(BorderFactory.createLineBorder(new Color(0, 0, 0, (int) alpha)));
 	}
 	void setVisible() {
 		alphaCount = STARTINGALPHA;
@@ -147,7 +147,7 @@ public class ChatBox implements ScrollListener, MouseWheelListener, MouseListene
 	}
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
-		if (alphaCount > 0 && !mousePresent) {
+		if (alphaCount > 0 && !stayOnScreen) {
 			alphaCount -= 10;
 			if (alphaCount < 0) alphaCount = 0;
 			updateAlpha();
@@ -161,11 +161,11 @@ public class ChatBox implements ScrollListener, MouseWheelListener, MouseListene
 	@Override
 	public void mouseEntered(MouseEvent arg0) {
 		setVisible();
-		mousePresent = true;
+		stayOnScreen = true;
 	}
 	@Override
 	public void mouseExited(MouseEvent arg0) {
-		mousePresent = false;
+		stayOnScreen = false;
 	}
 	@Override
 	public void mousePressed(MouseEvent arg0) {
@@ -214,7 +214,7 @@ class ChatMessage {
 		messagePanel.setMinimumSize(new Dimension(WIDTH, height));
 		messagePanel.setPreferredSize(new Dimension(WIDTH, height));
 		messagePanel.setMaximumSize(new Dimension(WIDTH, height));
-		nameLabel = new JLabel(name + ":");
+		nameLabel = new JLabel(name + ": ");
 		nameLabel.setForeground(color);
 		messageLabel = new JLabel[message.length];
 		for (int i=0; i<message.length; i++) {

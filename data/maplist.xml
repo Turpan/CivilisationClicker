@@ -164,6 +164,9 @@
 				<side-b>2</side-b>
 			</strait>
 			<strait>
+				<side-a>1</side-a>
+				<side-b>2</side-b></strait>
+			<strait>
 				<side-a>15</side-a>
 				<side-b>28</side-b>
 			</strait>

@@ -92,6 +92,8 @@ public class CivilisationMainClass{ //I hate comments. Good luck reading this ne
         optionsMenu = new OptionsMenu();
         SoundEngine.loadClickerSounds();
         frame = new JFrame("Civilisation Clicker");
+        frame.setFocusTraversalKeysEnabled(false);
+        frame.requestFocusInWindow();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(gameWidth, gameHeight);
         frame.setIconImage(new ImageIcon("graphics/icons/city_game.png").getImage());

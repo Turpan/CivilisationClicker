@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mapcache>
   <imagehash>f36bf330b6415bb46644b8c87191a129</imagehash>
-  <xmlhash>36bb4ffd1328c5e380e711add0cca4bd</xmlhash>
+  <xmlhash>7079cf48bd0ebf06e83ba33e84557402</xmlhash>
   <connectionpoints>
     <connection>
       <a>730</a>
@@ -20,6 +20,12 @@
       <b>499</b>
       <c>519</c>
       <d>502</d>
+    </connection>
+    <connection>
+      <a>367</a>
+      <b>388</b>
+      <c>370</c>
+      <d>385</d>
     </connection>
   </connectionpoints>
 </mapcache>

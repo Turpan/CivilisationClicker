@@ -131,36 +131,6 @@ public class MathFunctions {
 			return java.lang.Math.log10(inputVol)/2;
 		}
 	}
-/*	public static String[] splitString(String toSplit, int width) {
-		int charWidth = getCharWidth();
-		int maxCharsPerLine = width / charWidth;
-		if (toSplit.length() <= maxCharsPerLine) return new String[] {toSplit};
-		char[] chars = toSplit.toCharArray();
-		boolean linesRemaining = false;
-		List<String> lines = new ArrayList<String>();
-		do {
-			linesRemaining = false;
-			int splitLength = 0;
-			if (toSplit.length() <= maxCharsPerLine) {
-				splitLength = toSplit.length();
-			} else {
-				for (int i=0; i<maxCharsPerLine; i++) {
-					if (String.valueOf(chars[i]).equals(" ")) splitLength = i;
-				}
-				if (splitLength == 0) {
-					splitLength = maxCharsPerLine;
-				}
-				linesRemaining = true;
-			}
-			lines.add(toSplit.substring(0, splitLength));
-			StringBuilder sb = new StringBuilder(toSplit);
-			sb.delete(0, splitLength);
-			toSplit = sb.toString();
-			chars = toSplit.toCharArray();
-		} while (linesRemaining);
-		String[] result = new String[lines.size()];
-		return lines.toArray(result);
-	}*/
 	public static String[] splitString(String toSplit, int width) {
 		List<String> lines = new ArrayList<String>();
 		boolean linesRemaining = false;
@@ -220,5 +190,8 @@ public class MathFunctions {
 		JLabel label = new JLabel();
 		FontMetrics metrics = label.getFontMetrics(font);
 		return metrics.getHeight();
+	}
+	public static boolean canDisplay(char toDisplay) {
+		return systemFont.canDisplay(toDisplay);
 	}
 }

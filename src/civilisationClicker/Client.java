@@ -106,6 +106,8 @@ public class Client extends Thread{
 		case "unitpower":
 			processUnitPowerData(inputScanner);
 			return;
+		case "message":
+			processMessageData(inputScanner);
 		}
 		inputScanner.close();
 		return;
@@ -337,6 +339,11 @@ public class Client extends Thread{
 		boolean attackerVictor = inputScanner.nextBoolean();
 		CivilisationMainClass.battleList.finishBattle(province, attackerID, defenderID, attackerVictor);
 		inputScanner.close();
+	}
+	void processMessageData(Scanner inputScanner) {
+		int playerID = inputScanner.nextInt();
+		String message = inputScanner.next();
+		CivilisationMainClass.mapScreen.chatBox.addMessage(CivilisationMainClass.playerList.get(playerID - 1), message);
 	}
 	void outPutCommand(String output ) {
 		out.println(output);

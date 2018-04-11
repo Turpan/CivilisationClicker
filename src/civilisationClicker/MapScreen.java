@@ -6,6 +6,8 @@ import java.awt.GridBagLayout;
 import java.awt.Image;
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -25,7 +27,7 @@ import paintedPanel.PaintedPanel;
 import provinceGenerator.ProvinceListener;
 import provinceGenerator.ProvinceLoader;
 
-public class MapScreen implements MiniMapListener, ProvinceListener, QuickButtonListener{
+public class MapScreen implements MiniMapListener, ProvinceListener, QuickButtonListener, KeyListener{
 	static final int uiwidth = 1217;
 	static final int uiheight = 205;
 	static final int developementImageWidth = 64;
@@ -43,10 +45,12 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 	ProvinceInfo provinceInfo;
 	QuickBuy quickBuy;
 	ChatBox chatBox;
+	ChatBar chatBar;
 	ProvinceLoader gameMap;
 	static List<Province> provinceList;
 	static Set<Dimension> adjacencyList;
 	MapScreen() {
+		CivilisationMainClass.frame.addKeyListener(this);
 		List<Country> playerList = CivilisationMainClass.playerList;
 		Map map = DataBase.getChosenMap();
 		provinceList = map.provinceList;
@@ -171,6 +175,9 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 		provinceInfo = new ProvinceInfo();
 		quickBuy = new QuickBuy();
 		chatBox = new ChatBox();
+		ChatBar.bounds = new Rectangle(miniMapPanel.bgImage.getIconWidth(), CivilisationMainClass.gameHeight - uiheight,
+				uiwidth - miniMapPanel.bgImage.getIconWidth(), MathFunctions.getCharHeight(MathFunctions.systemFont));
+		chatBar = new ChatBar();
 		miniMapPanel.add(miniMap.mapContainerPanel);
 		developementLayeredPanel.add(developementPanel, Integer.valueOf(2));
 		uiMainPanel.add(miniMapPanel);
@@ -182,11 +189,7 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 		mainPanel.add(uiMainPanel, Integer.valueOf(2));
 		mainPanel.add(quickButton.mainPanel, Integer.valueOf(2));
 		mainPanel.add(chatBox.mainPanel, Integer.valueOf(2));
-		chatBox.addMessage(CivilisationMainClass.getPlayer(), "This is a short message");
-		chatBox.addMessage(CivilisationMainClass.playerList.get(1), "I am a robot, and this is a longer message.");
-		chatBox.addMessage(CivilisationMainClass.playerList.get(2), "I am also a robot, and this is a much longer longer longer longer longer message.");
-		chatBox.addMessage(CivilisationMainClass.getPlayer(), "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.");
-		chatBox.addMessage(CivilisationMainClass.playerList.get(3), "I agree, Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.");
+		mainPanel.add(chatBar.mainPanel, Integer.valueOf(2));
 	}
 	void createDevelopementImagePanels() {
 		developementImagePanel = new PaintedPanel[DataBase.screenTypes.size()];
@@ -346,5 +349,38 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 	@Override
 	public void screenChanged(int screen) {
 		quickBuy.changeScreenType(screen);
+	}
+	@Override
+	public void keyPressed(KeyEvent e) {
+		if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+			if (chatBar.typing) {
+				String message = chatBar.typeBox.getText().replaceAll(System.lineSeparator(), " ");
+				if (message.length() > 0) {
+					chatBox.addMessage(CivilisationMainClass.getPlayer(), message);
+					String output = "message;" + CivilisationMainClass.playerID + ";" + message + ";";
+					CivilisationMainClass.networkCommunication(output);
+				}
+				chatBar.typeBox.setText("");
+				chatBar.stopTyping();
+				CivilisationMainClass.frame.requestFocus();
+			} else {
+				chatBar.typeBox.setText("");
+				chatBar.startTyping();
+			}
+		} else if (chatBar.typing && e.getKeyCode() == KeyEvent.VK_BACK_SPACE) {
+			chatBar.backspace();
+		} else if (chatBar.typing) {
+			chatBar.addKey(e.getKeyChar());
+		}
+	}
+	@Override
+	public void keyReleased(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+	@Override
+	public void keyTyped(KeyEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 }
