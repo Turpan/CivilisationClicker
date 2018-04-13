@@ -189,7 +189,7 @@ public class MapScreen implements MiniMapListener, ProvinceListener, QuickButton
 		mainPanel.add(uiMainPanel, Integer.valueOf(2));
 		mainPanel.add(quickButton.mainPanel, Integer.valueOf(2));
 		mainPanel.add(chatBox.mainPanel, Integer.valueOf(2));
-		mainPanel.add(chatBar.mainPanel, Integer.valueOf(2));
+		mainPanel.add(chatBar.mainLayeredPanel, Integer.valueOf(2));
 	}
 	void createDevelopementImagePanels() {
 		developementImagePanel = new PaintedPanel[DataBase.screenTypes.size()];

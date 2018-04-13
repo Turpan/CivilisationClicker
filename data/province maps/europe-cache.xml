@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <mapcache>
   <imagehash>f36bf330b6415bb46644b8c87191a129</imagehash>
-  <xmlhash>7079cf48bd0ebf06e83ba33e84557402</xmlhash>
+  <xmlhash>c81210be848cc3f4d82e1a61ea41b47a</xmlhash>
   <connectionpoints>
     <connection>
       <a>730</a>
       <b>366</b>
       <c>732</c>
       <d>365</d>
+    </connection>
+    <connection>
+      <a>449</a>
+      <b>318</b>
+      <c>586</c>
+      <d>274</d>
     </connection>
     <connection>
       <a>362</a>
@@ -26,6 +32,12 @@
       <b>388</b>
       <c>370</c>
       <d>385</d>
+    </connection>
+    <connection>
+      <a>643</a>
+      <b>308</b>
+      <c>656</c>
+      <d>336</d>
     </connection>
   </connectionpoints>
 </mapcache>

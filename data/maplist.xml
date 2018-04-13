@@ -170,6 +170,12 @@
 				<side-a>15</side-a>
 				<side-b>28</side-b>
 			</strait>
+			<strait>
+				<side-a>15</side-a>
+				<side-b>29</side-b></strait>
+			<strait>
+				<side-a>1</side-a>
+				<side-b>29</side-b></strait>
 		</straits>
 	</map>
 </maplist>

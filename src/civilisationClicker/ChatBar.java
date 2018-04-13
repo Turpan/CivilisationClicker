@@ -1,25 +1,27 @@
 package civilisationClicker;
 
-import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Point;
 import java.awt.Rectangle;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
 
-import javax.swing.BorderFactory;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
+import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
+
+import paintedPanel.PaintedPanel;
 
 public class ChatBar {
 	static Rectangle bounds;
+	static final float alpha = (float) 0.4;
 	boolean typing;
 	int nameWidth;
+	JLayeredPane mainLayeredPanel;
 	JPanel mainPanel;
+	PaintedPanel backgroundPanel;
 	JLabel nameLabel;
 	JLabel typeBox;
 	JPanel typePanel;
@@ -30,11 +32,19 @@ public class ChatBar {
 	}
 	void createGraphics() {
 		Country player = CivilisationMainClass.getPlayer();
+		mainLayeredPanel = new JLayeredPane();
+		mainLayeredPanel.setOpaque(false);
+		mainLayeredPanel.setBounds(bounds);
 		mainPanel = new JPanel();
 		mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.LINE_AXIS));
 		mainPanel.setOpaque(false);
 		//mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK));
-		mainPanel.setBounds(bounds);
+		mainPanel.setBounds(0, 0, bounds.width, bounds.height);
+		backgroundPanel = new PaintedPanel();
+		backgroundPanel.bgImage = new ImageIcon("graphics/ui/mapui-bottom/chatbox/chatbar.png");
+		backgroundPanel.setAlpha(alpha);
+		backgroundPanel.setOpaque(false);
+		backgroundPanel.setBounds(0, 0, bounds.width, bounds.height);
 		nameLabel = new JLabel(player.name + ": ");
 		nameLabel.setForeground(player.color);
 		nameWidth = MathFunctions.getStringWidth(nameLabel.getText());
@@ -57,12 +67,14 @@ public class ChatBar {
 		mainPanel.add(nameLabel);
 		mainPanel.add(typeScrollPanel);
 		mainPanel.add(Box.createHorizontalGlue());
+		mainLayeredPanel.add(backgroundPanel, Integer.valueOf(1));
+		mainLayeredPanel.add(mainPanel, Integer.valueOf(2));
 		stopTyping();
 	}
 	void changeVisibility() {
-		mainPanel.setVisible(typing);
-		mainPanel.revalidate();
-		mainPanel.repaint();
+		mainLayeredPanel.setVisible(typing);
+		mainLayeredPanel.revalidate();
+		mainLayeredPanel.repaint();
 	}
 	void startTyping() {
 		typing = true;
@@ -89,8 +101,8 @@ public class ChatBar {
 		int positionx = MathFunctions.getStringWidth(typed) - (bounds.width - nameWidth);
 		if (positionx < 0) positionx = 0;
 		updateViewPosition(positionx);
-		mainPanel.revalidate();
-		mainPanel.repaint();
+		mainLayeredPanel.revalidate();
+		mainLayeredPanel.repaint();
 	}
 	void updateViewPosition(int positionx) {
 		typeScrollPanel.getViewport().setViewPosition(new Point(positionx, 0));

@@ -106,8 +106,6 @@ public class MathFunctions {
 			stringData = data.getBytes("UTF-8");
 		} catch (UnsupportedEncodingException e) {
 			stringData = data.getBytes();
-			e.printStackTrace();
-			System.out.println("Please report this bug.");
 		}
 		String result = "";
 		MessageDigest md;
@@ -135,7 +133,7 @@ public class MathFunctions {
 		List<String> lines = new ArrayList<String>();
 		boolean linesRemaining = false;
 		do {
-			int splitPoint = findSplitPoint(toSplit, width);
+			int splitPoint = findSplitPoint(toSplit, width, systemFont);
 			linesRemaining = toSplit.length() != splitPoint;
 			if (String.valueOf(toSplit.charAt(0)).equals(" ")) {
 				lines.add(toSplit.substring(1, splitPoint));
@@ -149,12 +147,30 @@ public class MathFunctions {
 		String[] result = new String[lines.size()];
 		return lines.toArray(result);
 	}
-	private static int findSplitPoint(String toSplit, int width) {
+	public static String[] splitString(String toSplit, int width, Font font) {
+		List<String> lines = new ArrayList<String>();
+		boolean linesRemaining = false;
+		do {
+			int splitPoint = findSplitPoint(toSplit, width, font);
+			linesRemaining = toSplit.length() != splitPoint;
+			if (String.valueOf(toSplit.charAt(0)).equals(" ")) {
+				lines.add(toSplit.substring(1, splitPoint));
+			} else {
+				lines.add(toSplit.substring(0, splitPoint));
+			}
+			StringBuilder sb = new StringBuilder(toSplit);
+			sb.delete(0, splitPoint);
+			toSplit = sb.toString();
+		} while (linesRemaining);
+		String[] result = new String[lines.size()];
+		return lines.toArray(result);
+	}
+	private static int findSplitPoint(String toSplit, int width, Font font) {
 		int currentWidth = 0;
 		int splitPoint = 0;
 		int lastSpace = 0;
 		for (int i=0; i<toSplit.length(); i++)  {
-			int charWidth = getCharWidth(toSplit.charAt(i), systemFont);
+			int charWidth = getCharWidth(toSplit.charAt(i), font);
 			currentWidth += charWidth;
 			if (currentWidth > width) {
 				splitPoint = i - 1;
@@ -180,6 +196,14 @@ public class MathFunctions {
 		}
 		return width;
 	}
+	public static int getStringWidth(String toTest, Font font) {
+		int width = 0;
+		char[] chars = toTest.toCharArray();
+		for (char Char : chars) {
+			width += getCharWidth(Char, font);
+		}
+		return width;
+	}
 	private static int getCharWidth(char Char, Font font) {
 		JLabel label = new JLabel();
 		FontMetrics metrics = label.getFontMetrics(font);
@@ -193,5 +217,8 @@ public class MathFunctions {
 	}
 	public static boolean canDisplay(char toDisplay) {
 		return systemFont.canDisplay(toDisplay);
+	}
+	public static boolean canDisplay(char toDisplay, Font font) {
+		return font.canDisplay(toDisplay);
 	}
 }

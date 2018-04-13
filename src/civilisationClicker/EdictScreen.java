@@ -268,7 +268,6 @@ class EdictPanel implements MouseListener{
 	}
 	void createVisuals() {
 		Dimension totalSize = new Dimension(panelSize.width, panelSize.height + seperatorHeight);
-		System.out.println(totalSize.toString());
 		mainPanel = new JLayeredPane();
 		mainPanel.setMinimumSize(totalSize);
 		mainPanel.setPreferredSize(totalSize);
